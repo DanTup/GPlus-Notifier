@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.Net;
 using System.Reflection;
 using System.Windows.Forms;
 using AwesomiumSharp;
@@ -29,6 +30,9 @@ namespace DanTup.GPlusNotifier
 
 		// Used to reduce the change of showing the same balloon notification over and over.
 		int? lastNotificationCount;
+
+		// Used to suppress the login if the user clicks cancel, rather than spamming!
+		bool suppressLogin = false;
 
 		public MainForm()
 		{
@@ -67,6 +71,9 @@ namespace DanTup.GPlusNotifier
 			{
 				iconSome = new Icon(stream);
 			}
+
+			// Kick off a check for updates (since the timer fires *after* 24hr).
+			CheckForUpdates();
 		}
 
 		private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -104,14 +111,16 @@ namespace DanTup.GPlusNotifier
 
 			// Check whether we're logged in, by checking for the presence of the "gb_119" element.
 			var isLoggedIn = this.WebView.ExecuteJavascriptWithResult("document.getElementById('gb_119') != null", timeoutMs: 1000).ToBoolean();
-			if (!isLoggedIn)
+			if (!isLoggedIn && !suppressLogin)
 			{
 				var loginForm = new LoginForm(this.WebView);
 				var result = loginForm.ShowDialog();
 
-				// If the user didnclicked cancel, just bail and don't do anything.
-				if (result != DialogResult.OK)
+				// If the user clicked OK, assume logged in.
+				if (result == DialogResult.OK)
 					isLoggedIn = true;
+				else
+					suppressLogin = true;
 			}
 
 			// Get the count (null = couldn't read count).
@@ -132,6 +141,11 @@ namespace DanTup.GPlusNotifier
 
 			// Enable the timer again.
 			checkNotificationsTimer.Start();
+		}
+
+		private void checkForUpdates_Tick(object sender, EventArgs e)
+		{
+			CheckForUpdates();
 		}
 
 		private int? ReadNotificationCountFromBrowser()
@@ -187,17 +201,43 @@ namespace DanTup.GPlusNotifier
 			Process.Start("https://plus.google.com/");
 		}
 
+		private void CheckForUpdates()
+		{
+			checkForUpdatesWorker.RunWorkerAsync();
+		}
+
+		private void checkForUpdatesWorker_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
+		{
+			var client = new WebClient();
+			try
+			{
+				e.Result = client.DownloadString("http://gplusnotifier.com/Version");
+			}
+			catch { }
+		}
+
+		private void checkForUpdatesWorker_RunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
+		{
+			if (e.Result != null)
+			{
+				Version latestVersion = Version.Parse((string)e.Result);
+				Version currentVersion = Assembly.GetExecutingAssembly().GetName().Version;
+
+				if (latestVersion > currentVersion)
+				{
+					string message = string.Format("There is a new version of G+ Notifier available. Please visit gplusnotifier.com to download!\r\nYou have version {0}, but version {1} is available.",
+						currentVersion,
+						latestVersion
+						);
+					notificationIcon.ShowBalloonTip(50000, "G+ Notifier Update Available", message, ToolTipIcon.None);
+
+					// Also update text on the context menu.
+					gNotifierWebsiteToolStripMenuItem.Text = "Update available! " + gNotifierWebsiteToolStripMenuItem.Text;
+				}
+			}
+		}
+
 		#region Context Menu & Icon event handlers
-
-		private void exitToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			Application.Exit();
-		}
-
-		private void clearCookiesToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			WebCore.ClearCookies();
-		}
 
 		private void notificationIcon_MouseDoubleClick(object sender, MouseEventArgs e)
 		{
@@ -213,6 +253,36 @@ namespace DanTup.GPlusNotifier
 		private void notificationIcon_BalloonTipClicked(object sender, EventArgs e)
 		{
 			LaunchPlus();
+		}
+
+		private void gNotifierWebsiteToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			Process.Start("http://gplusnotifier.com/");
+		}
+
+		private void gNotifierOnGoogleToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			Process.Start("https://plus.google.com/101567187775228995510");
+		}
+
+		private void dannyTuppenyOnGoogleToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			Process.Start("https://plus.google.com/116849139972638476037");
+		}
+
+		private void donateToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			Process.Start("http://gplusnotifier.com/Donate");
+		}
+
+		private void clearCookiesToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			WebCore.ClearCookies();
+		}
+
+		private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			Application.Exit();
 		}
 
 		#endregion

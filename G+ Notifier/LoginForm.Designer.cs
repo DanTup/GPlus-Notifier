@@ -28,10 +28,10 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LoginForm));
 			this.lblLoginInstructions = new System.Windows.Forms.Label();
 			this.btnCancel = new System.Windows.Forms.Button();
 			this.btnOK = new System.Windows.Forms.Button();
+			this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
 			this.browserPicture = new DanTup.GPlusNotifier.SelectablePictureBox();
 			((System.ComponentModel.ISupportInitialize)(this.browserPicture)).BeginInit();
 			this.SuspendLayout();
@@ -44,7 +44,9 @@
 			this.lblLoginInstructions.Name = "lblLoginInstructions";
 			this.lblLoginInstructions.Size = new System.Drawing.Size(760, 32);
 			this.lblLoginInstructions.TabIndex = 0;
-			this.lblLoginInstructions.Text = resources.GetString("lblLoginInstructions.Text");
+			this.lblLoginInstructions.Text = "Please login with your Google Plus account and click OK. *NOTE!*: Some keys (such" +
+    " as SHIFT+Cursors, SHIFT+Tab and ENTER) do not work correctly in this browser wi" +
+    "ndow. Working on it!";
 			// 
 			// btnCancel
 			// 
@@ -54,6 +56,7 @@
 			this.btnCancel.Name = "btnCancel";
 			this.btnCancel.Size = new System.Drawing.Size(75, 23);
 			this.btnCancel.TabIndex = 2;
+			this.btnCancel.TabStop = false;
 			this.btnCancel.Text = "Cancel";
 			this.btnCancel.UseVisualStyleBackColor = true;
 			// 
@@ -65,6 +68,7 @@
 			this.btnOK.Name = "btnOK";
 			this.btnOK.Size = new System.Drawing.Size(75, 23);
 			this.btnOK.TabIndex = 1;
+			this.btnOK.TabStop = false;
 			this.btnOK.Text = "OK";
 			this.btnOK.UseVisualStyleBackColor = true;
 			// 
@@ -104,5 +108,6 @@
 		private System.Windows.Forms.Label lblLoginInstructions;
 		private System.Windows.Forms.Button btnCancel;
 		private System.Windows.Forms.Button btnOK;
+		private System.ComponentModel.BackgroundWorker backgroundWorker1;
 	}
 }

@@ -35,6 +35,13 @@
 			this.clearCookiesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.checkNotificationsTimer = new System.Windows.Forms.Timer(this.components);
+			this.checkForUpdates = new System.Windows.Forms.Timer(this.components);
+			this.checkForUpdatesWorker = new System.ComponentModel.BackgroundWorker();
+			this.dannyTuppenyOnGoogleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.gNotifierOnGoogleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+			this.donateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.gNotifierWebsiteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.notificatinIconMenu.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -50,22 +57,27 @@
 			// notificatinIconMenu
 			// 
 			this.notificatinIconMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.gNotifierWebsiteToolStripMenuItem,
+            this.gNotifierOnGoogleToolStripMenuItem,
+            this.dannyTuppenyOnGoogleToolStripMenuItem,
+            this.donateToolStripMenuItem,
+            this.toolStripSeparator1,
             this.clearCookiesToolStripMenuItem,
             this.exitToolStripMenuItem});
 			this.notificatinIconMenu.Name = "notificatinIconMenu";
-			this.notificatinIconMenu.Size = new System.Drawing.Size(153, 70);
+			this.notificatinIconMenu.Size = new System.Drawing.Size(225, 164);
 			// 
 			// clearCookiesToolStripMenuItem
 			// 
 			this.clearCookiesToolStripMenuItem.Name = "clearCookiesToolStripMenuItem";
-			this.clearCookiesToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.clearCookiesToolStripMenuItem.Size = new System.Drawing.Size(224, 22);
 			this.clearCookiesToolStripMenuItem.Text = "Clear &Cookies";
 			this.clearCookiesToolStripMenuItem.Click += new System.EventHandler(this.clearCookiesToolStripMenuItem_Click);
 			// 
 			// exitToolStripMenuItem
 			// 
 			this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-			this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.exitToolStripMenuItem.Size = new System.Drawing.Size(224, 22);
 			this.exitToolStripMenuItem.Text = "E&xit";
 			this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
 			// 
@@ -74,6 +86,50 @@
 			this.checkNotificationsTimer.Enabled = true;
 			this.checkNotificationsTimer.Interval = 10000;
 			this.checkNotificationsTimer.Tick += new System.EventHandler(this.checkNotificationsTimer_Tick);
+			// 
+			// checkForUpdates
+			// 
+			this.checkForUpdates.Enabled = true;
+			this.checkForUpdates.Interval = 86400000;
+			this.checkForUpdates.Tick += new System.EventHandler(this.checkForUpdates_Tick);
+			// 
+			// checkForUpdatesWorker
+			// 
+			this.checkForUpdatesWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.checkForUpdatesWorker_DoWork);
+			this.checkForUpdatesWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.checkForUpdatesWorker_RunWorkerCompleted);
+			// 
+			// dannyTuppenyOnGoogleToolStripMenuItem
+			// 
+			this.dannyTuppenyOnGoogleToolStripMenuItem.Name = "dannyTuppenyOnGoogleToolStripMenuItem";
+			this.dannyTuppenyOnGoogleToolStripMenuItem.Size = new System.Drawing.Size(224, 22);
+			this.dannyTuppenyOnGoogleToolStripMenuItem.Text = "&Danny Tuppeny on Google+";
+			this.dannyTuppenyOnGoogleToolStripMenuItem.Click += new System.EventHandler(this.dannyTuppenyOnGoogleToolStripMenuItem_Click);
+			// 
+			// gNotifierOnGoogleToolStripMenuItem
+			// 
+			this.gNotifierOnGoogleToolStripMenuItem.Name = "gNotifierOnGoogleToolStripMenuItem";
+			this.gNotifierOnGoogleToolStripMenuItem.Size = new System.Drawing.Size(224, 22);
+			this.gNotifierOnGoogleToolStripMenuItem.Text = "&G+ Notifier on Google+";
+			this.gNotifierOnGoogleToolStripMenuItem.Click += new System.EventHandler(this.gNotifierOnGoogleToolStripMenuItem_Click);
+			// 
+			// toolStripSeparator1
+			// 
+			this.toolStripSeparator1.Name = "toolStripSeparator1";
+			this.toolStripSeparator1.Size = new System.Drawing.Size(221, 6);
+			// 
+			// donateToolStripMenuItem
+			// 
+			this.donateToolStripMenuItem.Name = "donateToolStripMenuItem";
+			this.donateToolStripMenuItem.Size = new System.Drawing.Size(224, 22);
+			this.donateToolStripMenuItem.Text = "D&onate";
+			this.donateToolStripMenuItem.Click += new System.EventHandler(this.donateToolStripMenuItem_Click);
+			// 
+			// gNotifierWebsiteToolStripMenuItem
+			// 
+			this.gNotifierWebsiteToolStripMenuItem.Name = "gNotifierWebsiteToolStripMenuItem";
+			this.gNotifierWebsiteToolStripMenuItem.Size = new System.Drawing.Size(224, 22);
+			this.gNotifierWebsiteToolStripMenuItem.Text = "G+ Notifier &Website";
+			this.gNotifierWebsiteToolStripMenuItem.Click += new System.EventHandler(this.gNotifierWebsiteToolStripMenuItem_Click);
 			// 
 			// MainForm
 			// 
@@ -100,5 +156,12 @@
 		private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
 		private System.Windows.Forms.Timer checkNotificationsTimer;
 		private System.Windows.Forms.ToolStripMenuItem clearCookiesToolStripMenuItem;
+		private System.Windows.Forms.Timer checkForUpdates;
+		private System.ComponentModel.BackgroundWorker checkForUpdatesWorker;
+		private System.Windows.Forms.ToolStripMenuItem gNotifierOnGoogleToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem dannyTuppenyOnGoogleToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem donateToolStripMenuItem;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+		private System.Windows.Forms.ToolStripMenuItem gNotifierWebsiteToolStripMenuItem;
 	}
 }

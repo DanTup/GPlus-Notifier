@@ -25,7 +25,7 @@ namespace DanTup.GPlusNotifier
 		{
 			this.webView = webView;
 
-			browserPicture.Resize += WebForm_Resize;
+			Resize += WebForm_Resize;
 			browserPicture.MouseMove += WebForm_MouseMove;
 			browserPicture.MouseDown += WebForm_MouseDown;
 			browserPicture.MouseUp += WebForm_MouseUp;
@@ -38,7 +38,7 @@ namespace DanTup.GPlusNotifier
 			Deactivate += WebForm_Deactivate;
 
 			webView.IsDirtyChanged += OnIsDirtyChanged;
-			webView.LoadURL("http://www.google.com/webhp?tab=Xw&authuser=0");
+			webView.LoadURL("https://www.google.com/accounts/ServiceLogin?hl=en&continue=http://www.google.com/webhp%3Ftab%3DXw%26authuser%3D0");
 			webView.Focus();
 
 			// Flag as needing resize, since we originall created the view elsewhere, without access to the PictureBox.
@@ -55,15 +55,18 @@ namespace DanTup.GPlusNotifier
 
 		protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
 		{
-			// TODO: *************
-			// TODO: Need to make this stuff work (Tab, Cursor keys, Enter key)
-			// TODO: *************
-			// Hijack TAB key if we're in the browser, and pass it through
-			if (browserPicture.Focused && keyData == Keys.Tab)
+			// TODO: Need to try and find a better way of doing this (and one that supports all the keys!)
+			if (browserPicture.Focused && (
+				keyData == Keys.ShiftKey
+				|| keyData == Keys.Tab
+				|| keyData == Keys.Left
+				|| keyData == Keys.Right
+				|| keyData == Keys.Enter
+			))
 			{
-				WebKeyboardEvent keyEvent = new WebKeyboardEvent { Type = WebKeyType.Char, NativeKeyCode = (int)Keys.Tab };
-
-				webView.InjectKeyboardEvent(keyEvent);
+				webView.InjectKeyboardEvent(new WebKeyboardEvent { Type = WebKeyType.KeyDown, VirtualKeyCode = (VirtualKey)keyData });
+				WebCore.Update();
+				webView.InjectKeyboardEvent(new WebKeyboardEvent { Type = WebKeyType.KeyUp, VirtualKeyCode = (VirtualKey)keyData });
 				return true;
 			}
 			else

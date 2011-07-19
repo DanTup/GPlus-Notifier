@@ -117,7 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="lblLoginInstructions.Text" xml:space="preserve">
-    <value>Please login with your Google Plus account and click OK. *IMPORTANT!*: Currently many important keys (like Tab, cursor keys and Enter) do not pass through to the browser correctly. You *MUST* use the mouse to move between fields and to click the Login button!</value>
-  </data>
+  <metadata name="backgroundWorker1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
 </root>
