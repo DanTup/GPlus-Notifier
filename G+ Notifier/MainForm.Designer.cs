@@ -42,6 +42,7 @@
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this.donateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.gNotifierWebsiteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.loginToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.notificatinIconMenu.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -62,10 +63,11 @@
             this.dannyTuppenyOnGoogleToolStripMenuItem,
             this.donateToolStripMenuItem,
             this.toolStripSeparator1,
+            this.loginToolStripMenuItem,
             this.clearCookiesToolStripMenuItem,
             this.exitToolStripMenuItem});
 			this.notificatinIconMenu.Name = "notificatinIconMenu";
-			this.notificatinIconMenu.Size = new System.Drawing.Size(225, 164);
+			this.notificatinIconMenu.Size = new System.Drawing.Size(225, 186);
 			// 
 			// clearCookiesToolStripMenuItem
 			// 
@@ -131,6 +133,13 @@
 			this.gNotifierWebsiteToolStripMenuItem.Text = "G+ Notifier &Website";
 			this.gNotifierWebsiteToolStripMenuItem.Click += new System.EventHandler(this.gNotifierWebsiteToolStripMenuItem_Click);
 			// 
+			// loginToolStripMenuItem
+			// 
+			this.loginToolStripMenuItem.Name = "loginToolStripMenuItem";
+			this.loginToolStripMenuItem.Size = new System.Drawing.Size(224, 22);
+			this.loginToolStripMenuItem.Text = "&Login";
+			this.loginToolStripMenuItem.Click += new System.EventHandler(this.loginToolStripMenuItem_Click);
+			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -163,5 +172,6 @@
 		private System.Windows.Forms.ToolStripMenuItem donateToolStripMenuItem;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
 		private System.Windows.Forms.ToolStripMenuItem gNotifierWebsiteToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem loginToolStripMenuItem;
 	}
 }

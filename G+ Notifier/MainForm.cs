@@ -134,7 +134,7 @@ namespace DanTup.GPlusNotifier
 			if (notificationCount != null && notificationCount.Value > 0
 				&& ((DateTime.Now - lastShownBalloon).TotalMinutes > 60 || lastNotificationCount != notificationCount))
 			{
-				notificationIcon.ShowBalloonTip(5000, "New Notifications", "You have " + notificationCount.Value.ToString() + " unread notifications in Google+!\r\n\r\nClick to load Google+.", ToolTipIcon.None);
+				notificationIcon.ShowBalloonTip(5000, "New Notifications", "You have " + notificationCount.Value.ToString() + " unread notifications in Google+!", ToolTipIcon.None);
 				lastShownBalloon = DateTime.Now;
 				lastNotificationCount = notificationCount;
 			}
@@ -225,7 +225,7 @@ namespace DanTup.GPlusNotifier
 
 				if (latestVersion > currentVersion)
 				{
-					string message = string.Format("There is a new version of G+ Notifier available. Please visit gplusnotifier.com to download!\r\nYou have version {0}, but version {1} is available.",
+					string message = string.Format("There is a new version of G+ Notifier available. You have version {0}, but version {1} is available.",
 						currentVersion,
 						latestVersion
 						);
@@ -273,6 +273,14 @@ namespace DanTup.GPlusNotifier
 		private void donateToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			Process.Start("http://gplusnotifier.com/Donate");
+		}
+
+		private void loginToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			checkNotificationsTimer.Stop();
+
+			var loginForm = new LoginForm(this.WebView);
+			loginForm.ShowDialog();
 		}
 
 		private void clearCookiesToolStripMenuItem_Click(object sender, EventArgs e)

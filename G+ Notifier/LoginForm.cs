@@ -64,6 +64,8 @@ namespace DanTup.GPlusNotifier
 				|| keyData == Keys.Enter
 			))
 			{
+				// TODO: Why does <ENTER> work if you hold it down for ages?
+
 				webView.InjectKeyboardEvent(new WebKeyboardEvent { Type = WebKeyType.KeyDown, VirtualKeyCode = (VirtualKey)keyData });
 				WebCore.Update();
 				webView.InjectKeyboardEvent(new WebKeyboardEvent { Type = WebKeyType.KeyUp, VirtualKeyCode = (VirtualKey)keyData });
