@@ -42,11 +42,10 @@
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.lblLoginInstructions.Location = new System.Drawing.Point(12, 9);
 			this.lblLoginInstructions.Name = "lblLoginInstructions";
-			this.lblLoginInstructions.Size = new System.Drawing.Size(760, 32);
+			this.lblLoginInstructions.Size = new System.Drawing.Size(760, 17);
 			this.lblLoginInstructions.TabIndex = 0;
-			this.lblLoginInstructions.Text = "Please login with your Google Plus account and click OK. *NOTE!*: Some keys (such" +
-    " as SHIFT+Cursors, SHIFT+Tab and ENTER) do not work correctly in this browser wi" +
-    "ndow. Working on it!";
+			this.lblLoginInstructions.Text = "Please login with your Google Plus account and once logged in, click the \"OK\" but" +
+    "ton at the bottom of the form.";
 			// 
 			// btnCancel
 			// 
@@ -77,9 +76,9 @@
 			this.browserPicture.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.browserPicture.Location = new System.Drawing.Point(15, 44);
+			this.browserPicture.Location = new System.Drawing.Point(15, 29);
 			this.browserPicture.Name = "browserPicture";
-			this.browserPicture.Size = new System.Drawing.Size(757, 477);
+			this.browserPicture.Size = new System.Drawing.Size(757, 492);
 			this.browserPicture.TabIndex = 0;
 			this.browserPicture.TabStop = false;
 			// 

@@ -53,22 +53,43 @@ namespace DanTup.GPlusNotifier
 			webView.IsDirtyChanged -= OnIsDirtyChanged;
 		}
 
+		WebKeyModifiers GetModifiers()
+		{
+			int modifiers = 0;
+
+			if ((Control.ModifierKeys & Keys.Control) == Keys.Control)
+				modifiers |= (int)WebKeyModifiers.ControlKey;
+
+			if ((Control.ModifierKeys & Keys.Shift) == Keys.Shift)
+				modifiers |= (int)WebKeyModifiers.ShiftKey;
+
+			if ((Control.ModifierKeys & Keys.Alt) == Keys.Alt)
+				modifiers |= (int)WebKeyModifiers.AltKey;
+
+			return (WebKeyModifiers)modifiers;
+		}
+
 		protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
 		{
-			// TODO: Need to try and find a better way of doing this (and one that supports all the keys!)
-			if (browserPicture.Focused && (
-				keyData == Keys.ShiftKey
-				|| keyData == Keys.Tab
-				|| keyData == Keys.Left
-				|| keyData == Keys.Right
-				|| keyData == Keys.Enter
+			// Strip off the modifier, since we have to send that in Modifiers=
+			keyData = keyData & ~Keys.Modifiers; // ARGH! EYES BLEED! (Bitwise Not to strip Keys.Modifiers)
+
+			if (browserPicture.ContainsFocus && (
+						keyData == Keys.Tab
+						|| keyData == Keys.Left
+						|| keyData == Keys.Right
+						|| keyData == Keys.Enter
 			))
 			{
-				// TODO: Why does <ENTER> work if you hold it down for ages?
 
-				webView.InjectKeyboardEvent(new WebKeyboardEvent { Type = WebKeyType.KeyDown, VirtualKeyCode = (VirtualKey)keyData });
+				webView.InjectKeyboardEvent(new WebKeyboardEvent { Type = WebKeyType.KeyDown, VirtualKeyCode = (VirtualKey)keyData, Modifiers = GetModifiers() });
+
+				if (keyData == Keys.Enter)
+					webView.InjectKeyboardEvent(new WebKeyboardEvent { Type = WebKeyType.Char, Text = new ushort[] { '\r', 0, 0, 0 } });
+
 				WebCore.Update();
-				webView.InjectKeyboardEvent(new WebKeyboardEvent { Type = WebKeyType.KeyUp, VirtualKeyCode = (VirtualKey)keyData });
+				webView.InjectKeyboardEvent(new WebKeyboardEvent { Type = WebKeyType.KeyUp, VirtualKeyCode = (VirtualKey)keyData, Modifiers = GetModifiers() });
+
 				return true;
 			}
 			else
