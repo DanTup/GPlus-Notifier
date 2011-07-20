@@ -18,7 +18,6 @@ launch Google+ using your default browser (it does this via Process.Start). I wa
 as quickly as possible, but the plan is to continue developing. Please send me feature requests and bug reports and I'll
 do what I can as quickly as I can :-)
 
-* Fix issues with some keys/modifiers in the login form/browser
 * Preview of messages without launching Google+ (as per screenshot at http://gplusnotifier.com/Images/Preview.png)
  * Inline replies (like the Google-bar, either via API or rendering that iframe)
 * Auto-updating (prompt user first - don't like the idea of stealth updates from unknown devs)
