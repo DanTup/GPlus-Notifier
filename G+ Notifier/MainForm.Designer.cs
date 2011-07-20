@@ -32,17 +32,18 @@
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
 			this.notificationIcon = new System.Windows.Forms.NotifyIcon(this.components);
 			this.notificatinIconMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.gNotifierWebsiteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.gNotifierOnGoogleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.dannyTuppenyOnGoogleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.donateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+			this.loginToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.clearCookiesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.checkNotificationsTimer = new System.Windows.Forms.Timer(this.components);
 			this.checkForUpdates = new System.Windows.Forms.Timer(this.components);
 			this.checkForUpdatesWorker = new System.ComponentModel.BackgroundWorker();
-			this.dannyTuppenyOnGoogleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.gNotifierOnGoogleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-			this.donateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.gNotifierWebsiteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.loginToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.feedbackSupportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.notificatinIconMenu.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -61,13 +62,54 @@
             this.gNotifierWebsiteToolStripMenuItem,
             this.gNotifierOnGoogleToolStripMenuItem,
             this.dannyTuppenyOnGoogleToolStripMenuItem,
+            this.feedbackSupportToolStripMenuItem,
             this.donateToolStripMenuItem,
             this.toolStripSeparator1,
             this.loginToolStripMenuItem,
             this.clearCookiesToolStripMenuItem,
             this.exitToolStripMenuItem});
 			this.notificatinIconMenu.Name = "notificatinIconMenu";
-			this.notificatinIconMenu.Size = new System.Drawing.Size(225, 186);
+			this.notificatinIconMenu.Size = new System.Drawing.Size(225, 208);
+			// 
+			// gNotifierWebsiteToolStripMenuItem
+			// 
+			this.gNotifierWebsiteToolStripMenuItem.Name = "gNotifierWebsiteToolStripMenuItem";
+			this.gNotifierWebsiteToolStripMenuItem.Size = new System.Drawing.Size(224, 22);
+			this.gNotifierWebsiteToolStripMenuItem.Text = "G+ Notifier &Website";
+			this.gNotifierWebsiteToolStripMenuItem.Click += new System.EventHandler(this.gNotifierWebsiteToolStripMenuItem_Click);
+			// 
+			// gNotifierOnGoogleToolStripMenuItem
+			// 
+			this.gNotifierOnGoogleToolStripMenuItem.Name = "gNotifierOnGoogleToolStripMenuItem";
+			this.gNotifierOnGoogleToolStripMenuItem.Size = new System.Drawing.Size(224, 22);
+			this.gNotifierOnGoogleToolStripMenuItem.Text = "&G+ Notifier on Google+";
+			this.gNotifierOnGoogleToolStripMenuItem.Click += new System.EventHandler(this.gNotifierOnGoogleToolStripMenuItem_Click);
+			// 
+			// dannyTuppenyOnGoogleToolStripMenuItem
+			// 
+			this.dannyTuppenyOnGoogleToolStripMenuItem.Name = "dannyTuppenyOnGoogleToolStripMenuItem";
+			this.dannyTuppenyOnGoogleToolStripMenuItem.Size = new System.Drawing.Size(224, 22);
+			this.dannyTuppenyOnGoogleToolStripMenuItem.Text = "&Danny Tuppeny on Google+";
+			this.dannyTuppenyOnGoogleToolStripMenuItem.Click += new System.EventHandler(this.dannyTuppenyOnGoogleToolStripMenuItem_Click);
+			// 
+			// donateToolStripMenuItem
+			// 
+			this.donateToolStripMenuItem.Name = "donateToolStripMenuItem";
+			this.donateToolStripMenuItem.Size = new System.Drawing.Size(224, 22);
+			this.donateToolStripMenuItem.Text = "D&onate";
+			this.donateToolStripMenuItem.Click += new System.EventHandler(this.donateToolStripMenuItem_Click);
+			// 
+			// toolStripSeparator1
+			// 
+			this.toolStripSeparator1.Name = "toolStripSeparator1";
+			this.toolStripSeparator1.Size = new System.Drawing.Size(221, 6);
+			// 
+			// loginToolStripMenuItem
+			// 
+			this.loginToolStripMenuItem.Name = "loginToolStripMenuItem";
+			this.loginToolStripMenuItem.Size = new System.Drawing.Size(224, 22);
+			this.loginToolStripMenuItem.Text = "&Login";
+			this.loginToolStripMenuItem.Click += new System.EventHandler(this.loginToolStripMenuItem_Click);
 			// 
 			// clearCookiesToolStripMenuItem
 			// 
@@ -100,45 +142,12 @@
 			this.checkForUpdatesWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.checkForUpdatesWorker_DoWork);
 			this.checkForUpdatesWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.checkForUpdatesWorker_RunWorkerCompleted);
 			// 
-			// dannyTuppenyOnGoogleToolStripMenuItem
+			// feedbackSupportToolStripMenuItem
 			// 
-			this.dannyTuppenyOnGoogleToolStripMenuItem.Name = "dannyTuppenyOnGoogleToolStripMenuItem";
-			this.dannyTuppenyOnGoogleToolStripMenuItem.Size = new System.Drawing.Size(224, 22);
-			this.dannyTuppenyOnGoogleToolStripMenuItem.Text = "&Danny Tuppeny on Google+";
-			this.dannyTuppenyOnGoogleToolStripMenuItem.Click += new System.EventHandler(this.dannyTuppenyOnGoogleToolStripMenuItem_Click);
-			// 
-			// gNotifierOnGoogleToolStripMenuItem
-			// 
-			this.gNotifierOnGoogleToolStripMenuItem.Name = "gNotifierOnGoogleToolStripMenuItem";
-			this.gNotifierOnGoogleToolStripMenuItem.Size = new System.Drawing.Size(224, 22);
-			this.gNotifierOnGoogleToolStripMenuItem.Text = "&G+ Notifier on Google+";
-			this.gNotifierOnGoogleToolStripMenuItem.Click += new System.EventHandler(this.gNotifierOnGoogleToolStripMenuItem_Click);
-			// 
-			// toolStripSeparator1
-			// 
-			this.toolStripSeparator1.Name = "toolStripSeparator1";
-			this.toolStripSeparator1.Size = new System.Drawing.Size(221, 6);
-			// 
-			// donateToolStripMenuItem
-			// 
-			this.donateToolStripMenuItem.Name = "donateToolStripMenuItem";
-			this.donateToolStripMenuItem.Size = new System.Drawing.Size(224, 22);
-			this.donateToolStripMenuItem.Text = "D&onate";
-			this.donateToolStripMenuItem.Click += new System.EventHandler(this.donateToolStripMenuItem_Click);
-			// 
-			// gNotifierWebsiteToolStripMenuItem
-			// 
-			this.gNotifierWebsiteToolStripMenuItem.Name = "gNotifierWebsiteToolStripMenuItem";
-			this.gNotifierWebsiteToolStripMenuItem.Size = new System.Drawing.Size(224, 22);
-			this.gNotifierWebsiteToolStripMenuItem.Text = "G+ Notifier &Website";
-			this.gNotifierWebsiteToolStripMenuItem.Click += new System.EventHandler(this.gNotifierWebsiteToolStripMenuItem_Click);
-			// 
-			// loginToolStripMenuItem
-			// 
-			this.loginToolStripMenuItem.Name = "loginToolStripMenuItem";
-			this.loginToolStripMenuItem.Size = new System.Drawing.Size(224, 22);
-			this.loginToolStripMenuItem.Text = "&Login";
-			this.loginToolStripMenuItem.Click += new System.EventHandler(this.loginToolStripMenuItem_Click);
+			this.feedbackSupportToolStripMenuItem.Name = "feedbackSupportToolStripMenuItem";
+			this.feedbackSupportToolStripMenuItem.Size = new System.Drawing.Size(224, 22);
+			this.feedbackSupportToolStripMenuItem.Text = "&Feedback && Support";
+			this.feedbackSupportToolStripMenuItem.Click += new System.EventHandler(this.feedbackSupportToolStripMenuItem_Click);
 			// 
 			// MainForm
 			// 
@@ -173,5 +182,6 @@
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
 		private System.Windows.Forms.ToolStripMenuItem gNotifierWebsiteToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem loginToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem feedbackSupportToolStripMenuItem;
 	}
 }

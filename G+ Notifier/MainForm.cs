@@ -270,6 +270,11 @@ namespace DanTup.GPlusNotifier
 			Process.Start("https://plus.google.com/116849139972638476037");
 		}
 
+		private void feedbackSupportToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			Process.Start("http://gplusnotifier.uservoice.com/");
+		}
+
 		private void donateToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			Process.Start("http://gplusnotifier.com/Donate");
