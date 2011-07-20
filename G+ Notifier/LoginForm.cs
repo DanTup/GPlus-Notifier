@@ -71,6 +71,10 @@ namespace DanTup.GPlusNotifier
 
 		protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
 		{
+			// Handle paste
+			if (keyData == (Keys.Control | Keys.V))
+				webView.Paste();
+
 			// Strip off the modifier, since we have to send that in Modifiers=
 			keyData = keyData & ~Keys.Modifiers; // ARGH! EYES BLEED! (Bitwise Not to strip Keys.Modifiers)
 
