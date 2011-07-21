@@ -24,6 +24,8 @@ namespace DanTup.GPlusNotifier
 		Font font = new Font("Segoe UI", 10F, FontStyle.Bold);
 		PointF badgePosition = new PointF(2.0f, -1f);
 		Size badgeOffset = new Size(1, 1);
+        LoginForm loginForm;
+        NotificationsForm notificationsForm;
 
 		// Used to ensure we don't show balloon too frequently, even though we're updating the icon.
 		DateTime lastShownBalloon = DateTime.MinValue;
@@ -31,8 +33,7 @@ namespace DanTup.GPlusNotifier
 		// Used to reduce the change of showing the same balloon notification over and over.
 		int? lastNotificationCount;
 
-		// Used to suppress the login if the user clicks cancel, rather than spamming!
-		bool suppressLogin = false;
+        bool isLoggedIn = false;
 
 		public MainForm()
 		{
@@ -56,10 +57,15 @@ namespace DanTup.GPlusNotifier
 			// Set up the browser (make sure we save cookies to avoid logging in every time).
 			WebCoreConfig config = new WebCoreConfig { SaveCacheAndCookies = true };
 			WebCore.Initialize(config);
-			this.WebView = WebCore.CreateWebView(1024, 768);
+			this.WebView = WebCore.CreateWebView(128, 128);
 
 			// Load a page that contains the notification box, but isn't as heavy as the Plus site.
 			this.WebView.LoadURL("http://www.google.com/webhp?tab=Xw&authuser=0");
+            this.WebView.CreateObject("GNotifier");
+            this.WebView.SetObjectCallback("GNotifier", "updateCount", OnUpdateNotificationCount);
+            this.WebView.DomReady += new EventHandler(WebView_DomReady);
+            this.WebView.LoadCompleted += new EventHandler(WebView_LoadCompleted);
+            this.WebView.JSConsoleMessageAdded += new JSConsoleMessageAddedEventHandler(WebView_JSConsoleMessageAdded);
 
 			// Set up the icons we'll need for the notification area.
 			var ass = Assembly.GetExecutingAssembly();
@@ -73,8 +79,89 @@ namespace DanTup.GPlusNotifier
 			}
 
 			// Kick off a check for updates (since the timer fires *after* 24hr).
-			CheckForUpdates();
+			//CheckForUpdates();
 		}
+
+        void WebView_JSConsoleMessageAdded(object sender, JSConsoleMessageEventArgs e)
+        {
+            System.Console.Out.WriteLine(e.Message + ", " + e.Source);
+        }
+
+        // Atempt to bind the notification function once the DOM has finished initializing
+        void WebView_DomReady(object sender, EventArgs e)
+        {
+            BindGplusNotificationCountUpdate();
+        }
+
+        // For extra measure, we'll attempt to bind the function at the end of each page load
+        void WebView_LoadCompleted(object sender, EventArgs e)
+        {
+            BindGplusNotificationCountUpdate();
+        }
+
+        private void BindGplusNotificationCountUpdate()
+        {
+            // We hijack one of the Google Bar's functions and redirect it to our own custom callback
+            // so that we know whenever the notification count changes
+            if (!this.WebView.IsDisposed)
+                this.WebView.ExecuteJavascript("window.gbar.logNotificationsCountUpdate = function(a) { GNotifier.updateCount(a) }");
+        }
+
+        // Handle Google Bar's "logNotificationsCountUpdate" function in our own custom callback
+        private void OnUpdateNotificationCount(object sender, AwesomiumSharp.JSCallbackEventArgs e)
+        {
+            if (e.Arguments.Length == 1)
+            {
+                int notificationCount = e.Arguments[0].ToInteger();
+
+                // Update the icon with the number of messages.
+                UpdateIcon(notificationCount);
+
+                System.Console.Out.WriteLine("Notification Count is now: " + notificationCount);
+
+                // Show a balloon notification if there are some messages.
+                // Only show if it's been at least 60 mins or the count has changed.
+                if ((notificationCount > 0)
+                    && ((DateTime.Now - lastShownBalloon).TotalMinutes > 60 || lastNotificationCount != notificationCount))
+                {
+                    notificationIcon.ShowBalloonTip(5000, "New Notifications", "You have " + notificationCount + " unread notifications in Google+!", ToolTipIcon.None);
+                    lastShownBalloon = DateTime.Now;
+                    lastNotificationCount = notificationCount;
+                }
+                else if (notificationCount == 0 && lastShownBalloon == DateTime.MinValue)
+                {
+                    notificationIcon.ShowBalloonTip(5000, "Forever Alone", "You have no unread notifications in Google+.", ToolTipIcon.None);
+                    lastShownBalloon = DateTime.Now;
+                    lastNotificationCount = notificationCount;
+                }
+            }
+        }
+
+        private void EnsureLoggedIn()
+        {
+            if (this.WebView.IsDomReady)
+            {
+                // Check whether we're logged in, by checking for the presence of the "gb_119" element.
+                isLoggedIn = this.WebView.ExecuteJavascriptWithResult("document.getElementById('gb_119') != null", timeoutMs: 1000).ToBoolean();
+                if (!isLoggedIn)
+                {
+                    if (loginForm == null)
+                    {
+                        loginForm = new LoginForm(this.WebView);
+                        loginForm.Show();
+                    }
+                }
+                else
+                {
+                    if (loginForm != null)
+                    {
+                        loginForm.Hide();
+                        loginForm.Close();
+                        loginForm = null;
+                    }
+                }
+            }
+        }
 
 		private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
 		{
@@ -92,6 +179,12 @@ namespace DanTup.GPlusNotifier
 
 		private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
 		{
+            if (notificationsForm != null && !notificationsForm.IsDisposed)
+            {
+                notificationsForm.Close();
+                notificationsForm = null;
+            }
+
 			// Cleanly shut down the browser (presumably this is when it persists cookies).
 			this.WebView.Close();
 			WebCore.Shutdown();
@@ -105,63 +198,16 @@ namespace DanTup.GPlusNotifier
 		/// </summary>
 		private void checkNotificationsTimer_Tick(object sender, EventArgs e)
 		{
-			// Disable the timer so we don't run more than once (not sure how we do that since we're supposed to be on
-			// the UI thread?!)
-			checkNotificationsTimer.Stop();
+            checkLoginTimer.Stop();
 
-			// Check whether we're logged in, by checking for the presence of the "gb_119" element.
-			var isLoggedIn = this.WebView.ExecuteJavascriptWithResult("document.getElementById('gb_119') != null", timeoutMs: 1000).ToBoolean();
-			if (!isLoggedIn && !suppressLogin)
-			{
-				var loginForm = new LoginForm(this.WebView);
-				var result = loginForm.ShowDialog();
+            EnsureLoggedIn();
 
-				// If the user clicked OK, assume logged in.
-				if (result == DialogResult.OK)
-					isLoggedIn = true;
-				else
-					suppressLogin = true;
-			}
-
-			// Get the count (null = couldn't read count).
-			int? notificationCount = isLoggedIn ? ReadNotificationCountFromBrowser() : null;
-
-			// Update the icon with the number of messages.
-			UpdateIcon(notificationCount);
-
-			// Show a balloon notification if there are some messages.
-			// Only show if it's been at least 60 mins or the count has changed.
-			if (notificationCount != null && notificationCount.Value > 0
-				&& ((DateTime.Now - lastShownBalloon).TotalMinutes > 60 || lastNotificationCount != notificationCount))
-			{
-				notificationIcon.ShowBalloonTip(5000, "New Notifications", "You have " + notificationCount.Value.ToString() + " unread notifications in Google+!", ToolTipIcon.None);
-				lastShownBalloon = DateTime.Now;
-				lastNotificationCount = notificationCount;
-			}
-
-			// Enable the timer again.
-			checkNotificationsTimer.Start();
+            checkLoginTimer.Start();
 		}
 
 		private void checkForUpdates_Tick(object sender, EventArgs e)
 		{
 			CheckForUpdates();
-		}
-
-		private int? ReadNotificationCountFromBrowser()
-		{
-			// Try to read the value, but don't ever crash!
-			try
-			{
-				var res = this.WebView.ExecuteJavascriptWithResult("parseInt(document.getElementById('gbi1').innerText)", timeoutMs: 1000);
-
-				// Successfully got an integer?
-				if (res.Type == JSValueType.Integer)
-					return res.ToInteger();
-			}
-			catch { } // Ignore errors, probably user wasn't logged in.
-
-			return null;
 		}
 
 		/// <summary>
@@ -198,7 +244,12 @@ namespace DanTup.GPlusNotifier
 
 		private void LaunchPlus()
 		{
-			Process.Start("https://plus.google.com/");
+			//Process.Start("https://plus.google.com/");
+            if (notificationsForm == null || notificationsForm.IsDisposed)
+            {
+                notificationsForm = new NotificationsForm();
+                notificationsForm.Show();
+            }
 		}
 
 		private void CheckForUpdates()
@@ -270,11 +321,6 @@ namespace DanTup.GPlusNotifier
 			Process.Start("https://plus.google.com/116849139972638476037");
 		}
 
-		private void feedbackSupportToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			Process.Start("http://gplusnotifier.uservoice.com/");
-		}
-
 		private void donateToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			Process.Start("http://gplusnotifier.com/Donate");
@@ -282,10 +328,13 @@ namespace DanTup.GPlusNotifier
 
 		private void loginToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			checkNotificationsTimer.Stop();
-
-			var loginForm = new LoginForm(this.WebView);
-			loginForm.ShowDialog();
+            if (loginForm == null)
+            {
+                // We will log the user out by clearing cookies
+                WebCore.ClearCookies();
+                loginForm = new LoginForm(this.WebView);
+                loginForm.Show();
+            }
 		}
 
 		private void clearCookiesToolStripMenuItem_Click(object sender, EventArgs e)
@@ -299,5 +348,16 @@ namespace DanTup.GPlusNotifier
 		}
 
 		#endregion
+
+        private void reloadTimer_Tick(object sender, EventArgs e)
+        {
+            if (isLoggedIn && loginForm == null)
+                this.WebView.Reload();
+        }
+
+        private void feedbackSupportMenuItem_Click(object sender, EventArgs e)
+        {
+            Process.Start("http://gplusnotifier.uservoice.com/");
+        }
 	}
 }

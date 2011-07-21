@@ -14,6 +14,7 @@ namespace DanTup.GPlusNotifier
 		private WebView webView;
 		Bitmap frameBuffer;
 		bool needsResize;
+        bool webViewKeyboardFocused = false;
 
 		public LoginForm()
 		{
@@ -29,16 +30,17 @@ namespace DanTup.GPlusNotifier
 			browserPicture.MouseMove += WebForm_MouseMove;
 			browserPicture.MouseDown += WebForm_MouseDown;
 			browserPicture.MouseUp += WebForm_MouseUp;
-			browserPicture.MouseWheel += WebForm_MouseWheel;
-			browserPicture.KeyDown += WebForm_KeyDown;
-			browserPicture.KeyUp += WebForm_KeyUp;
-			browserPicture.KeyPress += WebForm_KeyPress;
+			this.MouseWheel += WebForm_MouseWheel;
+			this.KeyDown += WebForm_KeyDown;
+			this.KeyUp += WebForm_KeyUp;
+			this.KeyPress += WebForm_KeyPress;
+            this.webView.KeyboardFocusChanged += new KeyboardFocusChangedEventHandler(webView_KeyboardFocusChanged);
 			FormClosed += WebForm_FormClosed;
 			Activated += WebForm_Activated;
 			Deactivate += WebForm_Deactivate;
 
 			webView.IsDirtyChanged += OnIsDirtyChanged;
-			webView.LoadURL("https://www.google.com/accounts/ServiceLogin?hl=en&continue=http://www.google.com/webhp%3Ftab%3DXw%26authuser%3D0");
+            webView.LoadURL("https://www.google.com/accounts/ServiceLogin?service=webupdates&btmpl=mobile&ltmpl=mobile&continue=http%3a%2f%2fwww.google.com%2fwebhp%3ftab%3dww");
 			webView.Focus();
 
 			// Flag as needing resize, since we originall created the view elsewhere, without access to the PictureBox.
@@ -48,56 +50,14 @@ namespace DanTup.GPlusNotifier
 			browserPicture.Focus();
 		}
 
+        void webView_KeyboardFocusChanged(object sender, ChangeKeyboardFocusEventArgs e)
+        {
+            webViewKeyboardFocused = e.IsFocused;
+        }
+
 		private void LoginForm_FormClosing(object sender, FormClosingEventArgs e)
 		{
 			webView.IsDirtyChanged -= OnIsDirtyChanged;
-		}
-
-		WebKeyModifiers GetModifiers()
-		{
-			int modifiers = 0;
-
-			if ((Control.ModifierKeys & Keys.Control) == Keys.Control)
-				modifiers |= (int)WebKeyModifiers.ControlKey;
-
-			if ((Control.ModifierKeys & Keys.Shift) == Keys.Shift)
-				modifiers |= (int)WebKeyModifiers.ShiftKey;
-
-			if ((Control.ModifierKeys & Keys.Alt) == Keys.Alt)
-				modifiers |= (int)WebKeyModifiers.AltKey;
-
-			return (WebKeyModifiers)modifiers;
-		}
-
-		protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
-		{
-			// Handle paste
-			if (keyData == (Keys.Control | Keys.V))
-				webView.Paste();
-
-			// Strip off the modifier, since we have to send that in Modifiers=
-			keyData = keyData & ~Keys.Modifiers; // ARGH! EYES BLEED! (Bitwise Not to strip Keys.Modifiers)
-
-			if (browserPicture.ContainsFocus && (
-						keyData == Keys.Tab
-						|| keyData == Keys.Left
-						|| keyData == Keys.Right
-						|| keyData == Keys.Enter
-			))
-			{
-
-				webView.InjectKeyboardEvent(new WebKeyboardEvent { Type = WebKeyType.KeyDown, VirtualKeyCode = (VirtualKey)keyData, Modifiers = GetModifiers() });
-
-				if (keyData == Keys.Enter)
-					webView.InjectKeyboardEvent(new WebKeyboardEvent { Type = WebKeyType.Char, Text = new ushort[] { '\r', 0, 0, 0 } });
-
-				WebCore.Update();
-				webView.InjectKeyboardEvent(new WebKeyboardEvent { Type = WebKeyType.KeyUp, VirtualKeyCode = (VirtualKey)keyData, Modifiers = GetModifiers() });
-
-				return true;
-			}
-			else
-				return base.ProcessCmdKey(ref msg, keyData);
 		}
 
 		#region Events to pass-through to browser
@@ -116,6 +76,12 @@ namespace DanTup.GPlusNotifier
 
 		void WebForm_FormClosed(object sender, FormClosedEventArgs e)
 		{
+            if (Visible)
+            {
+                MessageBox.Show("G+ Notifier will now close.", "Exiting Application");
+                Application.Exit();
+            }
+
 			webView.IsDirtyChanged -= OnIsDirtyChanged;
 		}
 
@@ -154,7 +120,6 @@ namespace DanTup.GPlusNotifier
 			BitmapData bits = frameBuffer.LockBits(new Rectangle(0, 0, rBuffer.Width, rBuffer.Height),
 								ImageLockMode.ReadWrite, frameBuffer.PixelFormat);
 
-
 			unsafe
 			{
 				UInt64* ptrBase = (UInt64*)((byte*)bits.Scan0);
@@ -183,9 +148,25 @@ namespace DanTup.GPlusNotifier
 				needsResize = true;
 		}
 
+        WebKeyModifiers GetModifiers()
+        {
+            int modifiers = 0;
+
+            if ((Control.ModifierKeys & Keys.Control) == Keys.Control)
+                modifiers |= (int)WebKeyModifiers.ControlKey;
+
+            if ((Control.ModifierKeys & Keys.Shift) == Keys.Shift)
+                modifiers |= (int)WebKeyModifiers.ShiftKey;
+
+            if ((Control.ModifierKeys & Keys.Alt) == Keys.Alt)
+                modifiers |= (int)WebKeyModifiers.AltKey;
+
+            return (WebKeyModifiers)modifiers;
+        }
+
 		void WebForm_KeyPress(object sender, KeyPressEventArgs e)
 		{
-			WebKeyboardEvent keyEvent = new WebKeyboardEvent { Type = WebKeyType.Char, Text = new ushort[] { e.KeyChar, 0, 0, 0 } };
+            WebKeyboardEvent keyEvent = new WebKeyboardEvent { Type = WebKeyType.Char, Text = new ushort[] { e.KeyChar, 0, 0, 0 }, Modifiers = GetModifiers() };
 
 			if (!webView.IsDisposed)
 				webView.InjectKeyboardEvent(keyEvent);
@@ -193,7 +174,7 @@ namespace DanTup.GPlusNotifier
 
 		void WebForm_KeyDown(object sender, KeyEventArgs e)
 		{
-			WebKeyboardEvent keyEvent = new WebKeyboardEvent { Type = WebKeyType.KeyDown, VirtualKeyCode = (VirtualKey)e.KeyCode };
+			WebKeyboardEvent keyEvent = new WebKeyboardEvent { Type = WebKeyType.KeyDown, VirtualKeyCode = (VirtualKey)e.KeyCode, Modifiers = GetModifiers() };
 
 			if (!webView.IsDisposed)
 				webView.InjectKeyboardEvent(keyEvent);
@@ -201,11 +182,35 @@ namespace DanTup.GPlusNotifier
 
 		void WebForm_KeyUp(object sender, KeyEventArgs e)
 		{
-			WebKeyboardEvent keyEvent = new WebKeyboardEvent { Type = WebKeyType.KeyUp, VirtualKeyCode = (VirtualKey)e.KeyCode };
+            WebKeyboardEvent keyEvent = new WebKeyboardEvent { Type = WebKeyType.KeyUp, VirtualKeyCode = (VirtualKey)e.KeyCode, Modifiers = GetModifiers() };
 
 			if (!webView.IsDisposed)
 				webView.InjectKeyboardEvent(keyEvent);
 		}
+
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            if (webViewKeyboardFocused && (
+                keyData == Keys.ShiftKey
+                || keyData == Keys.Tab
+                || keyData == Keys.Left
+                || keyData == Keys.Right
+                || keyData == Keys.Enter
+            ))
+            {
+                webView.InjectKeyboardEvent(new WebKeyboardEvent { Type = WebKeyType.KeyDown, VirtualKeyCode = (VirtualKey)keyData, Modifiers = GetModifiers() });
+
+                if (keyData == Keys.Enter)
+                    webView.InjectKeyboardEvent(new WebKeyboardEvent { Type = WebKeyType.Char, Text = new ushort[] { '\r', 0, 0, 0 } });
+
+                WebCore.Update();
+                webView.InjectKeyboardEvent(new WebKeyboardEvent { Type = WebKeyType.KeyUp, VirtualKeyCode = (VirtualKey)keyData, Modifiers = GetModifiers() });
+
+                return true;
+            }
+            else
+                return base.ProcessCmdKey(ref msg, keyData);
+        }
 
 		void WebForm_MouseUp(object sender, MouseEventArgs e)
 		{
@@ -232,5 +237,7 @@ namespace DanTup.GPlusNotifier
 		}
 
 		#endregion
-	}
+
+
+    }
 }
