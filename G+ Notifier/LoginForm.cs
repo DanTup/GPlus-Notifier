@@ -76,12 +76,6 @@ namespace DanTup.GPlusNotifier
 
 		void WebForm_FormClosed(object sender, FormClosedEventArgs e)
 		{
-			if (Visible)
-			{
-				MessageBox.Show("G+ Notifier will now close.", "Exiting Application");
-				Application.Exit();
-			}
-
 			webView.IsDirtyChanged -= OnIsDirtyChanged;
 		}
 

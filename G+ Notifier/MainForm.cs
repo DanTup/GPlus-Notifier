@@ -33,7 +33,11 @@ namespace DanTup.GPlusNotifier
 		// Used to reduce the change of showing the same balloon notification over and over.
 		int? lastNotificationCount;
 
+		// Whether the user appears to be logged in
 		bool isLoggedIn = false;
+
+		// If the user cancels a login, we don't want to keep popping the form up until they ask (context menu)
+		bool userHasCancelledPreviousLogin = false;
 
 		public MainForm()
 		{
@@ -126,44 +130,40 @@ namespace DanTup.GPlusNotifier
 			}
 		}
 
-		private void EnsureLoggedIn()
+		private void CheckLogin()
 		{
-			if (this.WebView.IsDomReady)
+			if (!this.WebView.IsDomReady)
+				return;
+
+			// Check whether we're logged in, by checking for the presence of the "gb_119" element.
+			isLoggedIn = this.WebView.ExecuteJavascriptWithResult("document.getElementById('gb_119') != null", timeoutMs: 1000).ToBoolean();
+
+			// If we're logged in, always cancel the login flag
+			if (isLoggedIn)
+				userHasCancelledPreviousLogin = false;
+
+			// If we're not logged in, not showing the login form and user has not cancelled a previous login.
+			if (!isLoggedIn && loginForm == null && !userHasCancelledPreviousLogin)
 			{
-				// Check whether we're logged in, by checking for the presence of the "gb_119" element.
-				isLoggedIn = this.WebView.ExecuteJavascriptWithResult("document.getElementById('gb_119') != null", timeoutMs: 1000).ToBoolean();
-				if (!isLoggedIn)
-				{
-					if (loginForm == null)
-					{
-						loginForm = new LoginForm(this.WebView);
-						loginForm.Show();
-					}
-				}
-				else
-				{
-					if (loginForm != null)
-					{
-						loginForm.Hide();
-						loginForm.Close();
-						loginForm = null;
-					}
-				}
+				loginForm = new LoginForm(this.WebView);
+				loginForm.FormClosed += LoginFormClosed;
+				loginForm.Show();
+			}
+
+			// If we're logged in and the login form is visible, hide/close it.
+			if (isLoggedIn && loginForm != null)
+			{
+				loginForm.Hide();
+				loginForm.Close();
+				loginForm = null;
 			}
 		}
 
-		private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+		void LoginFormClosed(object sender, FormClosedEventArgs e)
 		{
-			// TODO: This isn't used until we are showing previews on the form.
-			//// HACK: Hijack closing, and just minimise instead. This is because this form is actually what's showing the
-			//// notification icon and if we close the form, the icon will disappear. Is there a better way of having a
-			//// NotifyIcon without a form?
-			//if (e.CloseReason == CloseReason.UserClosing)
-			//{
-			//    e.Cancel = true;
-			//    this.Hide();
-			//    this.WindowState = FormWindowState.Minimized;
-			//}
+			userHasCancelledPreviousLogin = true;
+			loginForm.FormClosed -= LoginFormClosed;
+			loginForm = null;
 		}
 
 		private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
@@ -189,7 +189,8 @@ namespace DanTup.GPlusNotifier
 		{
 			checkLoginTimer.Stop();
 
-			EnsureLoggedIn();
+			CheckLogin();
+			loginToolStripMenuItem.Text = isLoggedIn ? "&Logout" : "&Login";
 
 			checkLoginTimer.Start();
 		}
@@ -320,8 +321,10 @@ namespace DanTup.GPlusNotifier
 			{
 				// We will log the user out by clearing cookies
 				WebCore.ClearCookies();
-				loginForm = new LoginForm(this.WebView);
-				loginForm.Show();
+				isLoggedIn = false;
+				userHasCancelledPreviousLogin = false;
+
+				CheckLogin();
 			}
 		}
 
