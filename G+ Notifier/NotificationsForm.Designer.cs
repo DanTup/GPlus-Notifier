@@ -48,6 +48,7 @@
             this.ClientSize = new System.Drawing.Size(396, 279);
             this.Controls.Add(this.webPicture);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
+			this.KeyPreview = true;
             this.Name = "NotificationsForm";
             this.Text = "G+ Notifier";
             ((System.ComponentModel.ISupportInitialize)(this.webPicture)).EndInit();

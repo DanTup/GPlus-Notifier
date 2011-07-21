@@ -1,271 +1,251 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
 using System.Drawing.Imaging;
+using System.Windows.Forms;
 using AwesomiumSharp;
 
 namespace DanTup.GPlusNotifier
 {
-    public partial class NotificationsForm : Form
-    {
-        private WebView webView;
-        private bool webViewKeyboardFocused = false;
-        private bool needsResize = false;
-        private Bitmap frameBuffer;
-        private Timer animateTimer;
-        private int startPosX;
-        private int startPosY;
+	public partial class NotificationsForm : Form
+	{
+		private WebView webView;
+		private bool webViewKeyboardFocused = false;
+		private bool needsResize = false;
+		private Bitmap frameBuffer;
+		private Timer animateTimer;
+		private int startPosX;
+		private int startPosY;
 
-        public NotificationsForm()
-        {
-            InitializeComponent();
-            webView = WebCore.CreateWebView(webPicture.Width, webPicture.Height);
+		public NotificationsForm()
+		{
+			InitializeComponent();
 
-            Resize += WebForm_Resize;
-            webPicture.MouseMove += WebForm_MouseMove;
-            webPicture.MouseDown += WebForm_MouseDown;
-            webPicture.MouseUp += WebForm_MouseUp;
-            this.MouseWheel += WebForm_MouseWheel;
-            this.KeyDown += WebForm_KeyDown;
-            this.KeyUp += WebForm_KeyUp;
-            this.KeyPress += WebForm_KeyPress;
-            this.webView.KeyboardFocusChanged += new KeyboardFocusChangedEventHandler(webView_KeyboardFocusChanged);
-            FormClosed += WebForm_FormClosed;
-            Activated += WebForm_Activated;
-            Deactivate += WebForm_Deactivate;
+			// HACK: Resize to window to by a reasonable height.
+			int padding = 50;
+			var newSize = new Size(500, (int)((Screen.PrimaryScreen.WorkingArea.Height - (padding * 2)) * 0.6));
+			this.Size = newSize;
+			webView = WebCore.CreateWebView(webPicture.Width, webPicture.Height);
 
-            webView.IsDirtyChanged += OnIsDirtyChanged;
-            webView.LoadURL("https://m.google.com/app/plus/#~loop:view=notifications");
-            webView.Focus();
+			Resize += WebForm_Resize;
+			webPicture.MouseMove += WebForm_MouseMove;
+			webPicture.MouseDown += WebForm_MouseDown;
+			webPicture.MouseUp += WebForm_MouseUp;
+			this.MouseWheel += WebForm_MouseWheel;
+			this.KeyDown += WebForm_KeyDown;
+			this.KeyUp += WebForm_KeyUp;
+			this.KeyPress += WebForm_KeyPress;
+			this.webView.KeyboardFocusChanged += new KeyboardFocusChangedEventHandler(webView_KeyboardFocusChanged);
+			FormClosed += WebForm_FormClosed;
+			Activated += WebForm_Activated;
+			Deactivate += WebForm_Deactivate;
 
-            // Flag as needing resize, since we originall created the view elsewhere, without access to the PictureBox.
-            needsResize = true;
+			webView.IsDirtyChanged += OnIsDirtyChanged;
+			webView.LoadURL("https://m.google.com/app/plus/#~loop:view=notifications");
+			webView.Focus();
 
-            webPicture.Select();
-            webPicture.Focus();
+			// Flag as needing resize, since we originall created the view elsewhere, without access to the PictureBox.
+			needsResize = true;
 
-            TopMost = true;
+			webPicture.Select();
+			webPicture.Focus();
 
-            // Pop doesn't need to be shown in task bar
-            ShowInTaskbar = false;
+			TopMost = true;
 
-            // Create and run timer for animation
-            animateTimer = new Timer();
-            animateTimer.Interval = 20;
-            animateTimer.Tick += animateTimer_Tick;
-        }
+			// Pop doesn't need to be shown in task bar
+			ShowInTaskbar = false;
 
-        protected override void OnLoad(EventArgs e)
-        {
-            // Move window out of screen
-            startPosX = Screen.PrimaryScreen.WorkingArea.Width - Width;
-            startPosY = Screen.PrimaryScreen.WorkingArea.Height;
-            SetDesktopLocation(startPosX, startPosY);
-            base.OnLoad(e);
-            // Begin animation
-            animateTimer.Start();
-        }
+			// Create and run timer for animation
+			animateTimer = new Timer();
+			animateTimer.Interval = 20;
+			animateTimer.Tick += animateTimer_Tick;
+		}
 
-        void animateTimer_Tick(object sender, EventArgs e)
-        {
-            //Lift window by 5 pixels
-            startPosY -= 20; 
-            //If window is fully visible stop the timer
-            if (startPosY < Screen.PrimaryScreen.WorkingArea.Height - Height)
-                animateTimer.Stop();
-            else
-                SetDesktopLocation(startPosX, startPosY);
-        }
+		protected override void OnLoad(EventArgs e)
+		{
+			// Move window out of screen
+			startPosX = Screen.PrimaryScreen.WorkingArea.Width - Width;
+			startPosY = Screen.PrimaryScreen.WorkingArea.Height;
+			SetDesktopLocation(startPosX, startPosY);
+			base.OnLoad(e);
+			// Begin animation
+			animateTimer.Start();
+		}
 
-        void webView_KeyboardFocusChanged(object sender, ChangeKeyboardFocusEventArgs e)
-        {
-            webViewKeyboardFocused = e.IsFocused;
-        }
+		void animateTimer_Tick(object sender, EventArgs e)
+		{
+			// Lift window by 5 pixels
+			startPosY -= 20;
+			// If window is fully visible stop the timer
+			if (startPosY < Screen.PrimaryScreen.WorkingArea.Height - this.Height)
+			{
+				// Set the fial position
+				SetDesktopLocation(startPosX, Screen.PrimaryScreen.WorkingArea.Height - this.Height);
+				animateTimer.Stop();
+			}
+			else
+				SetDesktopLocation(startPosX, startPosY);
+		}
 
-        private void LoginForm_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            webView.IsDirtyChanged -= OnIsDirtyChanged;
-        }
+		void webView_KeyboardFocusChanged(object sender, ChangeKeyboardFocusEventArgs e)
+		{
+			webViewKeyboardFocused = e.IsFocused;
+		}
 
-        #region Events to pass-through to browser
+		private void LoginForm_FormClosing(object sender, FormClosingEventArgs e)
+		{
+			webView.IsDirtyChanged -= OnIsDirtyChanged;
+		}
 
-        void WebForm_Activated(object sender, EventArgs e)
-        {
-            if (!webView.IsDisposed)
-                webView.Focus();
-        }
+		#region Events to pass-through to browser
 
-        void WebForm_Deactivate(object sender, EventArgs e)
-        {
-            if (!webView.IsDisposed)
-                webView.Unfocus();
-        }
+		void WebForm_Activated(object sender, EventArgs e)
+		{
+			if (!webView.IsDisposed)
+				webView.Focus();
+		}
 
-        void WebForm_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            webView.IsDirtyChanged -= OnIsDirtyChanged;
-            webView.Close();
-            this.Dispose();
-        }
+		void WebForm_Deactivate(object sender, EventArgs e)
+		{
+			if (!webView.IsDisposed)
+				webView.Unfocus();
+		}
 
-        private void OnIsDirtyChanged(object sender, EventArgs e)
-        {
-            if (needsResize && !webView.IsDisposed)
-            {
-                if (!webView.IsResizing)
-                {
-                    webView.Resize(webPicture.Width, webPicture.Height);
-                    needsResize = false;
-                }
-            }
+		void WebForm_FormClosed(object sender, FormClosedEventArgs e)
+		{
+			webView.IsDirtyChanged -= OnIsDirtyChanged;
+			webView.Close();
+			this.Dispose();
+		}
 
-            if (webView.IsDirty)
-                Render();
-        }
+		private void OnIsDirtyChanged(object sender, EventArgs e)
+		{
+			if (needsResize && !webView.IsDisposed)
+			{
+				if (!webView.IsResizing)
+				{
+					webView.Resize(webPicture.Width, webPicture.Height);
+					needsResize = false;
+				}
+			}
 
-        void Render()
-        {
-            if (webView.IsDisposed)
-                return;
+			if (webView.IsDirty)
+				Render();
+		}
 
-            RenderBuffer rBuffer = webView.Render();
+		void Render()
+		{
+			if (webView.IsDisposed)
+				return;
 
-            if (frameBuffer == null)
-            {
-                frameBuffer = new Bitmap(rBuffer.Width, rBuffer.Height, PixelFormat.Format32bppArgb);
-            }
-            else if (frameBuffer.Width != rBuffer.Width || frameBuffer.Height != rBuffer.Height)
-            {
-                frameBuffer.Dispose();
-                frameBuffer = new Bitmap(rBuffer.Width, rBuffer.Height, PixelFormat.Format32bppArgb);
-            }
+			RenderBuffer rBuffer = webView.Render();
 
-            BitmapData bits = frameBuffer.LockBits(new Rectangle(0, 0, rBuffer.Width, rBuffer.Height),
-                                ImageLockMode.ReadWrite, frameBuffer.PixelFormat);
+			if (frameBuffer == null)
+			{
+				frameBuffer = new Bitmap(rBuffer.Width, rBuffer.Height, PixelFormat.Format32bppArgb);
+			}
+			else if (frameBuffer.Width != rBuffer.Width || frameBuffer.Height != rBuffer.Height)
+			{
+				frameBuffer.Dispose();
+				frameBuffer = new Bitmap(rBuffer.Width, rBuffer.Height, PixelFormat.Format32bppArgb);
+			}
 
-            unsafe
-            {
-                UInt64* ptrBase = (UInt64*)((byte*)bits.Scan0);
-                UInt64* datBase = (UInt64*)rBuffer.Buffer;
-                UInt32 lOffset = 0;
-                UInt32 lEnd = (UInt32)webPicture.Height * (UInt32)(webPicture.Width / 8);
+			BitmapData bits = frameBuffer.LockBits(new Rectangle(0, 0, rBuffer.Width, rBuffer.Height),
+								ImageLockMode.ReadWrite, frameBuffer.PixelFormat);
 
-                // copy 64 bits at a time, 4 times (since we divided by 8)
-                for (lOffset = 0; lOffset < lEnd; lOffset++)
-                {
-                    *ptrBase++ = *datBase++;
-                    *ptrBase++ = *datBase++;
-                    *ptrBase++ = *datBase++;
-                    *ptrBase++ = *datBase++;
-                }
-            }
+			unsafe
+			{
+				UInt64* ptrBase = (UInt64*)((byte*)bits.Scan0);
+				UInt64* datBase = (UInt64*)rBuffer.Buffer;
+				UInt32 lOffset = 0;
+				UInt32 lEnd = (UInt32)webPicture.Height * (UInt32)(webPicture.Width / 8);
 
-            frameBuffer.UnlockBits(bits);
+				// copy 64 bits at a time, 4 times (since we divided by 8)
+				for (lOffset = 0; lOffset < lEnd; lOffset++)
+				{
+					*ptrBase++ = *datBase++;
+					*ptrBase++ = *datBase++;
+					*ptrBase++ = *datBase++;
+					*ptrBase++ = *datBase++;
+				}
+			}
 
-            webPicture.Image = frameBuffer;
-        }
+			frameBuffer.UnlockBits(bits);
 
-        void WebForm_Resize(object sender, EventArgs e)
-        {
-            if (webPicture.Width != 0 && webPicture.Height != 0)
-                needsResize = true;
-        }
+			webPicture.Image = frameBuffer;
+		}
 
-        WebKeyModifiers GetModifiers()
-        {
-            int modifiers = 0;
+		void WebForm_Resize(object sender, EventArgs e)
+		{
+			if (webPicture.Width != 0 && webPicture.Height != 0)
+				needsResize = true;
+		}
 
-            if ((Control.ModifierKeys & Keys.Control) == Keys.Control)
-                modifiers |= (int)WebKeyModifiers.ControlKey;
+		WebKeyModifiers GetModifiers()
+		{
+			int modifiers = 0;
 
-            if ((Control.ModifierKeys & Keys.Shift) == Keys.Shift)
-                modifiers |= (int)WebKeyModifiers.ShiftKey;
+			if ((Control.ModifierKeys & Keys.Control) == Keys.Control)
+				modifiers |= (int)WebKeyModifiers.ControlKey;
 
-            if ((Control.ModifierKeys & Keys.Alt) == Keys.Alt)
-                modifiers |= (int)WebKeyModifiers.AltKey;
+			if ((Control.ModifierKeys & Keys.Shift) == Keys.Shift)
+				modifiers |= (int)WebKeyModifiers.ShiftKey;
 
-            return (WebKeyModifiers)modifiers;
-        }
+			if ((Control.ModifierKeys & Keys.Alt) == Keys.Alt)
+				modifiers |= (int)WebKeyModifiers.AltKey;
 
-        void WebForm_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            WebKeyboardEvent keyEvent = new WebKeyboardEvent { Type = WebKeyType.Char, Text = new ushort[] { e.KeyChar, 0, 0, 0 }, Modifiers = GetModifiers() };
+			return (WebKeyModifiers)modifiers;
+		}
 
-            if (!webView.IsDisposed)
-                webView.InjectKeyboardEvent(keyEvent);
-        }
+		void WebForm_KeyPress(object sender, KeyPressEventArgs e)
+		{
+			WebKeyboardEvent keyEvent = new WebKeyboardEvent { Type = WebKeyType.Char, Text = new ushort[] { e.KeyChar, 0, 0, 0 }, Modifiers = GetModifiers() };
 
-        void WebForm_KeyDown(object sender, KeyEventArgs e)
-        {
-            WebKeyboardEvent keyEvent = new WebKeyboardEvent { Type = WebKeyType.KeyDown, VirtualKeyCode = (VirtualKey)e.KeyCode, Modifiers = GetModifiers() };
+			if (!webView.IsDisposed)
+				webView.InjectKeyboardEvent(keyEvent);
+		}
 
-            if (!webView.IsDisposed)
-                webView.InjectKeyboardEvent(keyEvent);
-        }
+		void WebForm_KeyDown(object sender, KeyEventArgs e)
+		{
+			WebKeyboardEvent keyEvent = new WebKeyboardEvent { Type = WebKeyType.KeyDown, VirtualKeyCode = (VirtualKey)e.KeyCode, Modifiers = GetModifiers() };
 
-        void WebForm_KeyUp(object sender, KeyEventArgs e)
-        {
-            WebKeyboardEvent keyEvent = new WebKeyboardEvent { Type = WebKeyType.KeyUp, VirtualKeyCode = (VirtualKey)e.KeyCode, Modifiers = GetModifiers() };
+			if (!webView.IsDisposed)
+				webView.InjectKeyboardEvent(keyEvent);
+		}
 
-            if (!webView.IsDisposed)
-                webView.InjectKeyboardEvent(keyEvent);
-        }
+		void WebForm_KeyUp(object sender, KeyEventArgs e)
+		{
+			WebKeyboardEvent keyEvent = new WebKeyboardEvent { Type = WebKeyType.KeyUp, VirtualKeyCode = (VirtualKey)e.KeyCode, Modifiers = GetModifiers() };
 
-        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
-        {
-            if (webViewKeyboardFocused && (
-                keyData == Keys.ShiftKey
-                || keyData == Keys.Tab
-                || keyData == Keys.Left
-                || keyData == Keys.Right
-                || keyData == Keys.Enter
-            ))
-            {
-                webView.InjectKeyboardEvent(new WebKeyboardEvent { Type = WebKeyType.KeyDown, VirtualKeyCode = (VirtualKey)keyData, Modifiers = GetModifiers() });
+			if (!webView.IsDisposed)
+				webView.InjectKeyboardEvent(keyEvent);
+		}
 
-                if (keyData == Keys.Enter)
-                    webView.InjectKeyboardEvent(new WebKeyboardEvent { Type = WebKeyType.Char, Text = new ushort[] { '\r', 0, 0, 0 } });
+		void WebForm_MouseUp(object sender, MouseEventArgs e)
+		{
+			if (!webView.IsDisposed)
+				webView.InjectMouseUp(MouseButton.Left);
+		}
 
-                WebCore.Update();
-                webView.InjectKeyboardEvent(new WebKeyboardEvent { Type = WebKeyType.KeyUp, VirtualKeyCode = (VirtualKey)keyData, Modifiers = GetModifiers() });
+		void WebForm_MouseDown(object sender, MouseEventArgs e)
+		{
+			if (!webView.IsDisposed)
+				webView.InjectMouseDown(MouseButton.Left);
+		}
 
-                return true;
-            }
-            else
-                return base.ProcessCmdKey(ref msg, keyData);
-        }
+		void WebForm_MouseMove(object sender, MouseEventArgs e)
+		{
+			if (!webView.IsDisposed)
+				webView.InjectMouseMove(e.X, e.Y);
+		}
 
-        void WebForm_MouseUp(object sender, MouseEventArgs e)
-        {
-            if (!webView.IsDisposed)
-                webView.InjectMouseUp(MouseButton.Left);
-        }
+		void WebForm_MouseWheel(object sender, MouseEventArgs e)
+		{
+			if (!webView.IsDisposed)
+				webView.InjectMouseWheel(e.Delta);
+		}
 
-        void WebForm_MouseDown(object sender, MouseEventArgs e)
-        {
-            if (!webView.IsDisposed)
-                webView.InjectMouseDown(MouseButton.Left);
-        }
-
-        void WebForm_MouseMove(object sender, MouseEventArgs e)
-        {
-            if (!webView.IsDisposed)
-                webView.InjectMouseMove(e.X, e.Y);
-        }
-
-        void WebForm_MouseWheel(object sender, MouseEventArgs e)
-        {
-            if (!webView.IsDisposed)
-                webView.InjectMouseWheel(e.Delta);
-        }
-
-        #endregion
+		#endregion
 
 
-    }
+	}
 }
