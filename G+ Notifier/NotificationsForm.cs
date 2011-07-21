@@ -56,7 +56,7 @@ namespace DanTup.GPlusNotifier
 
 			// Create and run timer for animation
 			animateTimer = new Timer();
-			animateTimer.Interval = 20;
+			animateTimer.Interval = 15;
 			animateTimer.Tick += animateTimer_Tick;
 		}
 
@@ -81,6 +81,8 @@ namespace DanTup.GPlusNotifier
 				// Set the fial position
 				SetDesktopLocation(startPosX, Screen.PrimaryScreen.WorkingArea.Height - this.Height);
 				animateTimer.Stop();
+				this.BringToFront();
+				this.Activate();
 			}
 			else
 				SetDesktopLocation(startPosX, startPosY);

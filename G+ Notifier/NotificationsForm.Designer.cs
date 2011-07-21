@@ -28,31 +28,31 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.webPicture = new System.Windows.Forms.PictureBox();
-            ((System.ComponentModel.ISupportInitialize)(this.webPicture)).BeginInit();
-            this.SuspendLayout();
-            // 
-            // webPicture
-            // 
-            this.webPicture.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.webPicture.Location = new System.Drawing.Point(0, 0);
-            this.webPicture.Name = "webPicture";
-            this.webPicture.Size = new System.Drawing.Size(396, 279);
-            this.webPicture.TabIndex = 0;
-            this.webPicture.TabStop = false;
-            // 
-            // NotificationsForm
-            // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(396, 279);
-            this.Controls.Add(this.webPicture);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
+			this.webPicture = new System.Windows.Forms.PictureBox();
+			((System.ComponentModel.ISupportInitialize)(this.webPicture)).BeginInit();
+			this.SuspendLayout();
+			// 
+			// webPicture
+			// 
+			this.webPicture.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.webPicture.Location = new System.Drawing.Point(0, 0);
+			this.webPicture.Name = "webPicture";
+			this.webPicture.Size = new System.Drawing.Size(534, 366);
+			this.webPicture.TabIndex = 0;
+			this.webPicture.TabStop = false;
+			// 
+			// NotificationsForm
+			// 
+			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.ClientSize = new System.Drawing.Size(534, 366);
+			this.Controls.Add(this.webPicture);
+			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
 			this.KeyPreview = true;
-            this.Name = "NotificationsForm";
-            this.Text = "G+ Notifier";
-            ((System.ComponentModel.ISupportInitialize)(this.webPicture)).EndInit();
-            this.ResumeLayout(false);
+			this.Name = "NotificationsForm";
+			this.Text = "G+ Notifier";
+			((System.ComponentModel.ISupportInitialize)(this.webPicture)).EndInit();
+			this.ResumeLayout(false);
 
         }
 

@@ -136,7 +136,7 @@ namespace DanTup.GPlusNotifier
 				return;
 
 			// Check whether we're logged in, by checking for the presence of the "gb_119" element.
-			isLoggedIn = this.WebView.ExecuteJavascriptWithResult("document.getElementById('gb_119') != null", timeoutMs: 1000).ToBoolean();
+			isLoggedIn = this.WebView.ExecuteJavascriptWithResult("document.getElementById('gb_119') != null", timeoutMs: 5000).ToBoolean();
 
 			// If we're logged in, always cancel the login flag
 			if (isLoggedIn)
@@ -281,12 +281,6 @@ namespace DanTup.GPlusNotifier
 
 		private void notificationIcon_MouseDoubleClick(object sender, MouseEventArgs e)
 		{
-			// TODO: This isn't used until we are showing previews on the form.
-			//// Show the notification window
-			//this.Show();
-			//this.WindowState = FormWindowState.Normal;
-			//this.BringToFront();
-
 			LaunchPlus();
 		}
 
@@ -343,7 +337,7 @@ namespace DanTup.GPlusNotifier
 		private void reloadTimer_Tick(object sender, EventArgs e)
 		{
 			if (isLoggedIn && loginForm == null)
-				this.WebView.Reload();
+				this.WebView.LoadURL("http://www.google.com/webhp?tab=ww");
 		}
 
 		private void feedbackSupportMenuItem_Click(object sender, EventArgs e)

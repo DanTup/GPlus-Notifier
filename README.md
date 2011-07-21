@@ -3,6 +3,9 @@
 G+ Notifier ([gplusnotifier.com](http://gplusnotifier.com)) is a Windows utility that sits in the notification area and
 alerts you to notifications in the Google+ social network.
 
+![The balloon notification](http://gplusnotifier.com/Images/Balloon.png)
+![The notifications window](http://gplusnotifier.com/Images/Notifications.png)
+
 ## Download & Installation
 
 Download the latest zip file from the downloads page and extract it to a folder (eg. "My Documents\G+ Notifier\").
