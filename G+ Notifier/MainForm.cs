@@ -51,12 +51,13 @@ namespace DanTup.GPlusNotifier
 			this.WebView = WebCore.CreateWebView(128, 128);
 
 			// Load a page that contains the notification box, but isn't as heavy as the Plus site.
-			this.WebView.LoadURL("https://www.google.com/accounts/ServiceLogin?service=webupdates&btmpl=mobile&ltmpl=mobile&continue=http%3a%2f%2fwww.google.com%2fwebhp%3ftab%3dww");
 			this.WebView.CreateObject("GNotifier");
 			this.WebView.SetObjectCallback("GNotifier", "updateCount", OnUpdateNotificationCount);
 			this.WebView.DomReady += new EventHandler(WebView_DomReady);
 			this.WebView.LoadCompleted += new EventHandler(WebView_LoadCompleted);
 			this.WebView.JSConsoleMessageAdded += new JSConsoleMessageAddedEventHandler(WebView_JSConsoleMessageAdded);
+			WebCore.Update();
+			this.WebView.LoadURL("http://www.google.com/webhp?tab=ww");
 
 			// Set up the icons we'll need for the notification area.
 			var ass = Assembly.GetExecutingAssembly();
