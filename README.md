@@ -18,16 +18,16 @@ launch Google+ using your default browser (it does this via Process.Start). I wa
 as quickly as possible, but the plan is to continue developing. Please send me feature requests and bug reports and I'll
 do what I can as quickly as I can :-)
 
-* Preview of messages without launching Google+ (as per screenshot at http://gplusnotifier.com/Images/Preview.png)
- * Inline replies (like the Google-bar, either via API or rendering that iframe)
 * Auto-updating (prompt user first - don't like the idea of stealth updates from unknown devs)
 * Change to official Google+ API (when available)
 * Translate into other languages
 * Installer (Clickonce?)
 * Settings
  * Set Polling frequency (API)
- * Selection of browser to use when launching Google+ (inc. Chrome application mode)
+ * Selection of browser to use when launching Google+
+  * Support Chrome application mode
  * Add to Startup automatically
+ * Option to use full browser instead of notification window?
 
 ## How It Works
 
