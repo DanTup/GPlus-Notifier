@@ -40,6 +40,7 @@ namespace DanTup.GPlusNotifier
 			Deactivate += WebForm_Deactivate;
 
 			webView.IsDirtyChanged += OnIsDirtyChanged;
+            webView.CursorChanged += OnCursorChanged;
 			webView.LoadURL("https://m.google.com/app/plus/#~loop:view=notifications");
 			webView.Focus();
 
@@ -96,7 +97,8 @@ namespace DanTup.GPlusNotifier
 		private void LoginForm_FormClosing(object sender, FormClosingEventArgs e)
 		{
 			webView.IsDirtyChanged -= OnIsDirtyChanged;
-		}
+            webView.CursorChanged -= OnCursorChanged;
+        }
 
 		#region Events to pass-through to browser
 
@@ -115,7 +117,8 @@ namespace DanTup.GPlusNotifier
 		void WebForm_FormClosed(object sender, FormClosedEventArgs e)
 		{
 			webView.IsDirtyChanged -= OnIsDirtyChanged;
-			webView.Close();
+            webView.CursorChanged -= OnCursorChanged;
+            webView.Close();
 			this.Dispose();
 		}
 
@@ -245,6 +248,13 @@ namespace DanTup.GPlusNotifier
 			if (!webView.IsDisposed)
 				webView.InjectMouseWheel(e.Delta);
 		}
+
+        void OnCursorChanged(object sender, ChangeCursorEventArgs e) {
+            Cursor c = CursorConvertion.GetCursor(e.CursorType);
+            if (c != null) {
+                webPicture.Cursor = c;
+            }
+        }
 
 		#endregion
 

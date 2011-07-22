@@ -39,7 +39,8 @@ namespace DanTup.GPlusNotifier
 			Activated += WebForm_Activated;
 			Deactivate += WebForm_Deactivate;
 
-			webView.IsDirtyChanged += OnIsDirtyChanged;
+            webView.IsDirtyChanged += OnIsDirtyChanged;
+            webView.CursorChanged += OnCursorChanged;
 			webView.LoadURL("https://www.google.com/accounts/ServiceLogin?service=webupdates&btmpl=mobile&ltmpl=mobile&continue=http%3a%2f%2fwww.google.com%2fwebhp%3ftab%3dww");
 			webView.Focus();
 
@@ -58,7 +59,8 @@ namespace DanTup.GPlusNotifier
 		private void LoginForm_FormClosing(object sender, FormClosingEventArgs e)
 		{
 			webView.IsDirtyChanged -= OnIsDirtyChanged;
-		}
+            webView.CursorChanged -= OnCursorChanged;
+        }
 
 		#region Events to pass-through to browser
 
@@ -77,7 +79,8 @@ namespace DanTup.GPlusNotifier
 		void WebForm_FormClosed(object sender, FormClosedEventArgs e)
 		{
 			webView.IsDirtyChanged -= OnIsDirtyChanged;
-		}
+            webView.CursorChanged -= OnCursorChanged;
+        }
 
 		private void OnIsDirtyChanged(object sender, EventArgs e)
 		{
@@ -205,6 +208,13 @@ namespace DanTup.GPlusNotifier
 			if (!webView.IsDisposed)
 				webView.InjectMouseWheel(e.Delta);
 		}
+
+        void OnCursorChanged(object sender, ChangeCursorEventArgs e) {
+            Cursor c = CursorConvertion.GetCursor(e.CursorType);
+            if (c != null) {
+                browserPicture.Cursor = c;
+            }
+        }
 
 		#endregion
 

@@ -52,6 +52,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CursorConvertion.cs" />
     <Compile Include="NotificationsForm.cs">
       <SubType>Form</SubType>
     </Compile>
