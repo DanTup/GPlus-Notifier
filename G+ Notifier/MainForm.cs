@@ -138,6 +138,15 @@ namespace DanTup.GPlusNotifier
 			// Check whether we're logged in, by checking for the presence of the "gb_119" element.
 			isLoggedIn = this.WebView.ExecuteJavascriptWithResult("document.getElementById('gb_119') != null", timeoutMs: 5000).ToBoolean();
 
+			// If it failed, check again before declaring we're not logged in.
+			// TODO: This is an attempt to fix the period showing of the login form, which I suspect may be due to the
+			// call timing out, maybe due to the page reloading.
+			if (!isLoggedIn)
+			{
+				WebCore.Update();
+				isLoggedIn = this.WebView.ExecuteJavascriptWithResult("document.getElementById('gb_119') != null", timeoutMs: 5000).ToBoolean();
+			}
+
 			// If we're logged in, always cancel the login flag
 			if (isLoggedIn)
 				userHasCancelledPreviousLogin = false;
