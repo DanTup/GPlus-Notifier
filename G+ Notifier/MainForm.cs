@@ -80,7 +80,7 @@ namespace DanTup.GPlusNotifier
 			Console.Out.WriteLine(e.Message + ", " + e.Source);
 		}
 
-		// Atempt to bind the notification function once the DOM has finished initializing
+		// Attempt to bind the notification function once the DOM has finished initializing
 		void WebView_DomReady(object sender, EventArgs e)
 		{
 			BindGplusNotificationCountUpdate();
@@ -101,7 +101,7 @@ namespace DanTup.GPlusNotifier
 		}
 
 		// Handle Google Bar's "logNotificationsCountUpdate" function in our own custom callback
-		private void OnUpdateNotificationCount(object sender, AwesomiumSharp.JSCallbackEventArgs e)
+		private void OnUpdateNotificationCount(object sender, JSCallbackEventArgs e)
 		{
 			if (e.Arguments.Length == 1)
 			{

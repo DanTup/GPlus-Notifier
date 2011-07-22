@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Windows.Forms;
@@ -38,6 +39,11 @@ namespace DanTup.GPlusNotifier
 			FormClosed += WebForm_FormClosed;
 			Activated += WebForm_Activated;
 			Deactivate += WebForm_Deactivate;
+
+			// Set up binding for new windows (webView.OpenExternalLink doesn't seem to work)
+			webView.CreateObject("GNotifier");
+			webView.SetObjectCallback("GNotifier", "launchUrl", OnOpenExternalLink);
+			webView.DomReady += new EventHandler(WebView_DomReady);
 
 			webView.IsDirtyChanged += OnIsDirtyChanged;
 			webView.CursorChanged += OnCursorChanged;
@@ -100,6 +106,25 @@ namespace DanTup.GPlusNotifier
 			webView.CursorChanged -= OnCursorChanged;
 		}
 
+		// Attempt to bind the notification function once the DOM has finished initializing
+		void WebView_DomReady(object sender, EventArgs e)
+		{
+			BindGplusOpenWindow();
+		}
+
+		private void BindGplusOpenWindow()
+		{
+			// We hijack the _window function that launches new windows
+			if (!webView.IsDisposed)
+				webView.ExecuteJavascript("_window = function(a) { GNotifier.launchUrl(a) }");
+		}
+
+		void OnOpenExternalLink(object sender, JSCallbackEventArgs e)
+		{
+			if (e.Arguments.Length == 1)
+				Process.Start(e.Arguments[0].ToString());
+		}
+
 		#region Events to pass-through to browser
 
 		void WebForm_Activated(object sender, EventArgs e)
@@ -112,8 +137,10 @@ namespace DanTup.GPlusNotifier
 		{
 			if (!webView.IsDisposed)
 				webView.Unfocus();
-		}
 
+			this.Close();
+		}
+		
 		void WebForm_FormClosed(object sender, FormClosedEventArgs e)
 		{
 			webView.IsDirtyChanged -= OnIsDirtyChanged;
@@ -249,15 +276,15 @@ namespace DanTup.GPlusNotifier
 				webView.InjectMouseWheel(e.Delta);
 		}
 
-		void OnCursorChanged(object sender, ChangeCursorEventArgs e) {
+		void OnCursorChanged(object sender, ChangeCursorEventArgs e)
+		{
 			Cursor c = CursorConvertion.GetCursor(e.CursorType);
-			if (c != null) {
+			if (c != null)
+			{
 				webPicture.Cursor = c;
 			}
 		}
 
 		#endregion
-
-
 	}
 }
