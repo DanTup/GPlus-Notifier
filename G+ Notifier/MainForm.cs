@@ -40,6 +40,8 @@ namespace DanTup.GPlusNotifier
 		// If the user cancels a login, we don't want to keep popping the form up until they ask (context menu)
 		bool userHasCancelledPreviousLogin = false;
 
+		string userDataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "G+ Notifier");
+
 		public MainForm()
 		{
 			InitializeComponent();
@@ -50,8 +52,13 @@ namespace DanTup.GPlusNotifier
 			// Hide the form at startup, we don't want it to be seen (since we live in the notification area).
 			this.Hide();
 
-			// Set up the browser (make sure we save cookies to avoid logging in every time).
-			WebCoreConfig config = new WebCoreConfig { SaveCacheAndCookies = true };
+			// Set up the browser
+			WebCoreConfig config = new WebCoreConfig
+			{
+				SaveCacheAndCookies = true, // Make sure we save cookies to avoid logging in every time
+				UserDataPath = userDataPath,
+				LogPath = userDataPath
+			};
 			WebCore.Initialize(config);
 			this.WebView = WebCore.CreateWebView(128, 128);
 
@@ -247,13 +254,15 @@ namespace DanTup.GPlusNotifier
 			}
 		}
 
-		private void LaunchPlus()
+		private void ShowNotificationsForm()
 		{
 			if (notificationsForm == null || notificationsForm.IsDisposed)
 			{
 				notificationsForm = new NotificationsForm();
 				notificationsForm.Show();
 			}
+			else if (!notificationsForm.Visible)
+				notificationsForm.Show();
 		}
 
 		private void CheckForUpdates()
@@ -296,12 +305,12 @@ namespace DanTup.GPlusNotifier
 
 		private void notificationIcon_MouseDoubleClick(object sender, MouseEventArgs e)
 		{
-			LaunchPlus();
+			ShowNotificationsForm();
 		}
 
 		private void notificationIcon_BalloonTipClicked(object sender, EventArgs e)
 		{
-			LaunchPlus();
+			ShowNotificationsForm();
 		}
 
 		private void gNotifierWebsiteToolStripMenuItem_Click(object sender, EventArgs e)

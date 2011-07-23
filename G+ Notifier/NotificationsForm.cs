@@ -140,7 +140,7 @@ namespace DanTup.GPlusNotifier
 			if (!webView.IsDisposed)
 				webView.Unfocus();
 
-			this.Close();
+			this.Hide();
 		}
 
 		void WebForm_FormClosed(object sender, FormClosedEventArgs e)
