@@ -97,6 +97,9 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>XCOPY "$(SolutionDir)Lib\Awesomium\icudt42.dll" "$(TargetDir)" /i /y
+XCOPY "$(SolutionDir)Lib\Awesomium\avcodec-52.dll" "$(TargetDir)" /i /y
+XCOPY "$(SolutionDir)Lib\Awesomium\avformat-52.dll" "$(TargetDir)" /i /y
+XCOPY "$(SolutionDir)Lib\Awesomium\avutil-50.dll" "$(TargetDir)" /i /y
 XCOPY "$(SolutionDir)Lib\Awesomium\Awesomium.dll" "$(TargetDir)" /i /y
 XCOPY "$(SolutionDir)Lib\Awesomium\AwesomiumProcess.exe" "$(TargetDir)" /i /y
 XCOPY "$(SolutionDir)Lib\Awesomium\locales\en-US.dll" "$(TargetDir)locales\" /i /y</PostBuildEvent>
