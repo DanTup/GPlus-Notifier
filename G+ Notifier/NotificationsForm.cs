@@ -123,6 +123,8 @@ namespace DanTup.GPlusNotifier
 		{
 			if (e.Arguments.Length == 1)
 				Process.Start(e.Arguments[0].ToString());
+
+			this.Focus();
 		}
 
 		#region Events to pass-through to browser
@@ -140,7 +142,7 @@ namespace DanTup.GPlusNotifier
 
 			this.Close();
 		}
-		
+
 		void WebForm_FormClosed(object sender, FormClosedEventArgs e)
 		{
 			webView.IsDirtyChanged -= OnIsDirtyChanged;

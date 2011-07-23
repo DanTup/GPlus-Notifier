@@ -4,6 +4,7 @@ using System.Drawing;
 using System.IO;
 using System.Net;
 using System.Reflection;
+using System.Threading;
 using System.Windows.Forms;
 using AwesomiumSharp;
 
@@ -143,6 +144,8 @@ namespace DanTup.GPlusNotifier
 			// call timing out, maybe due to the page reloading.
 			if (!isLoggedIn)
 			{
+				WebCore.Update();
+				Thread.Sleep(500);
 				WebCore.Update();
 				isLoggedIn = this.WebView.ExecuteJavascriptWithResult("document.getElementById('gb_119') != null", timeoutMs: 5000).ToBoolean();
 			}
@@ -303,14 +306,9 @@ namespace DanTup.GPlusNotifier
 			Process.Start("http://gplusnotifier.com/");
 		}
 
-		private void gNotifierOnGoogleToolStripMenuItem_Click(object sender, EventArgs e)
+		private void feedbackSupportMenuItem_Click(object sender, EventArgs e)
 		{
-			Process.Start("https://plus.google.com/101567187775228995510");
-		}
-
-		private void dannyTuppenyOnGoogleToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			Process.Start("https://plus.google.com/116849139972638476037");
+			Process.Start("http://gplusnotifier.uservoice.com/");
 		}
 
 		private void donateToolStripMenuItem_Click(object sender, EventArgs e)
@@ -330,12 +328,6 @@ namespace DanTup.GPlusNotifier
 				CheckLogin();
 			}
 		}
-
-		private void clearCookiesToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			WebCore.ClearCookies();
-		}
-
 		private void exitToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			Application.Exit();
@@ -345,13 +337,14 @@ namespace DanTup.GPlusNotifier
 
 		private void reloadTimer_Tick(object sender, EventArgs e)
 		{
+			checkLoginTimer.Stop();
+
 			if (isLoggedIn && loginForm == null)
 				this.WebView.LoadURL("http://www.google.com/webhp?tab=ww");
-		}
 
-		private void feedbackSupportMenuItem_Click(object sender, EventArgs e)
-		{
-			Process.Start("http://gplusnotifier.uservoice.com/");
+			// Restart the login timer, in case it was the reloading of this page that was causing the intermittent
+			// showing off the login form.
+			checkLoginTimer.Start();
 		}
 	}
 }
