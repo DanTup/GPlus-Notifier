@@ -6,4 +6,4 @@
 [assembly: AssemblyProduct("G+ Notifier")]
 [assembly: AssemblyCopyright("Copyright © DanTup 2011")]
 
-[assembly: AssemblyVersion("1.2.*")]
+[assembly: AssemblyVersion("1.3.*")]
