@@ -74,6 +74,9 @@ namespace DanTup.GPlusNotifier
 			{
 				iconSome = new Icon(stream);
 			}
+
+			// Force a check for updates
+			CheckForUpdates();
 		}
 
 		void WebView_JSConsoleMessageAdded(object sender, JSConsoleMessageEventArgs e)
