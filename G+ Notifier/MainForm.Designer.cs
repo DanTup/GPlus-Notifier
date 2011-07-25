@@ -40,6 +40,8 @@
 			this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.checkForUpdates = new System.Windows.Forms.Timer(this.components);
 			this.checkForUpdatesWorker = new System.ComponentModel.BackgroundWorker();
+			this.versionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
 			this.notificatinIconMenu.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -55,6 +57,8 @@
 			// notificatinIconMenu
 			// 
 			this.notificatinIconMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.versionToolStripMenuItem,
+            this.toolStripSeparator2,
             this.gNotifierWebsiteToolStripMenuItem,
             this.feedbackSupportToolStripMenuItem,
             this.donateToolStripMenuItem,
@@ -62,7 +66,7 @@
             this.loginToolStripMenuItem,
             this.exitToolStripMenuItem});
 			this.notificatinIconMenu.Name = "notificatinIconMenu";
-			this.notificatinIconMenu.Size = new System.Drawing.Size(183, 142);
+			this.notificatinIconMenu.Size = new System.Drawing.Size(183, 170);
 			// 
 			// gNotifierWebsiteToolStripMenuItem
 			// 
@@ -115,6 +119,18 @@
 			this.checkForUpdatesWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.checkForUpdatesWorker_DoWork);
 			this.checkForUpdatesWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.checkForUpdatesWorker_RunWorkerCompleted);
 			// 
+			// versionToolStripMenuItem
+			// 
+			this.versionToolStripMenuItem.Enabled = false;
+			this.versionToolStripMenuItem.Name = "versionToolStripMenuItem";
+			this.versionToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
+			this.versionToolStripMenuItem.Text = "G+ Notifier v0.0";
+			// 
+			// toolStripSeparator2
+			// 
+			this.toolStripSeparator2.Name = "toolStripSeparator2";
+			this.toolStripSeparator2.Size = new System.Drawing.Size(179, 6);
+			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -144,5 +160,7 @@
 		private System.Windows.Forms.ToolStripMenuItem gNotifierWebsiteToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem loginToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem feedbackSupportToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem versionToolStripMenuItem;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
 	}
 }

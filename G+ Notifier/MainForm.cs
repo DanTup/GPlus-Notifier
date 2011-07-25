@@ -43,7 +43,11 @@ namespace DanTup.GPlusNotifier
 		// Default notifiers (this will be tied to config in some way)
 		ConcurrentBag<INotifier> notifiers = new ConcurrentBag<INotifier>();
 
+		// Where to store the Awesomium data
 		string userDataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "G+ Notifier");
+
+		// Current app version
+		Version currentVersion = Assembly.GetExecutingAssembly().GetName().Version;
 
 		public MainForm()
 		{
@@ -61,6 +65,9 @@ namespace DanTup.GPlusNotifier
 			// Try the Snarl notifier - this will test on a background thread (to avoid locking the UI thread) and add
 			// itself to the collection if it's found and registered.
 			SnarlNotifier.TryRegister(notifiers);
+
+			// Set version umber in the context menu
+			versionToolStripMenuItem.Text = "G+ Notifier " + currentVersion.ToString(2);
 
 			// Set up the browser
 			WebCoreConfig config = new WebCoreConfig
@@ -331,7 +338,6 @@ namespace DanTup.GPlusNotifier
 			if (e.Result != null)
 			{
 				Version latestVersion = Version.Parse((string)e.Result);
-				Version currentVersion = Assembly.GetExecutingAssembly().GetName().Version;
 
 				if (latestVersion > currentVersion)
 				{
