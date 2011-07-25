@@ -19,12 +19,7 @@ namespace DanTup.GPlusNotifier
 		public LoginForm()
 		{
 			InitializeComponent();
-		}
-
-		public LoginForm(WebView webView)
-			: this()
-		{
-			this.webView = webView;
+			this.webView = WebCore.CreateWebView(browserPicture.Width, browserPicture.Height);
 
 			Resize += WebForm_Resize;
 			browserPicture.MouseMove += WebForm_MouseMove;
@@ -35,6 +30,7 @@ namespace DanTup.GPlusNotifier
 			this.KeyUp += WebForm_KeyUp;
 			this.KeyPress += WebForm_KeyPress;
 			this.webView.KeyboardFocusChanged += new KeyboardFocusChangedEventHandler(webView_KeyboardFocusChanged);
+			this.webView.DomReady += new EventHandler(webView_DomReady);
 			FormClosed += WebForm_FormClosed;
 			Activated += WebForm_Activated;
 			Deactivate += WebForm_Deactivate;
@@ -49,6 +45,12 @@ namespace DanTup.GPlusNotifier
 
 			browserPicture.Select();
 			browserPicture.Focus();
+		}
+
+		void webView_DomReady(object sender, EventArgs e)
+		{
+			if (PageChanged != null)
+				PageChanged(this, e);
 		}
 
 		void webView_KeyboardFocusChanged(object sender, ChangeKeyboardFocusEventArgs e)
@@ -80,6 +82,7 @@ namespace DanTup.GPlusNotifier
 		{
 			webView.IsDirtyChanged -= OnIsDirtyChanged;
 			webView.CursorChanged -= OnCursorChanged;
+			webView.Close();
 		}
 
 		private void OnIsDirtyChanged(object sender, EventArgs e)
@@ -218,6 +221,7 @@ namespace DanTup.GPlusNotifier
 
 		#endregion
 
+		public event System.EventHandler PageChanged;
 
 	}
 }

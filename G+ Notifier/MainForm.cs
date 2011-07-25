@@ -69,7 +69,29 @@ namespace DanTup.GPlusNotifier
 			this.WebView.LoadCompleted += new EventHandler(WebView_LoadCompleted);
 			this.WebView.JSConsoleMessageAdded += new JSConsoleMessageAddedEventHandler(WebView_JSConsoleMessageAdded);
 			WebCore.Update();
-			this.WebView.LoadURL("http://www.google.com/webhp?tab=ww");
+
+			/**
+			 * We use a fake URL because:
+			 * A) We want the page to load quickly
+			 * B) We are only loading this URL to spoof cross-domain security restrictions
+			 * 
+			 * We will be making AJAX calls from within the 404 page served by Google
+			 * to make it seem as if the API calls are coming from an actual GPlus page.
+			 * Hacky? Yes. Does it work? Definitely. :-)
+			 **/
+			this.WebView.LoadURL("http://plus.google.com/foobar/fakeurl");
+
+			// We display the login form immediately if we don't detect the HSID cookie
+			string googleCookies = WebCore.GetCookies("http://www.google.com", false);
+			if (!googleCookies.Contains("HSID="))
+			{
+				isLoggedIn = false;
+				DisplayLoginForm();
+			}
+			else
+			{
+				notificationIcon.ShowBalloonTip(3000, "Logging In", "Attempting to login to Google+, please wait...", ToolTipIcon.None);
+			}
 
 			// Set up the icons we'll need for the notification area.
 			var ass = Assembly.GetExecutingAssembly();
@@ -94,97 +116,128 @@ namespace DanTup.GPlusNotifier
 		// Attempt to bind the notification function once the DOM has finished initializing
 		void WebView_DomReady(object sender, EventArgs e)
 		{
-			BindGplusNotificationCountUpdate();
+			BindNotificationScripts();
 		}
 
 		// For extra measure, we'll attempt to bind the function at the end of each page load
 		void WebView_LoadCompleted(object sender, EventArgs e)
 		{
-			BindGplusNotificationCountUpdate();
+			BindNotificationScripts();
 		}
 
-		private void BindGplusNotificationCountUpdate()
+		private void BindNotificationScripts()
 		{
-			// We hijack one of the Google Bar's functions and redirect it to our own custom callback
-			// so that we know whenever the notification count changes
+			// We make AJAX requests directly to Google Plus' internal API from an
+			// empty page served on the http://plus.google.com domain.
+			// We poll the API every 5 seconds for the notification count.
+			// If we receive a bad status code, we assume we are not logged in.
 			if (!this.WebView.IsDisposed)
-				this.WebView.ExecuteJavascript("window.gbar.logNotificationsCountUpdate = function(a) { GNotifier.updateCount(a) }");
+				this.WebView.ExecuteJavascript(@"
+					if(typeof window.xhr == 'undefined') { 
+						window.notify = function(x) { 
+							if(window.count != x) { window.count = x; GNotifier.updateCount(x); } 
+						}; 
+						window.xhr = new XMLHttpRequest();
+						window.tick = function() {
+							xhr.open('get','https://plus.google.com/u/0/_/n/guc'); 
+							xhr.onreadystatechange = function() { 
+								if(xhr.readyState == 4) { 
+									if(xhr.status != 200) { 
+										notify(-1); 
+									} 
+									else { 
+										var result = JSON.parse(xhr.responseText.substr(4)); 
+										if(typeof result != 'object') 
+											notify(-2); 
+										else 
+											notify(result[1]); 
+									}
+								} 
+							}; 
+							xhr.send(null);
+						};
+						window.setInterval('tick()', 5000);
+					}; 
+					tick();"); // We fire off one tick immediately
 		}
 
-		// Handle Google Bar's "logNotificationsCountUpdate" function in our own custom callback
+		private void DisplayLoginForm()
+		{
+			if (!isLoggedIn && loginForm == null && !userHasCancelledPreviousLogin)
+			{
+				loginForm = new LoginForm();
+				loginForm.FormClosed += LoginFormClosed;
+				loginForm.PageChanged += new EventHandler(loginForm_PageChanged);
+				loginForm.Show();
+			}
+		}
+
 		private void OnUpdateNotificationCount(object sender, JSCallbackEventArgs e)
 		{
 			if (e.Arguments.Length == 1)
 			{
 				int notificationCount = e.Arguments[0].ToInteger();
 
-				// Update the icon with the number of messages.
-				UpdateIcon(notificationCount);
-
-				Console.Out.WriteLine("Notification Count is now: " + notificationCount);
-
-				// Show a balloon notification if there are some messages.
-				// Only show if it's been at least 60 mins or the count has changed.
-				if ((notificationCount > 0)
-					&& ((DateTime.Now - lastShownBalloon).TotalMinutes > 60 || lastNotificationCount != notificationCount))
+				if (notificationCount == -1)
 				{
-					notificationIcon.ShowBalloonTip(5000, "New Notifications", "You have " + notificationCount + " unread notifications in Google+!", ToolTipIcon.None);
-					lastShownBalloon = DateTime.Now;
+					isLoggedIn = false;
+					DisplayLoginForm();
+				}
+				else if (notificationCount == -2)
+				{
+					// This occurs whenever we receive an invalid response from the
+					// server (either empty or malformed response).
+					isLoggedIn = false;
+					notificationIcon.ShowBalloonTip(5000, "Error", "There was an error retrieving notifications from Google+.", ToolTipIcon.Error);
+				}
+				else
+				{
+					isLoggedIn = true;
+
+					if (isLoggedIn && loginForm != null)
+					{
+						loginForm.Hide();
+						loginForm.Close();
+						loginForm = null;
+					}
+
+					// Update the icon with the number of messages.
+					UpdateIcon(notificationCount);
+
+					Console.Out.WriteLine("Notification Count is now: " + notificationCount);
+
+					// Show a balloon notification if there are some messages.
+					// Only show if it's been at least 60 mins or the count has changed.
+					if ((notificationCount > 0)
+						&& ((DateTime.Now - lastShownBalloon).TotalMinutes > 60 || lastNotificationCount != notificationCount))
+					{
+						notificationIcon.ShowBalloonTip(5000, "New Notifications", "You have " + notificationCount + " unread notifications in Google+!", ToolTipIcon.Info);
+						lastShownBalloon = DateTime.Now;
+					}
+					else if (notificationCount == 0 && lastShownBalloon == DateTime.MinValue)
+					{
+						notificationIcon.ShowBalloonTip(5000, "No Notifications", "You have no unread notifications in Google+.", ToolTipIcon.Info);
+						lastShownBalloon = DateTime.Now;
+					}
+
 					lastNotificationCount = notificationCount;
 				}
-				else if (notificationCount == 0 && lastShownBalloon == DateTime.MinValue)
-				{
-					notificationIcon.ShowBalloonTip(5000, "No Notifications", "You have no unread notifications in Google+.", ToolTipIcon.None);
-					lastShownBalloon = DateTime.Now;
-					lastNotificationCount = notificationCount;
-				}
+
+				loginToolStripMenuItem.Text = isLoggedIn ? "&Logout" : "&Login";
 			}
 		}
 
-		private void CheckLogin()
+		void loginForm_PageChanged(object sender, EventArgs e)
 		{
-			if (!this.WebView.IsDomReady)
-				return;
-
-			// Check whether we're logged in, by checking for the presence of the "gb_119" element.
-			isLoggedIn = this.WebView.ExecuteJavascriptWithResult("document.getElementById('gb_119') != null", timeoutMs: 5000).ToBoolean();
-
-			// If it failed, check again before declaring we're not logged in.
-			// TODO: This is an attempt to fix the period showing of the login form, which I suspect may be due to the
-			// call timing out, maybe due to the page reloading.
-			if (!isLoggedIn)
-			{
-				WebCore.Update();
-				Thread.Sleep(500);
-				WebCore.Update();
-				isLoggedIn = this.WebView.ExecuteJavascriptWithResult("document.getElementById('gb_119') != null", timeoutMs: 5000).ToBoolean();
-			}
-
-			// If we're logged in, always cancel the login flag
-			if (isLoggedIn)
-				userHasCancelledPreviousLogin = false;
-
-			// If we're not logged in, not showing the login form and user has not cancelled a previous login.
-			if (!isLoggedIn && loginForm == null && !userHasCancelledPreviousLogin)
-			{
-				loginForm = new LoginForm(this.WebView);
-				loginForm.FormClosed += LoginFormClosed;
-				loginForm.Show();
-			}
-
-			// If we're logged in and the login form is visible, hide/close it.
-			if (isLoggedIn && loginForm != null)
-			{
-				loginForm.Hide();
-				loginForm.Close();
-				loginForm = null;
-			}
+			// We force another update whenever the login form's page changes
+			BindNotificationScripts();
 		}
 
 		void LoginFormClosed(object sender, FormClosedEventArgs e)
 		{
 			userHasCancelledPreviousLogin = true;
 			loginForm.FormClosed -= LoginFormClosed;
+			loginForm.PageChanged -= loginForm_PageChanged;
 			loginForm = null;
 		}
 
@@ -199,22 +252,6 @@ namespace DanTup.GPlusNotifier
 			// Cleanly shut down the browser (presumably this is when it persists cookies).
 			this.WebView.Close();
 			WebCore.Shutdown();
-		}
-
-		/// <summary>
-		/// Fired when we need to check for new notifications. NOTE: Although this triggers frequently, it does not
-		/// actually hit Google's servers to check - that is done automatically by Google's javascript in the browser
-		/// at the frequency they have determined is ok. This timer simply reads from the browser and shows it in the
-		/// icon.
-		/// </summary>
-		private void checkNotificationsTimer_Tick(object sender, EventArgs e)
-		{
-			checkLoginTimer.Stop();
-
-			CheckLogin();
-			loginToolStripMenuItem.Text = isLoggedIn ? "&Logout" : "&Login";
-
-			checkLoginTimer.Start();
 		}
 
 		private void checkForUpdates_Tick(object sender, EventArgs e)
@@ -335,9 +372,12 @@ namespace DanTup.GPlusNotifier
 				// We will log the user out by clearing cookies
 				WebCore.ClearCookies();
 				isLoggedIn = false;
+				// We set window.count to an arbitrary value to invalidate it and force an update
+				this.WebView.ExecuteJavascript("window.count = -5");
+				// Force an update by calling 'tick()' immediately
+				BindNotificationScripts();
+				lastShownBalloon = DateTime.MinValue;
 				userHasCancelledPreviousLogin = false;
-
-				CheckLogin();
 			}
 		}
 		private void exitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -346,17 +386,5 @@ namespace DanTup.GPlusNotifier
 		}
 
 		#endregion
-
-		private void reloadTimer_Tick(object sender, EventArgs e)
-		{
-			checkLoginTimer.Stop();
-
-			if (isLoggedIn && loginForm == null)
-				this.WebView.LoadURL("http://www.google.com/webhp?tab=ww");
-
-			// Restart the login timer, in case it was the reloading of this page that was causing the intermittent
-			// showing off the login form.
-			checkLoginTimer.Start();
-		}
 	}
 }
