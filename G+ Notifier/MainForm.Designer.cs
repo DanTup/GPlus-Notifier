@@ -50,7 +50,7 @@
 			this.notificationIcon.Text = "G+ Notifier";
 			this.notificationIcon.Visible = true;
 			this.notificationIcon.BalloonTipClicked += new System.EventHandler(this.notificationIcon_BalloonTipClicked);
-			this.notificationIcon.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.notificationIcon_MouseDoubleClick);
+			this.notificationIcon.MouseClick += new System.Windows.Forms.MouseEventHandler(this.notificationIcon_MouseClick);
 			// 
 			// notificatinIconMenu
 			// 

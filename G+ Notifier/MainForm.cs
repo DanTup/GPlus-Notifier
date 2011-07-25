@@ -300,15 +300,18 @@ namespace DanTup.GPlusNotifier
 			}
 		}
 
-		private void ShowNotificationsForm()
+		private void ShowNotificationsForm(bool hideIfAlreadyVisible)
 		{
 			if (notificationsForm == null || notificationsForm.IsDisposed)
 			{
 				notificationsForm = new NotificationsForm();
 				notificationsForm.Show();
+				notificationsForm.Activate();
 			}
 			else if (!notificationsForm.Visible)
 				notificationsForm.Show();
+			else if (hideIfAlreadyVisible)
+				notificationsForm.Hide();
 		}
 
 		private void CheckForUpdates()
@@ -373,14 +376,19 @@ namespace DanTup.GPlusNotifier
 
 		#region Context Menu & Icon event handlers
 
-		private void notificationIcon_MouseDoubleClick(object sender, MouseEventArgs e)
+		private void notificationIcon_MouseClick(object sender, MouseEventArgs e)
 		{
-			ShowNotificationsForm();
+			if (e.Button == MouseButtons.Left)
+			{
+				ShowNotificationsForm(true);
+			}
+			else if (e.Button == MouseButtons.Middle)
+				ForceCheck();
 		}
 
 		private void notificationIcon_BalloonTipClicked(object sender, EventArgs e)
 		{
-			ShowNotificationsForm();
+			ShowNotificationsForm(false);
 		}
 
 		private void gNotifierWebsiteToolStripMenuItem_Click(object sender, EventArgs e)
@@ -405,12 +413,9 @@ namespace DanTup.GPlusNotifier
 				// We will log the user out by clearing cookies
 				WebCore.ClearCookies();
 				isLoggedIn = false;
-				// We set window.count to an arbitrary value to invalidate it and force an update
-				this.WebView.ExecuteJavascript("window.count = -5");
-				// Force an update by calling 'tick()' immediately
-				BindNotificationScripts();
-				lastShownBalloon = DateTime.MinValue;
-				userHasCancelledPreviousLogin = false;
+
+				// Force a check
+				ForceCheck();
 			}
 		}
 		private void exitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -419,5 +424,16 @@ namespace DanTup.GPlusNotifier
 		}
 
 		#endregion
+
+		private void ForceCheck()
+		{
+			// We set window.count to an arbitrary value to invalidate it and force an update
+			this.WebView.ExecuteJavascript("window.count = -5");
+
+			// Force an update by calling 'tick()' immediately
+			BindNotificationScripts();
+			lastShownBalloon = DateTime.MinValue;
+			userHasCancelledPreviousLogin = false;
+		}
 	}
 }
