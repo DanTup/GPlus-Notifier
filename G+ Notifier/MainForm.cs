@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
@@ -39,6 +40,9 @@ namespace DanTup.GPlusNotifier
 		// If the user cancels a login, we don't want to keep popping the form up until they ask (context menu)
 		bool userHasCancelledPreviousLogin = false;
 
+		// Default notifiers (this will be tied to config in some way)
+		List<INotifier> notifiers = new List<INotifier>();
+
 		string userDataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "G+ Notifier");
 
 		public MainForm()
@@ -50,6 +54,12 @@ namespace DanTup.GPlusNotifier
 		{
 			// Hide the form at startup, we don't want it to be seen (since we live in the notification area).
 			this.Hide();
+
+			// Set up notifiers
+			notifiers.Add(new WindowsBalloonNotifier(notificationIcon));
+			// Snarl support basically works - needs some refactoring/commenting/etc. and testing
+			// Also needs an option to turn on/off (maybe we can detect it automatically?)
+			//notifiers.Add(new SnarlNotifier());
 
 			// Set up the browser
 			WebCoreConfig config = new WebCoreConfig
@@ -89,7 +99,7 @@ namespace DanTup.GPlusNotifier
 			}
 			else
 			{
-				notificationIcon.ShowBalloonTip(3000, "Logging In", "Attempting to login to Google+, please wait...", ToolTipIcon.None);
+				SendStartupSummary(3, "Logging In", "Attempting to login to Google+, please wait...");
 			}
 
 			// Set up the icons we'll need for the notification area.
@@ -187,7 +197,7 @@ namespace DanTup.GPlusNotifier
 					// This occurs whenever we receive an invalid response from the
 					// server (either empty or malformed response).
 					isLoggedIn = false;
-					notificationIcon.ShowBalloonTip(5000, "Error", "There was an error retrieving notifications from Google+.", ToolTipIcon.Error);
+					SendErrorNotification(5, "Error", "There was an error retrieving notifications from Google+.");
 				}
 				else
 				{
@@ -210,12 +220,12 @@ namespace DanTup.GPlusNotifier
 					if ((notificationCount > 0)
 						&& ((DateTime.Now - lastShownBalloon).TotalMinutes > 60 || lastNotificationCount != notificationCount))
 					{
-						notificationIcon.ShowBalloonTip(5000, "New Notifications", "You have " + notificationCount + " unread notifications in Google+!", ToolTipIcon.Info);
+						SendNewMessagesNotification(5, "New Notifications", "You have " + notificationCount + " unread notifications in Google+!");
 						lastShownBalloon = DateTime.Now;
 					}
 					else if (notificationCount == 0 && lastShownBalloon == DateTime.MinValue)
 					{
-						notificationIcon.ShowBalloonTip(5000, "No Notifications", "You have no unread notifications in Google+.", ToolTipIcon.Info);
+						SendNewMessagesNotification(5, "No Notifications", "You have no unread notifications in Google+.");
 						lastShownBalloon = DateTime.Now;
 					}
 
@@ -329,12 +339,36 @@ namespace DanTup.GPlusNotifier
 						currentVersion,
 						latestVersion
 						);
-					notificationIcon.ShowBalloonTip(50000, "G+ Notifier Update Available", message, ToolTipIcon.None);
+					SendNewVersionNotification(5, "G+ Notifier Update Available", message);
 
 					// Also update text on the context menu.
 					gNotifierWebsiteToolStripMenuItem.Text = "Update available! " + gNotifierWebsiteToolStripMenuItem.Text;
 				}
 			}
+		}
+
+		private void SendErrorNotification(int timeoutSeconds, string title, string message)
+		{
+			foreach (var notifier in notifiers)
+				notifier.SendErrorNotification(timeoutSeconds, title, message);
+		}
+
+		private void SendNewVersionNotification(int timeoutSeconds, string title, string message)
+		{
+			foreach (var notifier in notifiers)
+				notifier.SendNewVersionNotification(timeoutSeconds, title, message);
+		}
+
+		private void SendStartupSummary(int timeoutSeconds, string title, string message)
+		{
+			foreach (var notifier in notifiers)
+				notifier.SendStartupSummary(timeoutSeconds, title, message);
+		}
+
+		private void SendNewMessagesNotification(int timeoutSeconds, string title, string message)
+		{
+			foreach (var notifier in notifiers)
+				notifier.SendNewMessagesNotification(timeoutSeconds, title, message);
 		}
 
 		#region Context Menu & Icon event handlers
