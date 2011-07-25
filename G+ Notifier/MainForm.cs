@@ -4,7 +4,6 @@ using System.Drawing;
 using System.IO;
 using System.Net;
 using System.Reflection;
-using System.Threading;
 using System.Windows.Forms;
 using AwesomiumSharp;
 
@@ -129,7 +128,7 @@ namespace DanTup.GPlusNotifier
 		{
 			// We make AJAX requests directly to Google Plus' internal API from an
 			// empty page served on the http://plus.google.com domain.
-			// We poll the API every 5 seconds for the notification count.
+			// We poll the API every 30 seconds for the notification count.
 			// If we receive a bad status code, we assume we are not logged in.
 			if (!this.WebView.IsDisposed)
 				this.WebView.ExecuteJavascript(@"
@@ -156,7 +155,7 @@ namespace DanTup.GPlusNotifier
 							}; 
 							xhr.send(null);
 						};
-						window.setInterval('tick()', 5000);
+						window.setInterval('tick()', 30000);
 					}; 
 					tick();"); // We fire off one tick immediately
 		}
