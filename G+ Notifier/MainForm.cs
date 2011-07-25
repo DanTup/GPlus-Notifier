@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
@@ -41,7 +41,7 @@ namespace DanTup.GPlusNotifier
 		bool userHasCancelledPreviousLogin = false;
 
 		// Default notifiers (this will be tied to config in some way)
-		List<INotifier> notifiers = new List<INotifier>();
+		ConcurrentBag<INotifier> notifiers = new ConcurrentBag<INotifier>();
 
 		string userDataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "G+ Notifier");
 
@@ -57,9 +57,10 @@ namespace DanTup.GPlusNotifier
 
 			// Set up notifiers
 			notifiers.Add(new WindowsBalloonNotifier(notificationIcon));
-			// Snarl support basically works - needs some refactoring/commenting/etc. and testing
-			// Also needs an option to turn on/off (maybe we can detect it automatically?)
-			//notifiers.Add(new SnarlNotifier());
+
+			// Try the Snarl notifier - this will test on a background thread (to avoid locking the UI thread) and add
+			// itself to the collection if it's found and registered.
+			SnarlNotifier.TryRegister(notifiers);
 
 			// Set up the browser
 			WebCoreConfig config = new WebCoreConfig
@@ -97,10 +98,6 @@ namespace DanTup.GPlusNotifier
 				isLoggedIn = false;
 				DisplayLoginForm();
 			}
-			else
-			{
-				SendStartupSummary(3, "Logging In", "Attempting to login to Google+, please wait...");
-			}
 
 			// Set up the icons we'll need for the notification area.
 			var ass = Assembly.GetExecutingAssembly();
@@ -119,7 +116,7 @@ namespace DanTup.GPlusNotifier
 
 		void WebView_JSConsoleMessageAdded(object sender, JSConsoleMessageEventArgs e)
 		{
-			Console.Out.WriteLine(e.Message + ", " + e.Source);
+			Console.WriteLine(e.Message + ", " + e.Source);
 		}
 
 		// Attempt to bind the notification function once the DOM has finished initializing
@@ -213,7 +210,7 @@ namespace DanTup.GPlusNotifier
 					// Update the icon with the number of messages.
 					UpdateIcon(notificationCount);
 
-					Console.Out.WriteLine("Notification Count is now: " + notificationCount);
+					Console.WriteLine("Notification Count is now: " + notificationCount);
 
 					// Show a balloon notification if there are some messages.
 					// Only show if it's been at least 60 mins or the count has changed.
@@ -359,19 +356,13 @@ namespace DanTup.GPlusNotifier
 		private void SendNewVersionNotification(int timeoutSeconds, string title, string message)
 		{
 			foreach (var notifier in notifiers)
-				notifier.SendNewVersionNotification(timeoutSeconds, title, message);
-		}
-
-		private void SendStartupSummary(int timeoutSeconds, string title, string message)
-		{
-			foreach (var notifier in notifiers)
-				notifier.SendStartupSummary(timeoutSeconds, title, message);
+				notifier.SendNewVersionNotification(title, message);
 		}
 
 		private void SendNewMessagesNotification(int timeoutSeconds, string title, string message)
 		{
 			foreach (var notifier in notifiers)
-				notifier.SendNewMessagesNotification(timeoutSeconds, title, message);
+				notifier.SendMessageCountNotification(timeoutSeconds, title, message);
 		}
 
 		#region Context Menu & Icon event handlers
