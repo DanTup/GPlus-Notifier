@@ -22,9 +22,9 @@ namespace DanTup.GPlusNotifier
 
 		// Used for drawing the number on the icon.
 		Brush brush = new SolidBrush(Color.WhiteSmoke);
-		Font font = new Font("Segoe UI", 10F, FontStyle.Bold);
+		Font font = new Font("Segoe UI", 9F, FontStyle.Bold);
 		PointF badgePosition = new PointF(2.0f, -1f);
-		Size badgeOffset = new Size(1, 1);
+		Size badgeOffset = new Size(2, 1);
 		LoginForm loginForm;
 		NotificationsForm notificationsForm;
 
