@@ -224,7 +224,7 @@ namespace DanTup.GPlusNotifier
 					if ((notificationCount > 0)
 						&& ((DateTime.Now - lastShownBalloon).TotalMinutes > 60 || lastNotificationCount != notificationCount))
 					{
-						SendNewMessagesNotification(5, "New Notifications", "You have " + notificationCount + " unread notifications in Google+!");
+						SendNewMessagesNotification(5, "New Notifications", "You have " + notificationCount + " unread notification" + (notificationCount == 1 ? "" : "s") + " in Google+!");
 						lastShownBalloon = DateTime.Now;
 					}
 					else if (notificationCount == 0 && lastShownBalloon == DateTime.MinValue)
