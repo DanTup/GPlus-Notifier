@@ -32,6 +32,8 @@
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
 			this.notificationIcon = new System.Windows.Forms.NotifyIcon(this.components);
 			this.notificatinIconMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.versionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
 			this.gNotifierWebsiteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.feedbackSupportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.donateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -40,8 +42,7 @@
 			this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.checkForUpdates = new System.Windows.Forms.Timer(this.components);
 			this.checkForUpdatesWorker = new System.ComponentModel.BackgroundWorker();
-			this.versionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+			this.launchGoogleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.notificatinIconMenu.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -63,10 +64,23 @@
             this.feedbackSupportToolStripMenuItem,
             this.donateToolStripMenuItem,
             this.toolStripSeparator1,
+            this.launchGoogleToolStripMenuItem,
             this.loginToolStripMenuItem,
             this.exitToolStripMenuItem});
 			this.notificatinIconMenu.Name = "notificatinIconMenu";
-			this.notificatinIconMenu.Size = new System.Drawing.Size(183, 170);
+			this.notificatinIconMenu.Size = new System.Drawing.Size(183, 192);
+			// 
+			// versionToolStripMenuItem
+			// 
+			this.versionToolStripMenuItem.Enabled = false;
+			this.versionToolStripMenuItem.Name = "versionToolStripMenuItem";
+			this.versionToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
+			this.versionToolStripMenuItem.Text = "G+ Notifier v0.0";
+			// 
+			// toolStripSeparator2
+			// 
+			this.toolStripSeparator2.Name = "toolStripSeparator2";
+			this.toolStripSeparator2.Size = new System.Drawing.Size(179, 6);
 			// 
 			// gNotifierWebsiteToolStripMenuItem
 			// 
@@ -119,17 +133,13 @@
 			this.checkForUpdatesWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.checkForUpdatesWorker_DoWork);
 			this.checkForUpdatesWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.checkForUpdatesWorker_RunWorkerCompleted);
 			// 
-			// versionToolStripMenuItem
+			// launchGoogleToolStripMenuItem
 			// 
-			this.versionToolStripMenuItem.Enabled = false;
-			this.versionToolStripMenuItem.Name = "versionToolStripMenuItem";
-			this.versionToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
-			this.versionToolStripMenuItem.Text = "G+ Notifier v0.0";
-			// 
-			// toolStripSeparator2
-			// 
-			this.toolStripSeparator2.Name = "toolStripSeparator2";
-			this.toolStripSeparator2.Size = new System.Drawing.Size(179, 6);
+			this.launchGoogleToolStripMenuItem.Name = "launchGoogleToolStripMenuItem";
+			this.launchGoogleToolStripMenuItem.ShortcutKeyDisplayString = "";
+			this.launchGoogleToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
+			this.launchGoogleToolStripMenuItem.Text = "Launch &Google+";
+			this.launchGoogleToolStripMenuItem.Click += new System.EventHandler(this.launchGoogleToolStripMenuItem_Click);
 			// 
 			// MainForm
 			// 
@@ -162,5 +172,6 @@
 		private System.Windows.Forms.ToolStripMenuItem feedbackSupportToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem versionToolStripMenuItem;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+		private System.Windows.Forms.ToolStripMenuItem launchGoogleToolStripMenuItem;
 	}
 }

@@ -432,5 +432,10 @@ namespace DanTup.GPlusNotifier
 			lastShownBalloon = DateTime.MinValue;
 			userHasCancelledPreviousLogin = false;
 		}
+
+		private void launchGoogleToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			Process.Start("http://plus.google.com/");
+		}
 	}
 }
