@@ -43,6 +43,8 @@
 			this.checkForUpdates = new System.Windows.Forms.Timer(this.components);
 			this.checkForUpdatesWorker = new System.ComponentModel.BackgroundWorker();
 			this.launchGoogleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.twitterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.notificatinIconMenu.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -62,13 +64,15 @@
             this.toolStripSeparator2,
             this.gNotifierWebsiteToolStripMenuItem,
             this.feedbackSupportToolStripMenuItem,
+            this.twitterToolStripMenuItem,
             this.donateToolStripMenuItem,
             this.toolStripSeparator1,
             this.launchGoogleToolStripMenuItem,
             this.loginToolStripMenuItem,
+            this.aboutToolStripMenuItem,
             this.exitToolStripMenuItem});
 			this.notificatinIconMenu.Name = "notificatinIconMenu";
-			this.notificatinIconMenu.Size = new System.Drawing.Size(183, 192);
+			this.notificatinIconMenu.Size = new System.Drawing.Size(183, 236);
 			// 
 			// versionToolStripMenuItem
 			// 
@@ -101,6 +105,7 @@
 			this.donateToolStripMenuItem.Name = "donateToolStripMenuItem";
 			this.donateToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
 			this.donateToolStripMenuItem.Text = "D&onate";
+			this.donateToolStripMenuItem.Visible = false;
 			this.donateToolStripMenuItem.Click += new System.EventHandler(this.donateToolStripMenuItem_Click);
 			// 
 			// toolStripSeparator1
@@ -141,6 +146,20 @@
 			this.launchGoogleToolStripMenuItem.Text = "Launch &Google+";
 			this.launchGoogleToolStripMenuItem.Click += new System.EventHandler(this.launchGoogleToolStripMenuItem_Click);
 			// 
+			// aboutToolStripMenuItem
+			// 
+			this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
+			this.aboutToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
+			this.aboutToolStripMenuItem.Text = "&About";
+			this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
+			// 
+			// twitterToolStripMenuItem
+			// 
+			this.twitterToolStripMenuItem.Name = "twitterToolStripMenuItem";
+			this.twitterToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
+			this.twitterToolStripMenuItem.Text = "&Twitter";
+			this.twitterToolStripMenuItem.Click += new System.EventHandler(this.twitterToolStripMenuItem_Click);
+			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -173,5 +192,7 @@
 		private System.Windows.Forms.ToolStripMenuItem versionToolStripMenuItem;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
 		private System.Windows.Forms.ToolStripMenuItem launchGoogleToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem twitterToolStripMenuItem;
 	}
 }

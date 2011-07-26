@@ -403,6 +403,21 @@ namespace DanTup.GPlusNotifier
 			Process.Start("http://gplusnotifier.com/Donate");
 		}
 
+		private void launchGoogleToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			Process.Start("http://plus.google.com/");
+		}
+
+		private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			new AboutForm().ShowDialog();
+		}
+
+		private void twitterToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			Process.Start("http://twitter.com/GPlusNotifier");
+		}
+
 		private void loginToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			if (loginForm == null)
@@ -431,11 +446,6 @@ namespace DanTup.GPlusNotifier
 			BindNotificationScripts();
 			lastShownBalloon = DateTime.MinValue;
 			userHasCancelledPreviousLogin = false;
-		}
-
-		private void launchGoogleToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			Process.Start("http://plus.google.com/");
 		}
 	}
 }
