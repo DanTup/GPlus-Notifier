@@ -22,9 +22,8 @@ namespace DanTup.GPlusNotifier
 
 		// Used for drawing the number on the icon.
 		Brush brush = new SolidBrush(Color.WhiteSmoke);
-		Font font = new Font("Segoe UI", 9F, FontStyle.Bold);
-		PointF badgePosition = new PointF(2.0f, -1f);
-		Size badgeOffset = new Size(2, 1);
+		Font font = new Font("Segoe UI", 10F, FontStyle.Bold);
+		PointF iconCenter = new PointF(8f, 9f); // Offset slightly to make it look better :/
 		LoginForm loginForm;
 		NotificationsForm notificationsForm;
 
@@ -293,9 +292,19 @@ namespace DanTup.GPlusNotifier
 				using (var bmp = baseIcon.ToBitmap())
 				using (var img = Graphics.FromImage(bmp))
 				{
+					// Decide what to display
 					var badge = notificationCount > 9 ? "9+" : notificationCount.ToString();
-					var pos = notificationCount > 9 ? badgePosition - new SizeF(4, 0) : badgePosition;
+
+					// Calculate the size of the text so we can center it
+					var textSize = img.MeasureString(badge, font);
+
+					// Work out the exact position
+					var pos = new PointF(iconCenter.X - textSize.Width / 2, iconCenter.Y - textSize.Height / 2);
+
+					// Draw the text into the icon using the font/brush
 					img.DrawString(badge, font, brush, pos);
+
+					// Write into the icon that we'll set on to the NotifyIcon
 					iconCustom = Icon.FromHandle(bmp.GetHicon());
 				}
 
