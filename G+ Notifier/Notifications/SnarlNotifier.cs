@@ -21,27 +21,34 @@ namespace DanTup.GPlusNotifier
 			ThreadPool.QueueUserWorkItem(
 				o =>
 				{
-					try
+					// Try up to 5 times, with a short delay, because as Startup, it's possible we loaded before Snarl.
+					for (int attempt = 0; attempt < 5; attempt++)
 					{
-						// TODO: This should change when we have options for this.
-
-						// Try to create a notifier - this will fail if unable to register.
-						var snarl = new SnarlNotifier();
-
-						// Remove the Windows balloon notification since we have Snarl.
-						INotifier removed;
-						while (!notifiers.IsEmpty)
+						try
 						{
-							notifiers.TryTake(out removed);
+							// Try to create a notifier - this will fail if unable to register.
+							var snarl = new SnarlNotifier();
+
+							// Remove the Windows balloon notification since we have Snarl.
+							INotifier removed;
+							while (!notifiers.IsEmpty)
+							{
+								notifiers.TryTake(out removed);
+							}
+
+							// Add the Snarl notifier.
+							notifiers.Add(snarl);
+
+							// Break out of the loop, we're done.
+							break;
+						}
+						catch
+						{
+							// Do nothing - registration failed
+							Console.WriteLine("Snarl not found");
 						}
 
-						// Add the Snarl notifie.
-						notifiers.Add(snarl);
-					}
-					catch
-					{
-						// Do nothing - registration failed
-						Console.WriteLine("Snarl not found");
+						Thread.Sleep(1000); // Wait 1 second before trying again.
 					}
 				});
 		}

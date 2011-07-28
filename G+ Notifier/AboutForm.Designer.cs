@@ -28,6 +28,7 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AboutForm));
 			this.lblTitle = new System.Windows.Forms.Label();
 			this.lnkDanny = new System.Windows.Forms.LinkLabel();
 			this.label3 = new System.Windows.Forms.Label();
@@ -36,17 +37,18 @@
 			this.label7 = new System.Windows.Forms.Label();
 			this.lnkAndrew = new System.Windows.Forms.LinkLabel();
 			this.btnClose = new System.Windows.Forms.Button();
+			this.pictureBox1 = new System.Windows.Forms.PictureBox();
+			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// lblTitle
 			// 
-			this.lblTitle.Dock = System.Windows.Forms.DockStyle.Top;
 			this.lblTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.lblTitle.Location = new System.Drawing.Point(0, 0);
+			this.lblTitle.Location = new System.Drawing.Point(53, 7);
 			this.lblTitle.Name = "lblTitle";
-			this.lblTitle.Size = new System.Drawing.Size(284, 47);
+			this.lblTitle.Size = new System.Drawing.Size(217, 38);
 			this.lblTitle.TabIndex = 0;
-			this.lblTitle.Text = "G+ Notifier";
+			this.lblTitle.Text = "G+ Notifier 1.0";
 			this.lblTitle.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
 			// lnkDanny
@@ -122,6 +124,15 @@
 			this.btnClose.Text = "&Close";
 			this.btnClose.UseVisualStyleBackColor = true;
 			// 
+			// pictureBox1
+			// 
+			this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
+			this.pictureBox1.Location = new System.Drawing.Point(10, 3);
+			this.pictureBox1.Name = "pictureBox1";
+			this.pictureBox1.Size = new System.Drawing.Size(48, 48);
+			this.pictureBox1.TabIndex = 18;
+			this.pictureBox1.TabStop = false;
+			// 
 			// AboutForm
 			// 
 			this.AcceptButton = this.btnClose;
@@ -129,6 +140,7 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CancelButton = this.btnClose;
 			this.ClientSize = new System.Drawing.Size(284, 185);
+			this.Controls.Add(this.pictureBox1);
 			this.Controls.Add(this.btnClose);
 			this.Controls.Add(this.lnkAndrew);
 			this.Controls.Add(this.lnkConfigurator);
@@ -138,10 +150,12 @@
 			this.Controls.Add(this.label3);
 			this.Controls.Add(this.lblTitle);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "AboutForm";
 			this.Text = "About G+ Notifier";
+			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -157,5 +171,6 @@
 		private System.Windows.Forms.Label label7;
 		private System.Windows.Forms.LinkLabel lnkAndrew;
 		private System.Windows.Forms.Button btnClose;
+		private System.Windows.Forms.PictureBox pictureBox1;
 	}
 }

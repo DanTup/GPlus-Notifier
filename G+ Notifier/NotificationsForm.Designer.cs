@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(NotificationsForm));
 			this.webPicture = new System.Windows.Forms.PictureBox();
 			((System.ComponentModel.ISupportInitialize)(this.webPicture)).BeginInit();
 			this.SuspendLayout();
@@ -48,6 +49,7 @@
 			this.ClientSize = new System.Drawing.Size(534, 366);
 			this.Controls.Add(this.webPicture);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
+			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.KeyPreview = true;
 			this.Name = "NotificationsForm";
 			this.Text = "G+ Notifier";

@@ -18,7 +18,7 @@ namespace DanTup.GPlusNotifier
 		private WebView WebView { get; set; }
 
 		// Icons used in the systray.
-		Icon iconNone, iconSome, iconCustom;
+		Icon iconLogo, iconNone, iconSome, iconCustom;
 
 		// Used for drawing the number on the icon.
 		Brush brush = new SolidBrush(Color.WhiteSmoke);
@@ -107,6 +107,10 @@ namespace DanTup.GPlusNotifier
 
 			// Set up the icons we'll need for the notification area.
 			var ass = Assembly.GetExecutingAssembly();
+			using (Stream stream = ass.GetManifestResourceStream("DanTup.GPlusNotifier.Icons.Logo.ico"))
+			{
+				iconLogo = new Icon(stream);
+			}
 			using (Stream stream = ass.GetManifestResourceStream("DanTup.GPlusNotifier.Icons.None.ico"))
 			{
 				iconNone = new Icon(stream);
@@ -115,6 +119,9 @@ namespace DanTup.GPlusNotifier
 			{
 				iconSome = new Icon(stream);
 			}
+
+			// Set the default icon
+			notificationIcon.Icon = iconLogo;
 
 			// Force a check for updates
 			CheckForUpdates();

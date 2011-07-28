@@ -28,6 +28,7 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LoginForm));
 			this.lblLoginInstructions = new System.Windows.Forms.Label();
 			this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
 			this.browserPicture = new DanTup.GPlusNotifier.SelectablePictureBox();
@@ -36,15 +37,15 @@
 			// 
 			// lblLoginInstructions
 			// 
-			this.lblLoginInstructions.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
+			this.lblLoginInstructions.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.lblLoginInstructions.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.lblLoginInstructions.Location = new System.Drawing.Point(12, 9);
 			this.lblLoginInstructions.Name = "lblLoginInstructions";
 			this.lblLoginInstructions.Size = new System.Drawing.Size(415, 36);
 			this.lblLoginInstructions.TabIndex = 0;
 			this.lblLoginInstructions.Text = "Please login to your Google Plus account below. \r\nThis window will disappear once" +
-				" your account is connected.";
+    " your account is connected.";
 			// 
 			// browserPicture
 			// 
@@ -62,6 +63,7 @@
 			this.Controls.Add(this.lblLoginInstructions);
 			this.Controls.Add(this.browserPicture);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.KeyPreview = true;
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;

@@ -36,22 +36,21 @@
 			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
 			this.gNotifierWebsiteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.feedbackSupportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.twitterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.donateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+			this.launchGoogleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.loginToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.checkForUpdates = new System.Windows.Forms.Timer(this.components);
 			this.checkForUpdatesWorker = new System.ComponentModel.BackgroundWorker();
-			this.launchGoogleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.twitterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.notificatinIconMenu.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// notificationIcon
 			// 
 			this.notificationIcon.ContextMenuStrip = this.notificatinIconMenu;
-			this.notificationIcon.Icon = ((System.Drawing.Icon)(resources.GetObject("notificationIcon.Icon")));
 			this.notificationIcon.Text = "G+ Notifier";
 			this.notificationIcon.Visible = true;
 			this.notificationIcon.BalloonTipClicked += new System.EventHandler(this.notificationIcon_BalloonTipClicked);
@@ -88,6 +87,7 @@
 			// 
 			// gNotifierWebsiteToolStripMenuItem
 			// 
+			this.gNotifierWebsiteToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("gNotifierWebsiteToolStripMenuItem.Image")));
 			this.gNotifierWebsiteToolStripMenuItem.Name = "gNotifierWebsiteToolStripMenuItem";
 			this.gNotifierWebsiteToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
 			this.gNotifierWebsiteToolStripMenuItem.Text = "G+ Notifier &Website";
@@ -99,6 +99,13 @@
 			this.feedbackSupportToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
 			this.feedbackSupportToolStripMenuItem.Text = "&Feedback && Support";
 			this.feedbackSupportToolStripMenuItem.Click += new System.EventHandler(this.feedbackSupportMenuItem_Click);
+			// 
+			// twitterToolStripMenuItem
+			// 
+			this.twitterToolStripMenuItem.Name = "twitterToolStripMenuItem";
+			this.twitterToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
+			this.twitterToolStripMenuItem.Text = "&Twitter";
+			this.twitterToolStripMenuItem.Click += new System.EventHandler(this.twitterToolStripMenuItem_Click);
 			// 
 			// donateToolStripMenuItem
 			// 
@@ -113,12 +120,28 @@
 			this.toolStripSeparator1.Name = "toolStripSeparator1";
 			this.toolStripSeparator1.Size = new System.Drawing.Size(179, 6);
 			// 
+			// launchGoogleToolStripMenuItem
+			// 
+			this.launchGoogleToolStripMenuItem.Name = "launchGoogleToolStripMenuItem";
+			this.launchGoogleToolStripMenuItem.ShortcutKeyDisplayString = "";
+			this.launchGoogleToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
+			this.launchGoogleToolStripMenuItem.Text = "Launch &Google+";
+			this.launchGoogleToolStripMenuItem.Click += new System.EventHandler(this.launchGoogleToolStripMenuItem_Click);
+			// 
 			// loginToolStripMenuItem
 			// 
 			this.loginToolStripMenuItem.Name = "loginToolStripMenuItem";
 			this.loginToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
 			this.loginToolStripMenuItem.Text = "&Login";
 			this.loginToolStripMenuItem.Click += new System.EventHandler(this.loginToolStripMenuItem_Click);
+			// 
+			// aboutToolStripMenuItem
+			// 
+			this.aboutToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("aboutToolStripMenuItem.Image")));
+			this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
+			this.aboutToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
+			this.aboutToolStripMenuItem.Text = "&About";
+			this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
 			// 
 			// exitToolStripMenuItem
 			// 
@@ -138,34 +161,13 @@
 			this.checkForUpdatesWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.checkForUpdatesWorker_DoWork);
 			this.checkForUpdatesWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.checkForUpdatesWorker_RunWorkerCompleted);
 			// 
-			// launchGoogleToolStripMenuItem
-			// 
-			this.launchGoogleToolStripMenuItem.Name = "launchGoogleToolStripMenuItem";
-			this.launchGoogleToolStripMenuItem.ShortcutKeyDisplayString = "";
-			this.launchGoogleToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
-			this.launchGoogleToolStripMenuItem.Text = "Launch &Google+";
-			this.launchGoogleToolStripMenuItem.Click += new System.EventHandler(this.launchGoogleToolStripMenuItem_Click);
-			// 
-			// aboutToolStripMenuItem
-			// 
-			this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-			this.aboutToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
-			this.aboutToolStripMenuItem.Text = "&About";
-			this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
-			// 
-			// twitterToolStripMenuItem
-			// 
-			this.twitterToolStripMenuItem.Name = "twitterToolStripMenuItem";
-			this.twitterToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
-			this.twitterToolStripMenuItem.Text = "&Twitter";
-			this.twitterToolStripMenuItem.Click += new System.EventHandler(this.twitterToolStripMenuItem_Click);
-			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(284, 262);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.Name = "MainForm";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "MainForm";

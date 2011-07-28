@@ -57,6 +57,9 @@
   <PropertyGroup>
     <NoWin32Manifest>true</NoWin32Manifest>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Icons\Logo.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="AwesomiumSharp">
       <HintPath>..\Lib\Awesomium\AwesomiumSharp.dll</HintPath>
@@ -90,6 +93,11 @@
     <Compile Include="Notifications\SnarlNotifier.cs" />
     <Compile Include="Notifications\INotifier.cs" />
     <Compile Include="Notifications\WindowsBalloonNotifier.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="SelectablePictureBox.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -120,6 +128,10 @@
     </EmbeddedResource>
     <EmbeddedResource Include="NotificationsForm.resx">
       <DependentUpon>NotificationsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
@@ -152,6 +164,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Icons\Logo.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
