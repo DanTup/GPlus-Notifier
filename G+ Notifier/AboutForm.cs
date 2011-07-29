@@ -11,7 +11,7 @@ namespace DanTup.GPlusNotifier
 			InitializeComponent();
 
 			// Set the title to have the version number in it
-			lblTitle.Text += " " + Assembly.GetExecutingAssembly().GetName().Version.ToString(2);
+			lblTitle.Text = "G+ Notifier " + Assembly.GetExecutingAssembly().GetName().Version.ToString(2);
 		}
 
 		private void lnkDanny_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
