@@ -27,8 +27,10 @@ namespace DanTup.GPlusNotifier
 		LoginForm loginForm;
 		NotificationsForm notificationsForm;
 
-		// Used to ensure we don't show balloon too frequently, even though we're updating the icon.
-		DateTime lastShownBalloon = DateTime.MinValue;
+		/// <summary>
+		/// Used to force a notification if 0 messages (eg. at startup, or forced check).
+		/// </summary>
+		bool forceNotification = true;
 
 		// Used to reduce the change of showing the same balloon notification over and over.
 		int? lastNotificationCount;
@@ -225,19 +227,18 @@ namespace DanTup.GPlusNotifier
 
 					Console.WriteLine("Notification Count is now: " + notificationCount);
 
-					// Show a balloon notification if there are some messages.
-					// Only show if it's been at least 60 mins or the count has changed.
-					if ((notificationCount > 0)
-						&& ((DateTime.Now - lastShownBalloon).TotalMinutes > 60 || lastNotificationCount != notificationCount))
+					// Show a balloon notification if there are some messages and it isn't the same as the previous one.
+					if ((notificationCount > 0) && (lastNotificationCount != notificationCount || forceNotification))
 					{
 						SendNewMessagesNotification(5, "New Notifications", "You have " + notificationCount + " unread notification" + (notificationCount == 1 ? "" : "s") + " in Google+!");
-						lastShownBalloon = DateTime.Now;
 					}
-					else if (notificationCount == 0 && lastShownBalloon == DateTime.MinValue)
+					else if (notificationCount == 0 && forceNotification)
 					{
 						SendNewMessagesNotification(5, "No Notifications", "You have no unread notifications in Google+.");
-						lastShownBalloon = DateTime.Now;
 					}
+
+					// Don't show the message again if zero
+					forceNotification = false;
 
 					lastNotificationCount = notificationCount;
 				}
@@ -460,7 +461,7 @@ namespace DanTup.GPlusNotifier
 
 			// Force an update by calling 'tick()' immediately
 			BindNotificationScripts();
-			lastShownBalloon = DateTime.MinValue;
+			forceNotification = true;
 			userHasCancelledPreviousLogin = false;
 		}
 	}
