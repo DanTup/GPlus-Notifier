@@ -168,6 +168,11 @@
   <ItemGroup>
     <EmbeddedResource Include="Icons\Logo.ico" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Icons\Logo.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>XCOPY "$(SolutionDir)Lib\Awesomium\icudt42.dll" "$(TargetDir)" /i /y
