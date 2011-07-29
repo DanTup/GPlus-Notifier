@@ -35,7 +35,7 @@ namespace DanTup.GPlusNotifier
 		/// </summary>
 		public void SendNewVersionNotification(string title, string message)
 		{
-			this.SendNotification(int.MaxValue, title, message);
+			this.SendNotification(30, title, message);
 		}
 
 		/// <summary>
