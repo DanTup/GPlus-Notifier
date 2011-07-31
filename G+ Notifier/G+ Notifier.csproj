@@ -83,6 +83,9 @@
     <Compile Include="AboutForm.Designer.cs">
       <DependentUpon>AboutForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="AwesomiumForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="CursorConvertion.cs" />
     <Compile Include="Icons.cs" />
     <Compile Include="NotificationsForm.cs">

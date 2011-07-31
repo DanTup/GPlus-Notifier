@@ -3,7 +3,7 @@ using System.Windows.Forms;
 
 namespace DanTup.GPlusNotifier
 {
-	class SelectablePictureBox : PictureBox
+	public class SelectablePictureBox : PictureBox
 	{
 		public SelectablePictureBox()
 		{

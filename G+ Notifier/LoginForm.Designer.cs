@@ -37,15 +37,15 @@
 			// 
 			// lblLoginInstructions
 			// 
-			this.lblLoginInstructions.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+			this.lblLoginInstructions.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+			| System.Windows.Forms.AnchorStyles.Right)));
 			this.lblLoginInstructions.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.lblLoginInstructions.Location = new System.Drawing.Point(12, 9);
 			this.lblLoginInstructions.Name = "lblLoginInstructions";
 			this.lblLoginInstructions.Size = new System.Drawing.Size(415, 36);
 			this.lblLoginInstructions.TabIndex = 0;
 			this.lblLoginInstructions.Text = "Please login to your Google Plus account below. \r\nThis window will disappear once" +
-    " your account is connected.";
+	" your account is connected.";
 			// 
 			// browserPicture
 			// 
@@ -69,7 +69,6 @@
 			this.MinimizeBox = false;
 			this.Name = "LoginForm";
 			this.Text = "G+ Notifier - Login Now";
-			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.LoginForm_FormClosing);
 			((System.ComponentModel.ISupportInitialize)(this.browserPicture)).EndInit();
 			this.ResumeLayout(false);
 
@@ -77,8 +76,7 @@
 
 		#endregion
 
-		private SelectablePictureBox browserPicture;
-        private System.Windows.Forms.Label lblLoginInstructions;
+		private System.Windows.Forms.Label lblLoginInstructions;
 		private System.ComponentModel.BackgroundWorker backgroundWorker1;
 	}
 }

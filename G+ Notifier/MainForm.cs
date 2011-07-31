@@ -395,6 +395,9 @@ namespace DanTup.GPlusNotifier
 				WebCore.ClearCookies();
 				isLoggedIn = false;
 
+				// Clear the icon to the logo.
+				notificationIcon.Icon = Icons.GetLogo();
+
 				// Force a check
 				ForceCheck();
 			}
