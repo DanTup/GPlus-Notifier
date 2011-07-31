@@ -11,10 +11,7 @@ namespace DanTup.GPlusNotifier
 {
 	public partial class MainForm : Form
 	{
-		/// <summary>
-		/// The Awesomium WebView rendering our web pages.
-		/// </summary>
-		private WebView WebView { get; set; }
+		GooglePlusClient googlePlusClient;
 
 		LoginForm loginForm;
 		NotificationsForm notificationsForm;
@@ -52,6 +49,9 @@ namespace DanTup.GPlusNotifier
 			// Hide the form at startup, we don't want it to be seen (since we live in the notification area).
 			this.Hide();
 
+			// Set the default icon
+			notificationIcon.Icon = Icons.GetLogo();
+
 			// Set up notifiers
 			notifiers.Add(new WindowsBalloonNotifier(notificationIcon));
 
@@ -62,7 +62,7 @@ namespace DanTup.GPlusNotifier
 			// Set version umber in the context menu
 			versionToolStripMenuItem.Text = "G+ Notifier " + currentVersion.ToString(2);
 
-			// Set up the browser
+			// Initialiser Awesomium settings
 			WebCoreConfig config = new WebCoreConfig
 			{
 				SaveCacheAndCookies = true, // Make sure we save cookies to avoid logging in every time
@@ -70,93 +70,18 @@ namespace DanTup.GPlusNotifier
 				LogPath = userDataPath
 			};
 			WebCore.Initialize(config);
-			this.WebView = WebCore.CreateWebView(128, 128);
 
-			// Load a page that contains the notification box, but isn't as heavy as the Plus site.
-			this.WebView.CreateObject("GNotifier");
-			this.WebView.SetObjectCallback("GNotifier", "updateCount", OnUpdateNotificationCount);
-			this.WebView.DomReady += new EventHandler(WebView_DomReady);
-			this.WebView.LoadCompleted += new EventHandler(WebView_LoadCompleted);
-			this.WebView.JSConsoleMessageAdded += new JSConsoleMessageAddedEventHandler(WebView_JSConsoleMessageAdded);
-			WebCore.Update();
+			// Create the client used for communicating with Google+.
+			googlePlusClient = new GooglePlusClient();
+			googlePlusClient.UpdateNotificationCount += OnUpdateNotificationCount;
 
-			/**
-			 * We use a fake URL because:
-			 * A) We want the page to load quickly
-			 * B) We are only loading this URL to spoof cross-domain security restrictions
-			 * 
-			 * We will be making AJAX calls from within the 404 page served by Google
-			 * to make it seem as if the API calls are coming from an actual GPlus page.
-			 * Hacky? Yes. Does it work? Definitely. :-)
-			 **/
-			this.WebView.LoadURL("http://plus.google.com/foobar/fakeurl");
-
-			// We display the login form immediately if we don't detect the HSID cookie
-			string googleCookies = WebCore.GetCookies("http://www.google.com", false);
-			if (!googleCookies.Contains("HSID="))
-			{
-				isLoggedIn = false;
+			// Check whether we're logged in and immediately show the login form, if required.
+			isLoggedIn = googlePlusClient.IsLoggedIn();
+			if (!isLoggedIn)
 				DisplayLoginForm();
-			}
-
-			// Set the default icon
-			notificationIcon.Icon = Icons.GetLogo();
 
 			// Force a check for updates
 			CheckForUpdates();
-		}
-
-		void WebView_JSConsoleMessageAdded(object sender, JSConsoleMessageEventArgs e)
-		{
-			Console.WriteLine(e.Message + ", " + e.Source);
-		}
-
-		// Attempt to bind the notification function once the DOM has finished initializing
-		void WebView_DomReady(object sender, EventArgs e)
-		{
-			BindNotificationScripts();
-		}
-
-		// For extra measure, we'll attempt to bind the function at the end of each page load
-		void WebView_LoadCompleted(object sender, EventArgs e)
-		{
-			BindNotificationScripts();
-		}
-
-		private void BindNotificationScripts()
-		{
-			// We make AJAX requests directly to Google Plus' internal API from an
-			// empty page served on the http://plus.google.com domain.
-			// We poll the API every 30 seconds for the notification count.
-			// If we receive a bad status code, we assume we are not logged in.
-			if (!this.WebView.IsDisposed)
-				this.WebView.ExecuteJavascript(@"
-					if(typeof window.xhr == 'undefined') { 
-						window.notify = function(x) { 
-							if(window.count != x) { window.count = x; GNotifier.updateCount(x); } 
-						}; 
-						window.xhr = new XMLHttpRequest();
-						window.tick = function() {
-							xhr.open('get','https://plus.google.com/u/0/_/n/guc'); 
-							xhr.onreadystatechange = function() { 
-								if(xhr.readyState == 4) { 
-									if(xhr.status != 200) { 
-										notify(-1); 
-									} 
-									else { 
-										var result = JSON.parse(xhr.responseText.substr(4)); 
-										if(typeof result != 'object') 
-											notify(-2); 
-										else 
-											notify(result[1]); 
-									}
-								} 
-							}; 
-							xhr.send(null);
-						};
-						window.setInterval('tick()', 30000);
-					}; 
-					tick();"); // We fire off one tick immediately
 		}
 
 		private void DisplayLoginForm()
@@ -227,7 +152,7 @@ namespace DanTup.GPlusNotifier
 		void loginForm_PageChanged(object sender, EventArgs e)
 		{
 			// We force another update whenever the login form's page changes
-			BindNotificationScripts();
+			googlePlusClient.BindNotificationScripts();
 		}
 
 		void LoginFormClosed(object sender, FormClosedEventArgs e)
@@ -246,8 +171,7 @@ namespace DanTup.GPlusNotifier
 				notificationsForm = null;
 			}
 
-			// Cleanly shut down the browser (presumably this is when it persists cookies).
-			this.WebView.Close();
+			googlePlusClient.Dispose();
 			WebCore.Shutdown();
 		}
 
@@ -411,11 +335,8 @@ namespace DanTup.GPlusNotifier
 
 		private void ForceCheck()
 		{
-			// We set window.count to an arbitrary value to invalidate it and force an update
-			this.WebView.ExecuteJavascript("window.count = -5");
+			googlePlusClient.ForceCheck();
 
-			// Force an update by calling 'tick()' immediately
-			BindNotificationScripts();
 			forceNotification = true;
 			userHasCancelledPreviousLogin = false;
 		}

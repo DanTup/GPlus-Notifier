@@ -1,4 +1,5 @@
 ﻿
+using System;
 namespace DanTup.GPlusNotifier
 {
 	public partial class LoginForm : AwesomiumForm
@@ -17,7 +18,7 @@ namespace DanTup.GPlusNotifier
 			webView.Focus();
 		}
 
-		public event System.EventHandler PageChanged;
+		public event EventHandler PageChanged;
 
 	}
 }
