@@ -1,5 +1,4 @@
-﻿
-namespace DanTup.GPlusNotifier
+﻿namespace DanTup.GPlusNotifier
 {
 	/// <summary>
 	/// Defines an interface for classes that are able to handle notifications for G+ Notifier.
