@@ -84,6 +84,7 @@
       <DependentUpon>AboutForm.cs</DependentUpon>
     </Compile>
     <Compile Include="CursorConvertion.cs" />
+    <Compile Include="Icons.cs" />
     <Compile Include="NotificationsForm.cs">
       <SubType>Form</SubType>
     </Compile>

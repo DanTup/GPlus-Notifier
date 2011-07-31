@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Diagnostics;
-using System.Drawing;
 using System.IO;
 using System.Net;
 using System.Reflection;
@@ -17,13 +16,6 @@ namespace DanTup.GPlusNotifier
 		/// </summary>
 		private WebView WebView { get; set; }
 
-		// Icons used in the systray.
-		Icon iconLogo, iconNone, iconSome, iconCustom;
-
-		// Used for drawing the number on the icon.
-		Brush brush = new SolidBrush(Color.WhiteSmoke);
-		Font font = new Font("Segoe UI", 10F, FontStyle.Bold);
-		PointF iconCenter = new PointF(8f, 9f); // Offset slightly to make it look better :/
 		LoginForm loginForm;
 		NotificationsForm notificationsForm;
 
@@ -107,23 +99,8 @@ namespace DanTup.GPlusNotifier
 				DisplayLoginForm();
 			}
 
-			// Set up the icons we'll need for the notification area.
-			var ass = Assembly.GetExecutingAssembly();
-			using (Stream stream = ass.GetManifestResourceStream("DanTup.GPlusNotifier.Icons.Logo.ico"))
-			{
-				iconLogo = new Icon(stream);
-			}
-			using (Stream stream = ass.GetManifestResourceStream("DanTup.GPlusNotifier.Icons.None.ico"))
-			{
-				iconNone = new Icon(stream);
-			}
-			using (Stream stream = ass.GetManifestResourceStream("DanTup.GPlusNotifier.Icons.Some.ico"))
-			{
-				iconSome = new Icon(stream);
-			}
-
 			// Set the default icon
-			notificationIcon.Icon = iconLogo;
+			notificationIcon.Icon = Icons.GetLogo();
 
 			// Force a check for updates
 			CheckForUpdates();
@@ -286,38 +263,13 @@ namespace DanTup.GPlusNotifier
 		private void UpdateIcon(int? notificationCount)
 		{
 			// Remove any previous custom icon
-			notificationIcon.Icon = iconNone;
-			if (iconCustom != null)
-			{
-				iconCustom.Dispose();
-			}
+			notificationIcon.Icon = Icons.GetLogo();
 
 			// If we know the count, overlay the number on to the icon.
 			if (notificationCount.HasValue)
 			{
-				// Create a clone of the icon and add text
-				var baseIcon = notificationCount == 0 ? iconNone : iconSome;
-				using (var bmp = baseIcon.ToBitmap())
-				using (var img = Graphics.FromImage(bmp))
-				{
-					// Decide what to display
-					var badge = notificationCount > 9 ? "9+" : notificationCount.ToString();
-
-					// Calculate the size of the text so we can center it
-					var textSize = img.MeasureString(badge, font);
-
-					// Work out the exact position
-					var pos = new PointF(iconCenter.X - textSize.Width / 2, iconCenter.Y - textSize.Height / 2);
-
-					// Draw the text into the icon using the font/brush
-					img.DrawString(badge, font, brush, pos);
-
-					// Write into the icon that we'll set on to the NotifyIcon
-					iconCustom = Icon.FromHandle(bmp.GetHicon());
-				}
-
 				// Set the new icon
-				notificationIcon.Icon = iconCustom;
+				notificationIcon.Icon = Icons.GetIcon(notificationCount);
 			}
 		}
 
