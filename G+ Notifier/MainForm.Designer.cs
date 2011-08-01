@@ -41,11 +41,12 @@
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this.launchGoogleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.loginToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.automaticallyInstallUpdatesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.checkForUpdates = new System.Windows.Forms.Timer(this.components);
 			this.checkForUpdatesWorker = new System.ComponentModel.BackgroundWorker();
-			this.automaticallyInstallUpdatesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.installUpdateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.notificatinIconMenu.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -70,10 +71,11 @@
             this.launchGoogleToolStripMenuItem,
             this.loginToolStripMenuItem,
             this.automaticallyInstallUpdatesToolStripMenuItem,
+            this.installUpdateToolStripMenuItem,
             this.aboutToolStripMenuItem,
             this.exitToolStripMenuItem});
 			this.notificatinIconMenu.Name = "notificatinIconMenu";
-			this.notificatinIconMenu.Size = new System.Drawing.Size(229, 258);
+			this.notificatinIconMenu.Size = new System.Drawing.Size(229, 280);
 			// 
 			// versionToolStripMenuItem
 			// 
@@ -137,6 +139,13 @@
 			this.loginToolStripMenuItem.Text = "&Login";
 			this.loginToolStripMenuItem.Click += new System.EventHandler(this.loginToolStripMenuItem_Click);
 			// 
+			// automaticallyInstallUpdatesToolStripMenuItem
+			// 
+			this.automaticallyInstallUpdatesToolStripMenuItem.Name = "automaticallyInstallUpdatesToolStripMenuItem";
+			this.automaticallyInstallUpdatesToolStripMenuItem.Size = new System.Drawing.Size(228, 22);
+			this.automaticallyInstallUpdatesToolStripMenuItem.Text = "Automatically Install &Updates";
+			this.automaticallyInstallUpdatesToolStripMenuItem.Click += new System.EventHandler(this.automaticallyInstallUpdatesToolStripMenuItem_Click);
+			// 
 			// aboutToolStripMenuItem
 			// 
 			this.aboutToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("aboutToolStripMenuItem.Image")));
@@ -163,12 +172,13 @@
 			this.checkForUpdatesWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.checkForUpdatesWorker_DoWork);
 			this.checkForUpdatesWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.checkForUpdatesWorker_RunWorkerCompleted);
 			// 
-			// automaticallyInstallUpdatesToolStripMenuItem
+			// installUpdateToolStripMenuItem
 			// 
-			this.automaticallyInstallUpdatesToolStripMenuItem.Name = "automaticallyInstallUpdatesToolStripMenuItem";
-			this.automaticallyInstallUpdatesToolStripMenuItem.Size = new System.Drawing.Size(228, 22);
-			this.automaticallyInstallUpdatesToolStripMenuItem.Text = "Automatically Install &Updates";
-			this.automaticallyInstallUpdatesToolStripMenuItem.Click += new System.EventHandler(this.automaticallyInstallUpdatesToolStripMenuItem_Click);
+			this.installUpdateToolStripMenuItem.Name = "installUpdateToolStripMenuItem";
+			this.installUpdateToolStripMenuItem.Size = new System.Drawing.Size(228, 22);
+			this.installUpdateToolStripMenuItem.Text = "&Install Update";
+			this.installUpdateToolStripMenuItem.Visible = false;
+			this.installUpdateToolStripMenuItem.Click += new System.EventHandler(this.installUpdateToolStripMenuItem_Click);
 			// 
 			// MainForm
 			// 
@@ -206,5 +216,6 @@
 		private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem twitterToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem automaticallyInstallUpdatesToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem installUpdateToolStripMenuItem;
 	}
 }

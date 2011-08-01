@@ -282,8 +282,11 @@ namespace DanTup.GPlusNotifier
 					}
 					SendNewVersionNotification(timeoutSeconds, "G+ Notifier Update Available", message);
 
-					// Also update text on the context menu.
-					gNotifierWebsiteToolStripMenuItem.Text = "Update available! " + gNotifierWebsiteToolStripMenuItem.Text;
+					// Also show the context menu option
+					if (updater.CanWriteToApplicationFolder() && updater.CanUnzipFiles())
+						installUpdateToolStripMenuItem.Visible = true;
+					else
+						gNotifierWebsiteToolStripMenuItem.Text = "Update available! " + gNotifierWebsiteToolStripMenuItem.Text;
 				}
 			}
 		}
@@ -395,6 +398,11 @@ namespace DanTup.GPlusNotifier
 			Settings.Default.AutomaticallyInstallUpdates = !Settings.Default.AutomaticallyInstallUpdates;
 			Settings.Default.Save();
 			automaticallyInstallUpdatesToolStripMenuItem.Checked = Settings.Default.AutomaticallyInstallUpdates;
+		}
+
+		private void installUpdateToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			updater.DownloadAndInstallUpdateAsync();
 		}
 
 		private void exitToolStripMenuItem_Click(object sender, EventArgs e)
