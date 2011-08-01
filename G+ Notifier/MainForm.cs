@@ -4,14 +4,21 @@ using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Reflection;
+using System.Threading;
 using System.Windows.Forms;
 using AwesomiumSharp;
+using DanTup.GPlusNotifier.Properties;
 
 namespace DanTup.GPlusNotifier
 {
 	public partial class MainForm : Form
 	{
 		GooglePlusClient googlePlusClient;
+
+		/// <summary>
+		/// Used for installing updates.
+		/// </summary>
+		Updater updater = new Updater();
 
 		LoginForm loginForm;
 		NotificationsForm notificationsForm;
@@ -39,9 +46,17 @@ namespace DanTup.GPlusNotifier
 		// Current app version
 		Version currentVersion = Assembly.GetExecutingAssembly().GetName().Version;
 
+		bool isFirstRun;
+
 		public MainForm()
 		{
 			InitializeComponent();
+		}
+
+		public MainForm(bool hasUpdated)
+			: this()
+		{
+			this.isFirstRun = hasUpdated;
 		}
 
 		private void MainForm_Load(object sender, EventArgs e)
@@ -59,8 +74,12 @@ namespace DanTup.GPlusNotifier
 			// itself to the collection if it's found and registered.
 			SnarlNotifier.TryRegister(notifiers);
 
-			// Set version umber in the context menu
+			// Pause slightly in an attempt to allow Snarl detection to finish
+			Thread.Sleep(100);
+
+			// Context menu tweaks
 			versionToolStripMenuItem.Text = "G+ Notifier " + currentVersion.ToString(2);
+			automaticallyInstallUpdatesToolStripMenuItem.Checked = Settings.Default.AutomaticallyInstallUpdates;
 
 			// Initialiser Awesomium settings
 			WebCoreConfig config = new WebCoreConfig
@@ -79,6 +98,10 @@ namespace DanTup.GPlusNotifier
 			isLoggedIn = googlePlusClient.IsLoggedIn();
 			if (!isLoggedIn)
 				DisplayLoginForm();
+
+			// If this was the first fun, tell the user we updated
+			if (isFirstRun)
+				SendNewVersionNotification(null, "G+ Notifier Updated!", "G+ Notifier successfully updated to version " + currentVersion.ToString());
 
 			// Force a check for updates
 			CheckForUpdates();
@@ -234,11 +257,30 @@ namespace DanTup.GPlusNotifier
 
 				if (latestVersion > currentVersion)
 				{
-					string message = string.Format("There is a new version of G+ Notifier available. You have version {0}, but version {1} is available.",
-						currentVersion,
-						latestVersion
-						);
-					SendNewVersionNotification(5, "G+ Notifier Update Available", message);
+					string message;
+					int? timeoutSeconds = null;
+
+					if (Settings.Default.AutomaticallyInstallUpdates)
+					{
+						if (!updater.CanWriteToApplicationFolder())
+							message = "Unable to write to the folder G+ Notifier is installed in. Automatic updates will be unavailable.";
+						else if (!updater.CanUnzipFiles())
+							message = "Automatic updates are not supported on this version of Windows :-(";
+						else
+						{
+							updater.DownloadAndInstallUpdateAsync();
+							message = string.Format("Downloading and installing version {0} of G+ Notifier...", latestVersion);
+							timeoutSeconds = 5;
+						}
+					}
+					else
+					{
+						message = string.Format("There is a new version of G+ Notifier available. You have version {0}, but version {1} is available.",
+							currentVersion,
+							latestVersion
+							);
+					}
+					SendNewVersionNotification(timeoutSeconds, "G+ Notifier Update Available", message);
 
 					// Also update text on the context menu.
 					gNotifierWebsiteToolStripMenuItem.Text = "Update available! " + gNotifierWebsiteToolStripMenuItem.Text;
@@ -252,10 +294,10 @@ namespace DanTup.GPlusNotifier
 				notifier.SendErrorNotification(timeoutSeconds, title, message);
 		}
 
-		private void SendNewVersionNotification(int timeoutSeconds, string title, string message)
+		private void SendNewVersionNotification(int? timeoutSeconds, string title, string message)
 		{
 			foreach (var notifier in notifiers)
-				notifier.SendNewVersionNotification(title, message);
+				notifier.SendNewVersionNotification(timeoutSeconds, title, message);
 		}
 
 		private void SendNewMessagesNotification(int timeoutSeconds, string title, string message)
@@ -326,6 +368,35 @@ namespace DanTup.GPlusNotifier
 				ForceCheck();
 			}
 		}
+
+		private void automaticallyInstallUpdatesToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			// If we're trying to turn automatic updates on, check some stuff
+			if (!Settings.Default.AutomaticallyInstallUpdates)
+			{
+				// Can write into the app folder
+				if (!updater.CanWriteToApplicationFolder())
+				{
+					MessageBox.Show("Unable to write to the folder G+ Notifier is installed in. Automatic updates will be unavailable.", "Automatic Updates");
+					return;
+				}
+
+				// Can use the Shell to unzip (although XP supports it, this class barfs)
+				if (!updater.CanUnzipFiles())
+				{
+					MessageBox.Show("Automatic updates are not supported on this version of Windows :-(", "Automatic Updates");
+					return;
+				}
+
+				// Force a check when we turn it on.
+				CheckForUpdates();
+			}
+
+			Settings.Default.AutomaticallyInstallUpdates = !Settings.Default.AutomaticallyInstallUpdates;
+			Settings.Default.Save();
+			automaticallyInstallUpdatesToolStripMenuItem.Checked = Settings.Default.AutomaticallyInstallUpdates;
+		}
+
 		private void exitToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			Application.Exit();

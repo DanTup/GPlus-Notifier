@@ -3,7 +3,6 @@ using System.Collections.Concurrent;
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
-using System.Reflection;
 using System.Text;
 using System.Threading;
 
@@ -85,11 +84,8 @@ namespace DanTup.GPlusNotifier
 		/// </summary>
 		private static string GetIconPath()
 		{
-			var codeBase = Assembly.GetExecutingAssembly().CodeBase;
-			var uri = new UriBuilder(codeBase);
-			var path = Uri.UnescapeDataString(uri.Path);
-			var folder = Path.GetDirectoryName(path);
-			return Path.Combine(folder, @"Icons\Logo.png");
+			var installFolder = Program.GetApplicationPath();
+			return Path.Combine(installFolder, @"Icons\Logo.png");
 		}
 
 		/// <summary>
@@ -137,9 +133,9 @@ namespace DanTup.GPlusNotifier
 			SendNotification("MessageError", timeoutSeconds, title, message);
 		}
 
-		public void SendNewVersionNotification(string title, string message)
+		public void SendNewVersionNotification(int? timeoutSeconds, string title, string message)
 		{
-			SendNotification("MessageNewVersion", null, title, message);
+			SendNotification("MessageNewVersion", timeoutSeconds, title, message);
 		}
 
 		public void SendMessageCountNotification(int timeoutSeconds, string title, string message)

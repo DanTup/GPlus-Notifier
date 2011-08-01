@@ -13,7 +13,7 @@
 		/// <summary>
 		/// Sends notification that there is a new version of G+ Notifier.
 		/// </summary>
-		void SendNewVersionNotification(string title, string message);
+		void SendNewVersionNotification(int? timeoutSeconds, string title, string message);
 
 		/// <summary>
 		/// Sends notification of how many unread messages there are in Google+.

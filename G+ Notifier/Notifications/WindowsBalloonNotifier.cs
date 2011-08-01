@@ -33,9 +33,9 @@ namespace DanTup.GPlusNotifier
 		/// <summary>
 		/// Sends notification that there is a new version of G+ Notifier.
 		/// </summary>
-		public void SendNewVersionNotification(string title, string message)
+		public void SendNewVersionNotification(int? timeoutSeconds, string title, string message)
 		{
-			this.SendNotification(30, title, message);
+			this.SendNotification(timeoutSeconds ?? 30, title, message);
 		}
 
 		/// <summary>

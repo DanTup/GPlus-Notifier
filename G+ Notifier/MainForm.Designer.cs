@@ -45,6 +45,7 @@
 			this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.checkForUpdates = new System.Windows.Forms.Timer(this.components);
 			this.checkForUpdatesWorker = new System.ComponentModel.BackgroundWorker();
+			this.automaticallyInstallUpdatesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.notificatinIconMenu.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -68,49 +69,50 @@
             this.toolStripSeparator1,
             this.launchGoogleToolStripMenuItem,
             this.loginToolStripMenuItem,
+            this.automaticallyInstallUpdatesToolStripMenuItem,
             this.aboutToolStripMenuItem,
             this.exitToolStripMenuItem});
 			this.notificatinIconMenu.Name = "notificatinIconMenu";
-			this.notificatinIconMenu.Size = new System.Drawing.Size(183, 236);
+			this.notificatinIconMenu.Size = new System.Drawing.Size(229, 258);
 			// 
 			// versionToolStripMenuItem
 			// 
 			this.versionToolStripMenuItem.Enabled = false;
 			this.versionToolStripMenuItem.Name = "versionToolStripMenuItem";
-			this.versionToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
+			this.versionToolStripMenuItem.Size = new System.Drawing.Size(228, 22);
 			this.versionToolStripMenuItem.Text = "G+ Notifier v0.0";
 			// 
 			// toolStripSeparator2
 			// 
 			this.toolStripSeparator2.Name = "toolStripSeparator2";
-			this.toolStripSeparator2.Size = new System.Drawing.Size(179, 6);
+			this.toolStripSeparator2.Size = new System.Drawing.Size(225, 6);
 			// 
 			// gNotifierWebsiteToolStripMenuItem
 			// 
 			this.gNotifierWebsiteToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("gNotifierWebsiteToolStripMenuItem.Image")));
 			this.gNotifierWebsiteToolStripMenuItem.Name = "gNotifierWebsiteToolStripMenuItem";
-			this.gNotifierWebsiteToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
+			this.gNotifierWebsiteToolStripMenuItem.Size = new System.Drawing.Size(228, 22);
 			this.gNotifierWebsiteToolStripMenuItem.Text = "G+ Notifier &Website";
 			this.gNotifierWebsiteToolStripMenuItem.Click += new System.EventHandler(this.gNotifierWebsiteToolStripMenuItem_Click);
 			// 
 			// feedbackSupportToolStripMenuItem
 			// 
 			this.feedbackSupportToolStripMenuItem.Name = "feedbackSupportToolStripMenuItem";
-			this.feedbackSupportToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
+			this.feedbackSupportToolStripMenuItem.Size = new System.Drawing.Size(228, 22);
 			this.feedbackSupportToolStripMenuItem.Text = "&Feedback && Support";
 			this.feedbackSupportToolStripMenuItem.Click += new System.EventHandler(this.feedbackSupportMenuItem_Click);
 			// 
 			// twitterToolStripMenuItem
 			// 
 			this.twitterToolStripMenuItem.Name = "twitterToolStripMenuItem";
-			this.twitterToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
+			this.twitterToolStripMenuItem.Size = new System.Drawing.Size(228, 22);
 			this.twitterToolStripMenuItem.Text = "&Twitter";
 			this.twitterToolStripMenuItem.Click += new System.EventHandler(this.twitterToolStripMenuItem_Click);
 			// 
 			// donateToolStripMenuItem
 			// 
 			this.donateToolStripMenuItem.Name = "donateToolStripMenuItem";
-			this.donateToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
+			this.donateToolStripMenuItem.Size = new System.Drawing.Size(228, 22);
 			this.donateToolStripMenuItem.Text = "D&onate";
 			this.donateToolStripMenuItem.Visible = false;
 			this.donateToolStripMenuItem.Click += new System.EventHandler(this.donateToolStripMenuItem_Click);
@@ -118,20 +120,20 @@
 			// toolStripSeparator1
 			// 
 			this.toolStripSeparator1.Name = "toolStripSeparator1";
-			this.toolStripSeparator1.Size = new System.Drawing.Size(179, 6);
+			this.toolStripSeparator1.Size = new System.Drawing.Size(225, 6);
 			// 
 			// launchGoogleToolStripMenuItem
 			// 
 			this.launchGoogleToolStripMenuItem.Name = "launchGoogleToolStripMenuItem";
 			this.launchGoogleToolStripMenuItem.ShortcutKeyDisplayString = "";
-			this.launchGoogleToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
+			this.launchGoogleToolStripMenuItem.Size = new System.Drawing.Size(228, 22);
 			this.launchGoogleToolStripMenuItem.Text = "Launch &Google+";
 			this.launchGoogleToolStripMenuItem.Click += new System.EventHandler(this.launchGoogleToolStripMenuItem_Click);
 			// 
 			// loginToolStripMenuItem
 			// 
 			this.loginToolStripMenuItem.Name = "loginToolStripMenuItem";
-			this.loginToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
+			this.loginToolStripMenuItem.Size = new System.Drawing.Size(228, 22);
 			this.loginToolStripMenuItem.Text = "&Login";
 			this.loginToolStripMenuItem.Click += new System.EventHandler(this.loginToolStripMenuItem_Click);
 			// 
@@ -139,14 +141,14 @@
 			// 
 			this.aboutToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("aboutToolStripMenuItem.Image")));
 			this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-			this.aboutToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
+			this.aboutToolStripMenuItem.Size = new System.Drawing.Size(228, 22);
 			this.aboutToolStripMenuItem.Text = "&About";
 			this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
 			// 
 			// exitToolStripMenuItem
 			// 
 			this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-			this.exitToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
+			this.exitToolStripMenuItem.Size = new System.Drawing.Size(228, 22);
 			this.exitToolStripMenuItem.Text = "E&xit";
 			this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
 			// 
@@ -160,6 +162,13 @@
 			// 
 			this.checkForUpdatesWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.checkForUpdatesWorker_DoWork);
 			this.checkForUpdatesWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.checkForUpdatesWorker_RunWorkerCompleted);
+			// 
+			// automaticallyInstallUpdatesToolStripMenuItem
+			// 
+			this.automaticallyInstallUpdatesToolStripMenuItem.Name = "automaticallyInstallUpdatesToolStripMenuItem";
+			this.automaticallyInstallUpdatesToolStripMenuItem.Size = new System.Drawing.Size(228, 22);
+			this.automaticallyInstallUpdatesToolStripMenuItem.Text = "Automatically Install &Updates";
+			this.automaticallyInstallUpdatesToolStripMenuItem.Click += new System.EventHandler(this.automaticallyInstallUpdatesToolStripMenuItem_Click);
 			// 
 			// MainForm
 			// 
@@ -196,5 +205,6 @@
 		private System.Windows.Forms.ToolStripMenuItem launchGoogleToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem twitterToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem automaticallyInstallUpdatesToolStripMenuItem;
 	}
 }
