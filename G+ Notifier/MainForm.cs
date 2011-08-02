@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Diagnostics;
-using System.IO;
 using System.Net;
 using System.Reflection;
 using System.Threading;
@@ -39,9 +38,6 @@ namespace DanTup.GPlusNotifier
 
 		// Default notifiers (this will be tied to config in some way)
 		ConcurrentBag<INotifier> notifiers = new ConcurrentBag<INotifier>();
-
-		// Where to store the Awesomium data
-		string userDataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "G+ Notifier");
 
 		// Current app version
 		Version currentVersion = Assembly.GetExecutingAssembly().GetName().Version;
@@ -85,8 +81,8 @@ namespace DanTup.GPlusNotifier
 			WebCoreConfig config = new WebCoreConfig
 			{
 				SaveCacheAndCookies = true, // Make sure we save cookies to avoid logging in every time
-				UserDataPath = userDataPath,
-				LogPath = userDataPath
+				UserDataPath = Program.UserDataPath,
+				LogPath = Program.UserDataPath
 			};
 			WebCore.Initialize(config);
 

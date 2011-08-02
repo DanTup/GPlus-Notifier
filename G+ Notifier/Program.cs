@@ -9,6 +9,9 @@ namespace DanTup.GPlusNotifier
 {
 	static class Program
 	{
+		// Where to store data
+		public static string UserDataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "G+ Notifier");
+
 		[STAThread]
 		static void Main(string[] args)
 		{
@@ -45,7 +48,7 @@ namespace DanTup.GPlusNotifier
 
 		static void LogException(object sender, UnhandledExceptionEventArgs e)
 		{
-			var file = Path.Combine(GetApplicationPath(), "ErrorLog.txt");
+			var file = Path.Combine(UserDataPath, "ErrorLog.txt");
 			var exception = e.ExceptionObject as Exception;
 			var errorText = exception != null ? exception.ToString() : "Unknown error";
 
