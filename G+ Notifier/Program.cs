@@ -12,6 +12,9 @@ namespace DanTup.GPlusNotifier
 		[STAThread]
 		static void Main(string[] args)
 		{
+			// Log any errors
+			AppDomain.CurrentDomain.UnhandledException += LogException;
+
 			bool hasUpdated = args.Contains("-u");
 
 			// If we're a new version, we'll have lost all settings, so pull in the previous settings
@@ -38,6 +41,15 @@ namespace DanTup.GPlusNotifier
 			var path = Uri.UnescapeDataString(uri.Path);
 			var folder = Path.GetDirectoryName(path);
 			return folder;
+		}
+
+		static void LogException(object sender, UnhandledExceptionEventArgs e)
+		{
+			var file = Path.Combine(GetApplicationPath(), "ErrorLog.txt");
+			var exception = e.ExceptionObject as Exception;
+			var errorText = exception != null ? exception.ToString() : "Unknown error";
+
+			File.AppendAllText(file, errorText);
 		}
 	}
 }

@@ -8,22 +8,29 @@ namespace DanTup.GPlusNotifier.Updater
 {
 	class Program
 	{
+		static DirectoryInfo applicationFolder, updateFolder;
+
 		static void Main(string[] args)
 		{
 			// Wait 1 second before doing anything, to ensure G+ Notifier has closed before trying to update it.
 			Thread.Sleep(1000);
 
-			var updateFolder = GetApplicationPath();
-			var applicationFolder = updateFolder.Parent;
+			updateFolder = GetApplicationPath();
+			applicationFolder = updateFolder.Parent;
+
+			// Log any errors
+			AppDomain.CurrentDomain.UnhandledException += LogException;
+
+			throw new Exception();
 
 			// Do some basic sanity checks.
 			CheckUpdatesValid(updateFolder, applicationFolder);
 
-			// Delete everything from the parent folder except the Update folder.
+			// Delete everything from the parent folder except the Update folder or crash log.
 			foreach (var item in applicationFolder.GetFileSystemInfos())
 			{
 				// If it's a file, or it's (a folder and...) not called Update
-				if (item is FileInfo)
+				if (item is FileInfo && !string.Equals(item.Name, "ErrorLog.txt", StringComparison.OrdinalIgnoreCase))
 					item.Delete();
 				else if (item is DirectoryInfo && !string.Equals(item.Name, "Update", StringComparison.OrdinalIgnoreCase))
 					((DirectoryInfo)item).Delete(true);
@@ -47,6 +54,15 @@ namespace DanTup.GPlusNotifier.Updater
 
 			// Execute the newly-placed DanTup.GPlusNotifier.exe.
 			Process.Start(Path.Combine(applicationFolder.FullName, "DanTup.GPlusNotifier.exe"), "-u");
+		}
+
+		static void LogException(object sender, UnhandledExceptionEventArgs e)
+		{
+			var file = Path.Combine(applicationFolder.FullName, "ErrorLog.txt");
+			var exception = e.ExceptionObject as Exception;
+			var errorText = exception != null ? exception.ToString() : "Unknown error";
+
+			File.AppendAllText(file, errorText);
 		}
 
 		/// <summary>
