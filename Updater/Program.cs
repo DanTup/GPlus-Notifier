@@ -21,8 +21,6 @@ namespace DanTup.GPlusNotifier.Updater
 			// Log any errors
 			AppDomain.CurrentDomain.UnhandledException += LogException;
 
-			throw new Exception();
-
 			// Do some basic sanity checks.
 			CheckUpdatesValid(updateFolder, applicationFolder);
 
