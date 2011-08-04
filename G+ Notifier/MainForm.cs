@@ -225,7 +225,10 @@ namespace DanTup.GPlusNotifier
 				notificationsForm.Activate();
 			}
 			else if (!notificationsForm.Visible)
+			{
 				notificationsForm.Show();
+				notificationsForm.Activate();
+			}
 			else if (hideIfAlreadyVisible)
 				notificationsForm.Hide();
 		}
