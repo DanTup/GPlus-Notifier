@@ -100,5 +100,11 @@ namespace DanTup.GPlusNotifier
 
 			this.Focus();
 		}
+
+		private void NotificationsForm_KeyUp(object sender, KeyEventArgs e)
+		{
+			if (e.KeyCode == Keys.Escape)
+				this.Close();
+		}
 	}
 }
