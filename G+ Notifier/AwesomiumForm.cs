@@ -6,12 +6,16 @@ using AwesomiumSharp;
 
 namespace DanTup.GPlusNotifier
 {
-	public class AwesomiumForm : Form
+	public partial class AwesomiumForm : Form
 	{
 		protected WebView webView;
 		protected Bitmap frameBuffer;
 		protected bool needsResize;
-		protected PictureBox browserPicture;
+
+		public AwesomiumForm()
+		{
+			InitializeComponent();
+		}
 
 		protected void SetupBrowser()
 		{

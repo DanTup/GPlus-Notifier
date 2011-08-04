@@ -86,6 +86,9 @@
     <Compile Include="AwesomiumForm.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="AwesomiumForm.Designer.cs">
+      <DependentUpon>AwesomiumForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="CursorConvertion.cs" />
     <Compile Include="GooglePlusClient.cs" />
     <Compile Include="Icons.cs" />
@@ -108,9 +111,6 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="SelectablePictureBox.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="LoginForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -130,6 +130,9 @@
   <ItemGroup>
     <EmbeddedResource Include="AboutForm.resx">
       <DependentUpon>AboutForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AwesomiumForm.resx">
+      <DependentUpon>AwesomiumForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="LoginForm.resx">
       <DependentUpon>LoginForm.cs</DependentUpon>
