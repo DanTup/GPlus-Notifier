@@ -8,7 +8,7 @@ using Shell32;
 
 namespace DanTup.GPlusNotifier
 {
-	class Updater
+	class UpdaterHelper
 	{
 		/// <summary>
 		/// Check whether or not we'll be able to install updates automatically (eg. can write to the folder we're in).

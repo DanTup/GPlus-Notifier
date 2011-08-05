@@ -117,7 +117,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Updater.cs" />
+    <Compile Include="UpdaterHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="AboutForm.resx">
@@ -179,6 +179,34 @@
     <EmbeddedResource Include="Icons\Logo.ico" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="..\Lib\Awesomium\avcodec-52.dll">
+      <Link>avcodec-52.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Lib\Awesomium\avformat-52.dll">
+      <Link>avformat-52.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Lib\Awesomium\avutil-50.dll">
+      <Link>avutil-50.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Lib\Awesomium\Awesomium.dll">
+      <Link>Awesomium.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Lib\Awesomium\AwesomiumProcess.exe">
+      <Link>AwesomiumProcess.exe</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Lib\Awesomium\icudt42.dll">
+      <Link>icudt42.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Lib\Awesomium\locales\en-US.dll">
+      <Link>Locales\en-US.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Icons\Logo.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -202,13 +230,8 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>XCOPY "$(SolutionDir)Lib\Awesomium\icudt42.dll" "$(TargetDir)" /i /y
-XCOPY "$(SolutionDir)Lib\Awesomium\avcodec-52.dll" "$(TargetDir)" /i /y
-XCOPY "$(SolutionDir)Lib\Awesomium\avformat-52.dll" "$(TargetDir)" /i /y
-XCOPY "$(SolutionDir)Lib\Awesomium\avutil-50.dll" "$(TargetDir)" /i /y
-XCOPY "$(SolutionDir)Lib\Awesomium\Awesomium.dll" "$(TargetDir)" /i /y
-XCOPY "$(SolutionDir)Lib\Awesomium\AwesomiumProcess.exe" "$(TargetDir)" /i /y
-XCOPY "$(SolutionDir)Lib\Awesomium\locales\en-US.dll" "$(TargetDir)locales\" /i /y</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

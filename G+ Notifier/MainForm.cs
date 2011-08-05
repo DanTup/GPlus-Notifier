@@ -17,7 +17,7 @@ namespace DanTup.GPlusNotifier
 		/// <summary>
 		/// Used for installing updates.
 		/// </summary>
-		Updater updater = new Updater();
+		UpdaterHelper updater = new UpdaterHelper();
 
 		LoginForm loginForm;
 		NotificationsForm notificationsForm;
