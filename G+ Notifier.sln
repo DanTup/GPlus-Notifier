@@ -9,9 +9,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Updater", "Updater\Updater.csproj", "{AE93D644-F709-42A0-BF50-FBE69C682CF6}"
-	ProjectSection(ProjectDependencies) = postProject
-		{96705953-489C-4605-80EE-4BB8CB57C6F2} = {96705953-489C-4605-80EE-4BB8CB57C6F2}
-	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
