@@ -93,6 +93,7 @@
     <Compile Include="Notifications\SnarlNotifier.cs" />
     <Compile Include="Notifications\INotifier.cs" />
     <Compile Include="Notifications\WindowsBalloonNotifier.cs" />
+    <Compile Include="Properties\AssemblyInfoShared.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
