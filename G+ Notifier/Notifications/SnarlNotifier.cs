@@ -145,7 +145,7 @@ namespace DanTup.GPlusNotifier
 
 		public void SendNotification(string messageId, int? timeoutSeconds, string title, string message)
 		{
-			SendMessage(string.Format("snp://notify?app-sig=DanTup.GPlusNotifier&id={0}&title={1}&text={2}&timeout={3}\r", SnarlEscape(messageId), SnarlEscape(title), SnarlEscape(message), timeoutSeconds));
+			SendMessage(string.Format("snp://notify?app-sig=DanTup.GPlusNotifier&id={0}&uid={0}&title={1}&text={2}&timeout={3}\r", SnarlEscape(messageId), SnarlEscape(title), SnarlEscape(message), timeoutSeconds));
 		}
 
 		private static void SendMessage(string message)
