@@ -46,5 +46,29 @@ namespace DanTup.GPlusNotifier.Properties {
                 this["AutomaticallyInstallUpdates"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool HasSeenSettings {
+            get {
+                return ((bool)(this["HasSeenSettings"]));
+            }
+            set {
+                this["HasSeenSettings"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool UseNotificationWindow {
+            get {
+                return ((bool)(this["UseNotificationWindow"]));
+            }
+            set {
+                this["UseNotificationWindow"] = value;
+            }
+        }
     }
 }

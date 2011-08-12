@@ -60,6 +60,20 @@ namespace DanTup.GPlusNotifier
 			// Hide the form at startup, we don't want it to be seen (since we live in the notification area).
 			this.Hide();
 
+			// If we've never shown the user the settings dialog, show it, so they can choose to turn on auto-updates, etc.
+			if (!Settings.Default.HasSeenSettings)
+			{
+				Settings.Default.HasSeenSettings = true;
+				Settings.Default.Save();
+
+				ShowSettingsForm();
+			}
+			else
+			{
+				// Set the dynamic context menu text (note: this is already done above, in ShowSettingsForm).
+				SetContextMenuText();
+			}
+
 			// Set the default icon
 			notificationIcon.Icon = Icons.GetLogo();
 
@@ -72,10 +86,6 @@ namespace DanTup.GPlusNotifier
 
 			// Pause slightly in an attempt to allow Snarl detection to finish
 			Thread.Sleep(100);
-
-			// Context menu tweaks
-			versionToolStripMenuItem.Text = "G+ Notifier " + currentVersion.ToString(2);
-			automaticallyInstallUpdatesToolStripMenuItem.Checked = Settings.Default.AutomaticallyInstallUpdates;
 
 			// Initialiser Awesomium settings
 			WebCoreConfig config = new WebCoreConfig
@@ -101,6 +111,23 @@ namespace DanTup.GPlusNotifier
 
 			// Force a check for updates
 			CheckForUpdates();
+		}
+
+		private void SetContextMenuText()
+		{
+			// Context menu tweaks
+			versionToolStripMenuItem.Text = "G+ Notifier " + currentVersion.ToString(2);
+			automaticallyInstallUpdatesToolStripMenuItem.Checked = Settings.Default.AutomaticallyInstallUpdates;
+		}
+
+		private void ShowSettingsForm()
+		{
+			using (var settingsForm = new SettingsForm())
+			{
+				settingsForm.ShowDialog();
+			}
+
+			SetContextMenuText();
 		}
 
 		private void DisplayLoginForm()
@@ -218,6 +245,12 @@ namespace DanTup.GPlusNotifier
 
 		private void ShowNotificationsForm(bool hideIfAlreadyVisible)
 		{
+			if (!Settings.Default.UseNotificationWindow)
+			{
+				Process.Start("http://plus.google.com/");
+				return;
+			}
+
 			if (notificationsForm == null || notificationsForm.IsDisposed)
 			{
 				notificationsForm = new NotificationsForm();
@@ -284,8 +317,8 @@ namespace DanTup.GPlusNotifier
 					// Also show the context menu option
 					if (updater.CanWriteToApplicationFolder() && updater.CanUnzipFiles())
 						installUpdateToolStripMenuItem.Visible = true;
-					else
-						gNotifierWebsiteToolStripMenuItem.Text = "Update available! " + gNotifierWebsiteToolStripMenuItem.Text;
+
+					gNotifierWebsiteToolStripMenuItem.Text = "Update available! " + gNotifierWebsiteToolStripMenuItem.Text;
 				}
 			}
 		}
@@ -340,11 +373,6 @@ namespace DanTup.GPlusNotifier
 			Process.Start("http://gplusnotifier.com/Donate");
 		}
 
-		private void launchGoogleToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			Process.Start("http://plus.google.com/");
-		}
-
 		private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			new AboutForm().ShowDialog();
@@ -371,32 +399,9 @@ namespace DanTup.GPlusNotifier
 			}
 		}
 
-		private void automaticallyInstallUpdatesToolStripMenuItem_Click(object sender, EventArgs e)
+		private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			// If we're trying to turn automatic updates on, check some stuff
-			if (!Settings.Default.AutomaticallyInstallUpdates)
-			{
-				// Can write into the app folder
-				if (!updater.CanWriteToApplicationFolder())
-				{
-					MessageBox.Show("Unable to write to the folder G+ Notifier is installed in. Automatic updates will be unavailable.", "Automatic Updates");
-					return;
-				}
-
-				// Can use the Shell to unzip (although XP supports it, this class barfs)
-				if (!updater.CanUnzipFiles())
-				{
-					MessageBox.Show("Automatic updates are not supported on this version of Windows :-(", "Automatic Updates");
-					return;
-				}
-
-				// Force a check when we turn it on.
-				CheckForUpdates();
-			}
-
-			Settings.Default.AutomaticallyInstallUpdates = !Settings.Default.AutomaticallyInstallUpdates;
-			Settings.Default.Save();
-			automaticallyInstallUpdatesToolStripMenuItem.Checked = Settings.Default.AutomaticallyInstallUpdates;
+			ShowSettingsForm();
 		}
 
 		private void installUpdateToolStripMenuItem_Click(object sender, EventArgs e)
