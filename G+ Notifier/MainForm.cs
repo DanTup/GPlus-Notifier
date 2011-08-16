@@ -117,7 +117,6 @@ namespace DanTup.GPlusNotifier
 		{
 			// Context menu tweaks
 			versionToolStripMenuItem.Text = "G+ Notifier " + currentVersion.ToString(2);
-			automaticallyInstallUpdatesToolStripMenuItem.Checked = Settings.Default.AutomaticallyInstallUpdates;
 		}
 
 		private void ShowSettingsForm()

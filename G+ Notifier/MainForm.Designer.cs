@@ -46,6 +46,7 @@
 			this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.checkForUpdates = new System.Windows.Forms.Timer(this.components);
 			this.checkForUpdatesWorker = new System.ComponentModel.BackgroundWorker();
+			this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
 			this.notificatinIconMenu.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -67,13 +68,14 @@
             this.twitterToolStripMenuItem,
             this.donateToolStripMenuItem,
             this.toolStripSeparator1,
-            this.loginToolStripMenuItem,
-            this.settingsToolStripMenuItem,
             this.installUpdateToolStripMenuItem,
+            this.settingsToolStripMenuItem,
+            this.loginToolStripMenuItem,
+            this.toolStripSeparator3,
             this.aboutToolStripMenuItem,
             this.exitToolStripMenuItem});
 			this.notificatinIconMenu.Name = "notificatinIconMenu";
-			this.notificatinIconMenu.Size = new System.Drawing.Size(183, 258);
+			this.notificatinIconMenu.Size = new System.Drawing.Size(183, 264);
 			// 
 			// versionToolStripMenuItem
 			// 
@@ -170,6 +172,11 @@
 			this.checkForUpdatesWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.checkForUpdatesWorker_DoWork);
 			this.checkForUpdatesWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.checkForUpdatesWorker_RunWorkerCompleted);
 			// 
+			// toolStripSeparator3
+			// 
+			this.toolStripSeparator3.Name = "toolStripSeparator3";
+			this.toolStripSeparator3.Size = new System.Drawing.Size(179, 6);
+			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -206,5 +213,6 @@
 		private System.Windows.Forms.ToolStripMenuItem twitterToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem installUpdateToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
 	}
 }
