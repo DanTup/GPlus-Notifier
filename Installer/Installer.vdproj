@@ -15,6 +15,12 @@
     {
         "Entry"
         {
+        "MsmKey" = "8:_208C55A556BAE547218B89E40835E32F"
+        "OwnerKey" = "8:_461F8C3D98BC4B359D4252326F7D0ECE"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_461F8C3D98BC4B359D4252326F7D0ECE"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -33,12 +39,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_8DAFD7772A42B0C9F160616ECE36D541"
-        "OwnerKey" = "8:_461F8C3D98BC4B359D4252326F7D0ECE"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_461F8C3D98BC4B359D4252326F7D0ECE"
         "MsmSig" = "8:_UNDEFINED"
@@ -46,7 +46,7 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_8DAFD7772A42B0C9F160616ECE36D541"
+        "OwnerKey" = "8:_208C55A556BAE547218B89E40835E32F"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -137,6 +137,20 @@
     {
         "CustomAction"
         {
+            "{4AA51A2D-7D85-4A59-BA75-B0809FC8B380}:_B2FF9744B49A41DCAEEBCD0FDFC71FC0"
+            {
+            "Name" = "8:Primary output from G+ Notifier (Active)"
+            "Condition" = "8:"
+            "Object" = "8:_461F8C3D98BC4B359D4252326F7D0ECE"
+            "FileType" = "3:2"
+            "InstallAction" = "3:2"
+            "Arguments" = "8:INSTALLER"
+            "EntryPoint" = "8:"
+            "Sequence" = "3:1"
+            "Identifier" = "8:_4DF9D307_F48E_456F_A9F9_450D744EE94E"
+            "InstallerClass" = "11:FALSE"
+            "CustomActionData" = "8:"
+            }
         }
         "DefaultFeature"
         {
@@ -160,6 +174,37 @@
         }
         "File"
         {
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_208C55A556BAE547218B89E40835E32F"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:DanTup.GPlusNotifier.Updater, Version=1.7.4247.34721, Culture=neutral, processorArchitecture=x86"
+                "ScatterAssemblies"
+                {
+                    "_208C55A556BAE547218B89E40835E32F"
+                    {
+                    "Name" = "8:DanTup.GPlusNotifier.Updater.exe"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:DanTup.GPlusNotifier.Updater.exe"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_B971E2DB118049B29C6404A0212B99C8"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_497995AA6ADACDA833C149C9A3DEE374"
             {
             "AssemblyRegister" = "3:1"
@@ -209,37 +254,6 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_8DAFD7772A42B0C9F160616ECE36D541"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:DanTup.GPlusNotifier.Updater, Version=1.7.4235.19816, Culture=neutral, processorArchitecture=x86"
-                "ScatterAssemblies"
-                {
-                    "_8DAFD7772A42B0C9F160616ECE36D541"
-                    {
-                    "Name" = "8:DanTup.GPlusNotifier.Updater.exe"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:DanTup.GPlusNotifier.Updater.exe"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_B971E2DB118049B29C6404A0212B99C8"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
         }
@@ -310,7 +324,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:G+ Notifier"
         "ProductCode" = "8:{D8C33CB8-A10A-4C07-9261-4E30D18C3F5E}"
-        "PackageCode" = "8:{25C49702-9551-429E-AF21-2DF6639F703E}"
+        "PackageCode" = "8:{68583B3D-204C-4BF2-8DBB-DF658E330DC7}"
         "UpgradeCode" = "8:{B9D9A6A5-DB89-470E-9E59-E8A3306E31A1}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"

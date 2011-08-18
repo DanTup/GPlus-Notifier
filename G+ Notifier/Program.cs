@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -15,6 +16,15 @@ namespace DanTup.GPlusNotifier
 		[STAThread]
 		static void Main(string[] args)
 		{
+			// If we were started with the INSTALLER arg, just re-launch, since the installer won't quite until the process
+			// completes. This is a bit of a hack :-(
+			if (args.Length == 1 && args[0] == "INSTALLER")
+			{
+				// NOTE: Don't use Application.Restart(), as it passes the same args ;-)
+				Process.Start(Application.ExecutablePath);
+				return;
+			}
+
 			// Log any errors
 			AppDomain.CurrentDomain.UnhandledException += LogException;
 
