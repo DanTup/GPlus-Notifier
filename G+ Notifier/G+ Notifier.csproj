@@ -126,6 +126,7 @@
     <Compile Include="SettingsForm.Designer.cs">
       <DependentUpon>SettingsForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="TaskbarHelper.cs" />
     <Compile Include="UpdaterHelper.cs" />
   </ItemGroup>
   <ItemGroup>

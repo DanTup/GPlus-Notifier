@@ -55,7 +55,11 @@ namespace DanTup.GPlusNotifier
 			base.OnLoad(e);
 
 			// Move window out of screen
-			startPosX = Screen.PrimaryScreen.WorkingArea.Width - Width;
+			var taskbarLocation = TaskbarHelper.GetPosition();
+			if (taskbarLocation == TaskbarPosition.Left)
+				startPosX = 0;
+			else
+				startPosX = Screen.PrimaryScreen.WorkingArea.Width - Width;
 			startPosY = Screen.PrimaryScreen.WorkingArea.Height;
 			SetDesktopLocation(startPosX, startPosY);
 
