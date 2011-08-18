@@ -2,4 +2,4 @@
 
 [assembly: AssemblyProduct("G+ Notifier")]
 [assembly: AssemblyCompany("Danny Tuppeny")]
-[assembly: AssemblyVersion("1.7.*")]
+[assembly: AssemblyVersion("1.8.*")]
