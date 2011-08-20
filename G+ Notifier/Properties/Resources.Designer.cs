@@ -59,5 +59,12 @@ namespace DanTup.GPlusNotifier.Properties {
                 resourceCulture = value;
             }
         }
+        
+        internal static System.Drawing.Bitmap Toast {
+            get {
+                object obj = ResourceManager.GetObject("Toast", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
     }
 }

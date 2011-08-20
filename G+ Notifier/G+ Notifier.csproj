@@ -86,12 +86,20 @@
     <Compile Include="CursorConvertion.cs" />
     <Compile Include="GooglePlusClient.cs" />
     <Compile Include="Icons.cs" />
+    <Compile Include="NotificationForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="NotificationForm.Designer.cs">
+      <DependentUpon>NotificationForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="NotificationsForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="NotificationsForm.Designer.cs">
       <DependentUpon>NotificationsForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Notifications\ToastNotifier.cs" />
+    <Compile Include="Notifications\HashSet.cs" />
     <Compile Include="Notifications\SnarlNotifier.cs" />
     <Compile Include="Notifications\INotifier.cs" />
     <Compile Include="Notifications\WindowsBalloonNotifier.cs" />
@@ -141,6 +149,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NotificationForm.resx">
+      <DependentUpon>NotificationForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="NotificationsForm.resx">
       <DependentUpon>NotificationsForm.cs</DependentUpon>
@@ -223,6 +234,10 @@
     <Content Include="Icons\Logo.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\Toast2.png" />
+    <None Include="Resources\Toast1.png" />
+    <None Include="Resources\Toast.png" />
+    <None Include="Resources\Untitled-1.png" />
   </ItemGroup>
   <ItemGroup>
     <COMReference Include="Shell32">

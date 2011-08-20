@@ -2,3 +2,4 @@ Releases
 glob:*.suo
 glob:bin
 glob:obj
+glob:*.psd
