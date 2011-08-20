@@ -234,10 +234,7 @@
     <Content Include="Icons\Logo.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <None Include="Resources\Toast2.png" />
-    <None Include="Resources\Toast1.png" />
     <None Include="Resources\Toast.png" />
-    <None Include="Resources\Untitled-1.png" />
   </ItemGroup>
   <ItemGroup>
     <COMReference Include="Shell32">

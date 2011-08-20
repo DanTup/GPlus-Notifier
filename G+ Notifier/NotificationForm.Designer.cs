@@ -29,7 +29,6 @@
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(NotificationForm));
 			this.lblTitle = new System.Windows.Forms.Label();
 			this.fadeInTimer = new System.Windows.Forms.Timer(this.components);
 			this.fadeOutTimer = new System.Windows.Forms.Timer(this.components);
@@ -77,7 +76,7 @@
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
+			this.BackgroundImage = global::DanTup.GPlusNotifier.Properties.Resources.Toast;
 			this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
 			this.ClientSize = new System.Drawing.Size(300, 80);
 			this.ControlBox = false;
