@@ -39,14 +39,14 @@
 			this.twitterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.donateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-			this.loginToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.installUpdateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.loginToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
 			this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.checkForUpdates = new System.Windows.Forms.Timer(this.components);
 			this.checkForUpdatesWorker = new System.ComponentModel.BackgroundWorker();
-			this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
 			this.notificatinIconMenu.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -115,7 +115,7 @@
 			// 
 			this.donateToolStripMenuItem.Name = "donateToolStripMenuItem";
 			this.donateToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
-			this.donateToolStripMenuItem.Text = "D&onate";
+			this.donateToolStripMenuItem.Text = "&Donate";
 			this.donateToolStripMenuItem.Visible = false;
 			this.donateToolStripMenuItem.Click += new System.EventHandler(this.donateToolStripMenuItem_Click);
 			// 
@@ -124,12 +124,13 @@
 			this.toolStripSeparator1.Name = "toolStripSeparator1";
 			this.toolStripSeparator1.Size = new System.Drawing.Size(179, 6);
 			// 
-			// loginToolStripMenuItem
+			// installUpdateToolStripMenuItem
 			// 
-			this.loginToolStripMenuItem.Name = "loginToolStripMenuItem";
-			this.loginToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
-			this.loginToolStripMenuItem.Text = "&Login";
-			this.loginToolStripMenuItem.Click += new System.EventHandler(this.loginToolStripMenuItem_Click);
+			this.installUpdateToolStripMenuItem.Name = "installUpdateToolStripMenuItem";
+			this.installUpdateToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
+			this.installUpdateToolStripMenuItem.Text = "&Install Update";
+			this.installUpdateToolStripMenuItem.Visible = false;
+			this.installUpdateToolStripMenuItem.Click += new System.EventHandler(this.installUpdateToolStripMenuItem_Click);
 			// 
 			// settingsToolStripMenuItem
 			// 
@@ -138,13 +139,17 @@
 			this.settingsToolStripMenuItem.Text = "&Settings";
 			this.settingsToolStripMenuItem.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
 			// 
-			// installUpdateToolStripMenuItem
+			// loginToolStripMenuItem
 			// 
-			this.installUpdateToolStripMenuItem.Name = "installUpdateToolStripMenuItem";
-			this.installUpdateToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
-			this.installUpdateToolStripMenuItem.Text = "&Install Update";
-			this.installUpdateToolStripMenuItem.Visible = false;
-			this.installUpdateToolStripMenuItem.Click += new System.EventHandler(this.installUpdateToolStripMenuItem_Click);
+			this.loginToolStripMenuItem.Name = "loginToolStripMenuItem";
+			this.loginToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
+			this.loginToolStripMenuItem.Text = "&Login";
+			this.loginToolStripMenuItem.Click += new System.EventHandler(this.loginToolStripMenuItem_Click);
+			// 
+			// toolStripSeparator3
+			// 
+			this.toolStripSeparator3.Name = "toolStripSeparator3";
+			this.toolStripSeparator3.Size = new System.Drawing.Size(179, 6);
 			// 
 			// aboutToolStripMenuItem
 			// 
@@ -171,11 +176,6 @@
 			// 
 			this.checkForUpdatesWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.checkForUpdatesWorker_DoWork);
 			this.checkForUpdatesWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.checkForUpdatesWorker_RunWorkerCompleted);
-			// 
-			// toolStripSeparator3
-			// 
-			this.toolStripSeparator3.Name = "toolStripSeparator3";
-			this.toolStripSeparator3.Size = new System.Drawing.Size(179, 6);
 			// 
 			// MainForm
 			// 

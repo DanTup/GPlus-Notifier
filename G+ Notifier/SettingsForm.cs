@@ -11,6 +11,24 @@ namespace DanTup.GPlusNotifier
 		public SettingsForm()
 		{
 			InitializeComponent();
+
+			SetupTranslations();
+		}
+
+		private void SetupTranslations()
+		{
+			this.Text = Translations.SettingsTitle;
+			gbAutomaticUpdates.Text = Translations.AutomaticUpdatesGroupText;
+			lblAutomaticUpdates.Text = Translations.AutomaticUpdatesText;
+			chkUpdatesAutomatic.Text = Translations.AutomaticUpdatesYes;
+			chkUpdatesAlert.Text = Translations.AutomaticUpdatesNo;
+			lblRecommended.Text = Translations.RecommendedText;
+			gbIconBehaviour.Text = Translations.IconBehaviourGroupText;
+			lblIconBehaviour.Text = Translations.IconBehaviourText;
+			chkIconNotifications.Text = Translations.IconBehaviourNotifications;
+			chkIconBrowser.Text = Translations.IconBehaviourBrowser;
+			btnOk.Text = Translations.OkButtonText;
+			btnCancel.Text = Translations.CancelButtonText;
 		}
 
 		private void SettingsForm_Load(object sender, EventArgs e)

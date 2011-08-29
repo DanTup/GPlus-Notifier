@@ -10,8 +10,18 @@ namespace DanTup.GPlusNotifier
 		{
 			InitializeComponent();
 
+			SetupTranslations();
+		}
+
+		private void SetupTranslations()
+		{
 			// Set the title to have the version number in it
-			lblTitle.Text = "G+ Notifier " + Assembly.GetExecutingAssembly().GetName().Version.ToString(2);
+			lblTitle.Text = string.Format(Translations.VersionText, Assembly.GetExecutingAssembly().GetName().Version.ToString(2));
+
+			this.Text = Translations.AboutTitle;
+			lblCreatedBy.Text = Translations.CreatedByLabel;
+			lblContributionsFrom.Text = Translations.ContributionsFromLabel;
+			btnClose.Text = Translations.CloseButtonText;
 		}
 
 		private void lnkDanny_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)

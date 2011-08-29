@@ -6,7 +6,7 @@ using AwesomiumSharp;
 
 namespace DanTup.GPlusNotifier
 {
-	public partial class AwesomiumForm : Form
+	public abstract partial class AwesomiumForm : Form
 	{
 		protected WebView webView;
 		protected Bitmap frameBuffer;
@@ -15,7 +15,11 @@ namespace DanTup.GPlusNotifier
 		public AwesomiumForm()
 		{
 			InitializeComponent();
+
+			SetupTranslations();
 		}
+
+		partial void SetupTranslations();
 
 		protected void SetupBrowser()
 		{

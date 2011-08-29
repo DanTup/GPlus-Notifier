@@ -31,10 +31,10 @@
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AboutForm));
 			this.lblTitle = new System.Windows.Forms.Label();
 			this.lnkDanny = new System.Windows.Forms.LinkLabel();
-			this.label3 = new System.Windows.Forms.Label();
+			this.lblCreatedBy = new System.Windows.Forms.Label();
 			this.lnkConfigurator = new System.Windows.Forms.LinkLabel();
 			this.lnkAdam = new System.Windows.Forms.LinkLabel();
-			this.label7 = new System.Windows.Forms.Label();
+			this.lblContributionsFrom = new System.Windows.Forms.Label();
 			this.lnkAndrew = new System.Windows.Forms.LinkLabel();
 			this.btnClose = new System.Windows.Forms.Button();
 			this.pictureBox1 = new System.Windows.Forms.PictureBox();
@@ -62,14 +62,14 @@
 			this.lnkDanny.Text = "Danny Tuppeny";
 			this.lnkDanny.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkDanny_LinkClicked);
 			// 
-			// label3
+			// lblCreatedBy
 			// 
-			this.label3.Location = new System.Drawing.Point(12, 47);
-			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(102, 13);
-			this.label3.TabIndex = 3;
-			this.label3.Text = "Created by:";
-			this.label3.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.lblCreatedBy.Location = new System.Drawing.Point(12, 47);
+			this.lblCreatedBy.Name = "lblCreatedBy";
+			this.lblCreatedBy.Size = new System.Drawing.Size(102, 13);
+			this.lblCreatedBy.TabIndex = 3;
+			this.lblCreatedBy.Text = "Created by:";
+			this.lblCreatedBy.TextAlign = System.Drawing.ContentAlignment.TopRight;
 			// 
 			// lnkConfigurator
 			// 
@@ -93,14 +93,14 @@
 			this.lnkAdam.Text = "Adam Simmons";
 			this.lnkAdam.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkAdam_LinkClicked);
 			// 
-			// label7
+			// lblContributionsFrom
 			// 
-			this.label7.Location = new System.Drawing.Point(12, 73);
-			this.label7.Name = "label7";
-			this.label7.Size = new System.Drawing.Size(102, 13);
-			this.label7.TabIndex = 7;
-			this.label7.Text = "Contributions from:";
-			this.label7.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.lblContributionsFrom.Location = new System.Drawing.Point(12, 73);
+			this.lblContributionsFrom.Name = "lblContributionsFrom";
+			this.lblContributionsFrom.Size = new System.Drawing.Size(102, 13);
+			this.lblContributionsFrom.TabIndex = 7;
+			this.lblContributionsFrom.Text = "Contributions from:";
+			this.lblContributionsFrom.TextAlign = System.Drawing.ContentAlignment.TopRight;
 			// 
 			// lnkAndrew
 			// 
@@ -145,9 +145,9 @@
 			this.Controls.Add(this.lnkAndrew);
 			this.Controls.Add(this.lnkConfigurator);
 			this.Controls.Add(this.lnkAdam);
-			this.Controls.Add(this.label7);
+			this.Controls.Add(this.lblContributionsFrom);
 			this.Controls.Add(this.lnkDanny);
-			this.Controls.Add(this.label3);
+			this.Controls.Add(this.lblCreatedBy);
 			this.Controls.Add(this.lblTitle);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -165,10 +165,10 @@
 
 		private System.Windows.Forms.Label lblTitle;
 		private System.Windows.Forms.LinkLabel lnkDanny;
-		private System.Windows.Forms.Label label3;
+		private System.Windows.Forms.Label lblCreatedBy;
 		private System.Windows.Forms.LinkLabel lnkConfigurator;
 		private System.Windows.Forms.LinkLabel lnkAdam;
-		private System.Windows.Forms.Label label7;
+		private System.Windows.Forms.Label lblContributionsFrom;
 		private System.Windows.Forms.LinkLabel lnkAndrew;
 		private System.Windows.Forms.Button btnClose;
 		private System.Windows.Forms.PictureBox pictureBox1;

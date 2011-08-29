@@ -47,12 +47,34 @@ namespace DanTup.GPlusNotifier
 		public MainForm()
 		{
 			InitializeComponent();
+
+			SetupTranslations();
 		}
 
 		public MainForm(bool hasUpdated)
 			: this()
 		{
 			this.isFirstRun = hasUpdated;
+		}
+
+		/// <summary>
+		/// Sets up any translated text used on the form.
+		/// </summary>
+		private void SetupTranslations()
+		{
+			// Doesn't seem to be a nice way of hooking this up in the designer that allows us to have one nice resx file
+			// to make it asy to translate :-(
+
+			notificationIcon.Text = Translations.ApplicationTitle;
+			gNotifierWebsiteToolStripMenuItem.Text = Translations.WebsiteLink;
+			feedbackSupportToolStripMenuItem.Text = Translations.FeedbackLink;
+			twitterToolStripMenuItem.Text = Translations.TwitterLink;
+			donateToolStripMenuItem.Text = Translations.DonateLink;
+			installUpdateToolStripMenuItem.Text = Translations.InstallUpdateLink;
+			settingsToolStripMenuItem.Text = Translations.SettingsLink;
+			loginToolStripMenuItem.Text = Translations.LoginLink;
+			aboutToolStripMenuItem.Text = Translations.AboutLink;
+			exitToolStripMenuItem.Text = Translations.ExitLink;
 		}
 
 		private void MainForm_Load(object sender, EventArgs e)
@@ -107,7 +129,7 @@ namespace DanTup.GPlusNotifier
 
 			// If this was the first fun, tell the user we updated
 			if (isFirstRun)
-				SendNewVersionNotification(null, "G+ Notifier Updated!", "G+ Notifier successfully updated to version " + currentVersion.ToString());
+				SendNewVersionNotification(null, Translations.ApplicationUpdatedTitle, string.Format(Translations.ApplicationUpdatedTitle, currentVersion.ToString()));
 
 			// Force a check for updates
 			CheckForUpdates();
@@ -116,7 +138,7 @@ namespace DanTup.GPlusNotifier
 		private void SetContextMenuText()
 		{
 			// Context menu tweaks
-			versionToolStripMenuItem.Text = "G+ Notifier " + currentVersion.ToString(2);
+			versionToolStripMenuItem.Text = string.Format(Translations.VersionText, currentVersion.ToString(2));
 		}
 
 		private void ShowSettingsForm()
@@ -156,7 +178,7 @@ namespace DanTup.GPlusNotifier
 					// This occurs whenever we receive an invalid response from the
 					// server (either empty or malformed response).
 					isLoggedIn = false;
-					SendErrorNotification(5, "Error", "There was an error retrieving notifications from Google+.");
+					SendErrorNotification(5, Translations.ApplicationErrorTitle, Translations.ApplicationErrorMessage);
 				}
 				else
 				{
@@ -177,11 +199,16 @@ namespace DanTup.GPlusNotifier
 					// Show a balloon notification if there are some messages and it isn't the same as the previous one.
 					if ((notificationCount > 0) && (lastNotificationCount != notificationCount || forceNotification))
 					{
-						SendNewMessagesNotification(5, "New Notifications", "You have " + notificationCount + " unread notification" + (notificationCount == 1 ? "" : "s") + " in Google+!");
+						if (notificationCount == 1)
+							SendNewMessagesNotification(5, Translations.NewNotificationsTitle, Translations.NewNotificationMessage);
+						else if (notificationCount >= 1 && notificationCount <= 4)
+							SendNewMessagesNotification(5, Translations.NewNotificationsTitle, string.Format(Translations.NewNotificationsMessage1234, notificationCount));
+						else
+							SendNewMessagesNotification(5, Translations.NewNotificationsTitle, string.Format(Translations.NewNotificationsMessage5plus, notificationCount));
 					}
 					else if (notificationCount == 0 && forceNotification)
 					{
-						SendNewMessagesNotification(5, "No Notifications", "You have no unread notifications in Google+.");
+						SendNewMessagesNotification(5, Translations.NoNewNotificationsTitle, Translations.NoNewNotificationsMessage);
 					}
 
 					// Don't show the message again if zero
@@ -190,7 +217,7 @@ namespace DanTup.GPlusNotifier
 					lastNotificationCount = notificationCount;
 				}
 
-				loginToolStripMenuItem.Text = isLoggedIn ? "&Logout" : "&Login";
+				loginToolStripMenuItem.Text = isLoggedIn ? Translations.LogoutLink : Translations.LoginLink;
 			}
 		}
 
@@ -294,30 +321,30 @@ namespace DanTup.GPlusNotifier
 					if (Settings.Default.AutomaticallyInstallUpdates)
 					{
 						if (!updater.CanWriteToApplicationFolder())
-							message = "Unable to write to the folder G+ Notifier is installed in. Automatic updates will be unavailable.";
+							message = Translations.ErrorUnableToWrite;
 						else if (!updater.CanUnzipFiles())
-							message = "Automatic updates are not supported on this version of Windows :-(";
+							message = Translations.ErrorUnsupportedOS;
 						else
 						{
 							updater.DownloadAndInstallUpdateAsync();
-							message = string.Format("Downloading and installing version {0} of G+ Notifier...", latestVersion);
+							message = string.Format(Translations.DownloadingNewVersionMessage, latestVersion);
 							timeoutSeconds = 5;
 						}
 					}
 					else
 					{
-						message = string.Format("There is a new version of G+ Notifier available. You have version {0}, but version {1} is available.",
+						message = string.Format(Translations.NewVersionAvailableMessage,
 							currentVersion,
 							latestVersion
 							);
 					}
-					SendNewVersionNotification(timeoutSeconds, "G+ Notifier Update Available", message);
+					SendNewVersionNotification(timeoutSeconds, Translations.NewVersionAvailableTitle, message);
 
 					// Also show the context menu option
 					if (updater.CanWriteToApplicationFolder() && updater.CanUnzipFiles())
 						installUpdateToolStripMenuItem.Visible = true;
 
-					gNotifierWebsiteToolStripMenuItem.Text = "Update available! " + gNotifierWebsiteToolStripMenuItem.Text;
+					gNotifierWebsiteToolStripMenuItem.Text = Translations.WebsiteUpdateLink;
 				}
 			}
 		}

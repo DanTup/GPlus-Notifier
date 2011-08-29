@@ -30,18 +30,18 @@
 		{
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SettingsForm));
 			this.chkUpdatesAlert = new System.Windows.Forms.RadioButton();
-			this.groupBox1 = new System.Windows.Forms.GroupBox();
+			this.gbAutomaticUpdates = new System.Windows.Forms.GroupBox();
+			this.lblRecommended = new System.Windows.Forms.Label();
+			this.lblAutomaticUpdates = new System.Windows.Forms.Label();
 			this.chkUpdatesAutomatic = new System.Windows.Forms.RadioButton();
-			this.label1 = new System.Windows.Forms.Label();
-			this.groupBox2 = new System.Windows.Forms.GroupBox();
-			this.label2 = new System.Windows.Forms.Label();
+			this.gbIconBehaviour = new System.Windows.Forms.GroupBox();
+			this.lblIconBehaviour = new System.Windows.Forms.Label();
 			this.chkIconNotifications = new System.Windows.Forms.RadioButton();
 			this.chkIconBrowser = new System.Windows.Forms.RadioButton();
 			this.btnOk = new System.Windows.Forms.Button();
 			this.btnCancel = new System.Windows.Forms.Button();
-			this.label3 = new System.Windows.Forms.Label();
-			this.groupBox1.SuspendLayout();
-			this.groupBox2.SuspendLayout();
+			this.gbAutomaticUpdates.SuspendLayout();
+			this.gbIconBehaviour.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// chkUpdatesAlert
@@ -55,20 +55,41 @@
 			this.chkUpdatesAlert.Text = "No thanks, just alert me";
 			this.chkUpdatesAlert.UseVisualStyleBackColor = true;
 			// 
-			// groupBox1
+			// gbAutomaticUpdates
 			// 
-			this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+			this.gbAutomaticUpdates.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.groupBox1.Controls.Add(this.label3);
-			this.groupBox1.Controls.Add(this.label1);
-			this.groupBox1.Controls.Add(this.chkUpdatesAutomatic);
-			this.groupBox1.Controls.Add(this.chkUpdatesAlert);
-			this.groupBox1.Location = new System.Drawing.Point(12, 12);
-			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(602, 62);
-			this.groupBox1.TabIndex = 1;
-			this.groupBox1.TabStop = false;
-			this.groupBox1.Text = "Automatic Updates";
+			this.gbAutomaticUpdates.Controls.Add(this.lblRecommended);
+			this.gbAutomaticUpdates.Controls.Add(this.lblAutomaticUpdates);
+			this.gbAutomaticUpdates.Controls.Add(this.chkUpdatesAutomatic);
+			this.gbAutomaticUpdates.Controls.Add(this.chkUpdatesAlert);
+			this.gbAutomaticUpdates.Location = new System.Drawing.Point(12, 12);
+			this.gbAutomaticUpdates.Name = "gbAutomaticUpdates";
+			this.gbAutomaticUpdates.Size = new System.Drawing.Size(602, 62);
+			this.gbAutomaticUpdates.TabIndex = 1;
+			this.gbAutomaticUpdates.TabStop = false;
+			this.gbAutomaticUpdates.Text = "Automatic Updates";
+			// 
+			// lblRecommended
+			// 
+			this.lblRecommended.AutoSize = true;
+			this.lblRecommended.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.lblRecommended.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
+			this.lblRecommended.Location = new System.Drawing.Point(221, 39);
+			this.lblRecommended.Name = "lblRecommended";
+			this.lblRecommended.Size = new System.Drawing.Size(93, 13);
+			this.lblRecommended.TabIndex = 3;
+			this.lblRecommended.Text = "(recommended)";
+			// 
+			// lblAutomaticUpdates
+			// 
+			this.lblAutomaticUpdates.AutoSize = true;
+			this.lblAutomaticUpdates.Location = new System.Drawing.Point(6, 19);
+			this.lblAutomaticUpdates.Name = "lblAutomaticUpdates";
+			this.lblAutomaticUpdates.Size = new System.Drawing.Size(439, 13);
+			this.lblAutomaticUpdates.TabIndex = 2;
+			this.lblAutomaticUpdates.Text = "When new versions of G+ Notifier are available, would you like to install them au" +
+    "tomatically?";
 			// 
 			// chkUpdatesAutomatic
 			// 
@@ -82,38 +103,28 @@
 			this.chkUpdatesAutomatic.UseVisualStyleBackColor = true;
 			this.chkUpdatesAutomatic.CheckedChanged += new System.EventHandler(this.chkUpdatesAutomatic_CheckedChanged);
 			// 
-			// label1
+			// gbIconBehaviour
 			// 
-			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(6, 19);
-			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(439, 13);
-			this.label1.TabIndex = 2;
-			this.label1.Text = "When new versions of G+ Notifier are available, would you like to install them au" +
-    "tomatically?";
-			// 
-			// groupBox2
-			// 
-			this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+			this.gbIconBehaviour.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.groupBox2.Controls.Add(this.label2);
-			this.groupBox2.Controls.Add(this.chkIconNotifications);
-			this.groupBox2.Controls.Add(this.chkIconBrowser);
-			this.groupBox2.Location = new System.Drawing.Point(12, 83);
-			this.groupBox2.Name = "groupBox2";
-			this.groupBox2.Size = new System.Drawing.Size(602, 62);
-			this.groupBox2.TabIndex = 2;
-			this.groupBox2.TabStop = false;
-			this.groupBox2.Text = "Icon Behaviour";
+			this.gbIconBehaviour.Controls.Add(this.lblIconBehaviour);
+			this.gbIconBehaviour.Controls.Add(this.chkIconNotifications);
+			this.gbIconBehaviour.Controls.Add(this.chkIconBrowser);
+			this.gbIconBehaviour.Location = new System.Drawing.Point(12, 83);
+			this.gbIconBehaviour.Name = "gbIconBehaviour";
+			this.gbIconBehaviour.Size = new System.Drawing.Size(602, 62);
+			this.gbIconBehaviour.TabIndex = 2;
+			this.gbIconBehaviour.TabStop = false;
+			this.gbIconBehaviour.Text = "Icon Behaviour";
 			// 
-			// label2
+			// lblIconBehaviour
 			// 
-			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(6, 19);
-			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(277, 13);
-			this.label2.TabIndex = 5;
-			this.label2.Text = "When I click the G+ Notifier icon in the notification area...";
+			this.lblIconBehaviour.AutoSize = true;
+			this.lblIconBehaviour.Location = new System.Drawing.Point(6, 19);
+			this.lblIconBehaviour.Name = "lblIconBehaviour";
+			this.lblIconBehaviour.Size = new System.Drawing.Size(277, 13);
+			this.lblIconBehaviour.TabIndex = 5;
+			this.lblIconBehaviour.Text = "When I click the G+ Notifier icon in the notification area...";
 			// 
 			// chkIconNotifications
 			// 
@@ -159,17 +170,6 @@
 			this.btnCancel.Text = "Cancel";
 			this.btnCancel.UseVisualStyleBackColor = true;
 			// 
-			// label3
-			// 
-			this.label3.AutoSize = true;
-			this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
-			this.label3.Location = new System.Drawing.Point(221, 39);
-			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(93, 13);
-			this.label3.TabIndex = 3;
-			this.label3.Text = "(recommended)";
-			// 
 			// SettingsForm
 			// 
 			this.AcceptButton = this.btnOk;
@@ -179,8 +179,8 @@
 			this.ClientSize = new System.Drawing.Size(626, 189);
 			this.Controls.Add(this.btnCancel);
 			this.Controls.Add(this.btnOk);
-			this.Controls.Add(this.groupBox2);
-			this.Controls.Add(this.groupBox1);
+			this.Controls.Add(this.gbIconBehaviour);
+			this.Controls.Add(this.gbAutomaticUpdates);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.MaximizeBox = false;
@@ -189,10 +189,10 @@
 			this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
 			this.Text = "G+ Notifier Settings";
 			this.Load += new System.EventHandler(this.SettingsForm_Load);
-			this.groupBox1.ResumeLayout(false);
-			this.groupBox1.PerformLayout();
-			this.groupBox2.ResumeLayout(false);
-			this.groupBox2.PerformLayout();
+			this.gbAutomaticUpdates.ResumeLayout(false);
+			this.gbAutomaticUpdates.PerformLayout();
+			this.gbIconBehaviour.ResumeLayout(false);
+			this.gbIconBehaviour.PerformLayout();
 			this.ResumeLayout(false);
 
 		}
@@ -200,15 +200,15 @@
 		#endregion
 
 		private System.Windows.Forms.RadioButton chkUpdatesAlert;
-		private System.Windows.Forms.GroupBox groupBox1;
-		private System.Windows.Forms.Label label1;
+		private System.Windows.Forms.GroupBox gbAutomaticUpdates;
+		private System.Windows.Forms.Label lblAutomaticUpdates;
 		private System.Windows.Forms.RadioButton chkUpdatesAutomatic;
-		private System.Windows.Forms.GroupBox groupBox2;
-		private System.Windows.Forms.Label label2;
+		private System.Windows.Forms.GroupBox gbIconBehaviour;
+		private System.Windows.Forms.Label lblIconBehaviour;
 		private System.Windows.Forms.RadioButton chkIconNotifications;
 		private System.Windows.Forms.RadioButton chkIconBrowser;
 		private System.Windows.Forms.Button btnOk;
 		private System.Windows.Forms.Button btnCancel;
-		private System.Windows.Forms.Label label3;
+		private System.Windows.Forms.Label lblRecommended;
 	}
 }
