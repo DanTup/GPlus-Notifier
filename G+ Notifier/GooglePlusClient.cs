@@ -81,16 +81,20 @@ namespace DanTup.GPlusNotifier
 						window.tick = function() {
 							xhr.open('get','https://plus.google.com/u/0/_/n/guc'); 
 							xhr.onreadystatechange = function() { 
-								if(xhr.readyState == 4) { 
+								console.log('readystate: ' + xhr.readyState);
+								if (xhr.readyState == 4) { 
+									console.log('status: ' + xhr.status);
 									if(xhr.status != 200) { 
 										notify(-1); 
 									} 
 									else { 
+										console.log('response: ' + xhr.responseText);
 										var result = JSON.parse(xhr.responseText.substr(4)); 
+										console.log('result type: ' + (typeof result));
 										if(typeof result != 'object') 
 											notify(-2); 
 										else 
-											notify(result[1]); 
+											notify(result[0][1]); 
 									}
 								} 
 							}; 
