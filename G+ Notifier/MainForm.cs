@@ -100,7 +100,8 @@ namespace DanTup.GPlusNotifier
 			notificationIcon.Icon = Icons.GetLogo();
 
 			// Set up notifiers
-			notifiers.Add(new ToastNotifier());
+			//notifiers.Add(new ToastNotifier());
+			notifiers.Add(new WindowsBalloonNotifier(notificationIcon));
 
 			// Try the Snarl notifier - this will test on a background thread (to avoid locking the UI thread) and add
 			// itself to the collection if it's found and registered.
