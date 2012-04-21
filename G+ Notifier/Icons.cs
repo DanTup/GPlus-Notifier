@@ -11,8 +11,8 @@ namespace DanTup.GPlusNotifier
 
 		// Used for drawing the number on the icon.
 		static Brush brush = new SolidBrush(Color.WhiteSmoke);
-		static Font font = new Font("Segoe UI", 10F, FontStyle.Bold);
-		static PointF iconCenter = new PointF(8f, 9f); // Offset slightly to make it look better :/
+		static Font font = new Font("Segoe UI", 20F, FontStyle.Bold);
+		static PointF iconCenter = new PointF(16f, 16f); // Offset slightly to make it look better :/
 
 		static Icons()
 		{
