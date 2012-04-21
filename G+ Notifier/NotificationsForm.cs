@@ -16,9 +16,14 @@ namespace DanTup.GPlusNotifier
 		{
 			InitializeComponent();
 
-			// HACK: Resize to window to by a reasonable height.
-			int padding = 50;
-			var newSize = new Size(500, (int)((Screen.PrimaryScreen.WorkingArea.Height - (padding * 2)) * 0.6));
+			var newSize =
+				// If either direction is < 100px
+				Properties.Settings.Default.NotificationsWindowSize.Width < 100
+				|| Properties.Settings.Default.NotificationsWindowSize.Height < 100
+				// Then use some nice defaults
+				? new Size(500, (int)(Screen.PrimaryScreen.WorkingArea.Height * 0.6))
+				// Otherwise use the required size
+				: Properties.Settings.Default.NotificationsWindowSize;
 			this.Size = newSize;
 
 			SetupBrowser();
@@ -47,6 +52,8 @@ namespace DanTup.GPlusNotifier
 
 		void NotificationsForm_Deactivate(object sender, EventArgs e)
 		{
+			Properties.Settings.Default.NotificationsWindowSize = this.Size;
+			Properties.Settings.Default.Save();
 			this.Hide();
 		}
 
