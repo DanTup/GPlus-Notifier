@@ -27,6 +27,12 @@ namespace DanTup.GPlusNotifier
 			lblIconBehaviour.Text = Translations.IconBehaviourText;
 			chkIconNotifications.Text = Translations.IconBehaviourNotifications;
 			chkIconBrowser.Text = Translations.IconBehaviourBrowser;
+			gbCheckFrequency.Text = Translations.CheckFrequencyGroupText;
+			lblCheckFrequency.Text = Translations.CheckFrequencyText;
+			chk30secs.Text = Translations.CheckFrequency30secs;
+			chk1min.Text = Translations.CheckFrequency1min;
+			chk10mins.Text = Translations.CheckFrequency10mins;
+			chk30mins.Text = Translations.CheckFrequency30mins;
 			btnOk.Text = Translations.OkButtonText;
 			btnCancel.Text = Translations.CancelButtonText;
 		}
