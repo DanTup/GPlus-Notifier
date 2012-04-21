@@ -245,15 +245,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:G+ Notifier"
-        "ProductCode" = "8:{A5577A0E-37AA-42DE-A2BC-8DB985D6B024}"
-        "PackageCode" = "8:{4578D06C-1ABF-4CC6-8891-282CCB172215}"
+        "ProductCode" = "8:{B5EA97D2-0F16-4D21-A990-7FFD597733AE}"
+        "PackageCode" = "8:{ED0322D7-C17A-4FE9-9163-9E9187C37B05}"
         "UpgradeCode" = "8:{B9D9A6A5-DB89-470E-9E59-E8A3306E31A1}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.9"
+        "ProductVersion" = "8:1.10"
         "Manufacturer" = "8:Danny Tuppeny"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:http://gplusnotifier.uservoice.com/"
@@ -809,7 +809,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_461F8C3D98BC4B359D4252326F7D0ECE"
             {
-            "SourcePath" = "8:..\\G+ Notifier\\obj\\x86\\Release\\DanTup.GPlusNotifier.exe"
+            "SourcePath" = "8:..\\G+ Notifier\\obj\\x86\\Debug\\DanTup.GPlusNotifier.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_B971E2DB118049B29C6404A0212B99C8"
