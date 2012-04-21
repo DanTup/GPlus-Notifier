@@ -209,7 +209,7 @@ namespace DanTup.GPlusNotifier
 					}
 					else if (notificationCount == 0 && forceNotification)
 					{
-						SendNewMessagesNotification(5, Translations.NoNewNotificationsTitle, Translations.NoNewNotificationsMessage);
+						SendNoNewMessagesNotification(5, Translations.NoNewNotificationsTitle, Translations.NoNewNotificationsMessage);
 					}
 
 					// Don't show the message again if zero
@@ -358,11 +358,19 @@ namespace DanTup.GPlusNotifier
 
 		private void SendNewVersionNotification(int? timeoutSeconds, string title, string message)
 		{
+			NativeMethods.PlaySound("MailBeep", NativeMethods.SND_NODEFAULT | NativeMethods.SND_ALIAS);
 			foreach (var notifier in notifiers)
 				notifier.SendNewVersionNotification(timeoutSeconds, title, message);
 		}
 
 		private void SendNewMessagesNotification(int timeoutSeconds, string title, string message)
+		{
+			NativeMethods.PlaySound("MailBeep", NativeMethods.SND_NODEFAULT | NativeMethods.SND_ALIAS);
+			foreach (var notifier in notifiers)
+				notifier.SendMessageCountNotification(timeoutSeconds, title, message);
+		}
+
+		private void SendNoNewMessagesNotification(int timeoutSeconds, string title, string message)
 		{
 			foreach (var notifier in notifiers)
 				notifier.SendMessageCountNotification(timeoutSeconds, title, message);
