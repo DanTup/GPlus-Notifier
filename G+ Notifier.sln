@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "G+ Notifier", "G+ Notifier\G+ Notifier.csproj", "{96705953-489C-4605-80EE-4BB8CB57C6F2}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{D330999C-CCF2-4CDE-B4D6-224FC064037A}"
@@ -9,8 +9,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Updater", "Updater\Updater.csproj", "{AE93D644-F709-42A0-BF50-FBE69C682CF6}"
-EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Installer", "Installer\Installer.vdproj", "{7DDD73D4-8170-45B3-82BA-24F9B485DD77}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -26,8 +24,6 @@ Global
 		{AE93D644-F709-42A0-BF50-FBE69C682CF6}.Debug|x86.Build.0 = Debug|x86
 		{AE93D644-F709-42A0-BF50-FBE69C682CF6}.Release|x86.ActiveCfg = Release|x86
 		{AE93D644-F709-42A0-BF50-FBE69C682CF6}.Release|x86.Build.0 = Release|x86
-		{7DDD73D4-8170-45B3-82BA-24F9B485DD77}.Debug|x86.ActiveCfg = Debug
-		{7DDD73D4-8170-45B3-82BA-24F9B485DD77}.Release|x86.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
