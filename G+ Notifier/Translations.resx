@@ -153,6 +153,24 @@
   <data name="CancelButtonText" xml:space="preserve">
     <value>&amp;Cancel</value>
   </data>
+  <data name="CheckFrequency10mins" xml:space="preserve">
+    <value>10 mins</value>
+  </data>
+  <data name="CheckFrequency1min" xml:space="preserve">
+    <value>1 min</value>
+  </data>
+  <data name="CheckFrequency30mins" xml:space="preserve">
+    <value>30 mins</value>
+  </data>
+  <data name="CheckFrequency30secs" xml:space="preserve">
+    <value>30 secs</value>
+  </data>
+  <data name="CheckFrequencyGroupText" xml:space="preserve">
+    <value>Frequency</value>
+  </data>
+  <data name="CheckFrequencyText" xml:space="preserve">
+    <value>Check for new notifications every...</value>
+  </data>
   <data name="CloseButtonText" xml:space="preserve">
     <value>&amp;Close</value>
   </data>
@@ -234,6 +252,9 @@ This window will disappear once your account is connected.</value>
   </data>
   <data name="RecommendedText" xml:space="preserve">
     <value>(recommended)</value>
+  </data>
+  <data name="RequiresRestartText" xml:space="preserve">
+    <value>(requires restart)</value>
   </data>
   <data name="SettingsLink" xml:space="preserve">
     <value>&amp;Settings</value>

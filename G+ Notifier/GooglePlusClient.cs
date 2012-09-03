@@ -100,7 +100,7 @@ namespace DanTup.GPlusNotifier
 							}; 
 							xhr.send(null);
 						};
-						window.setInterval('tick()', 30000);
+						window.setInterval('tick()', " + Properties.Settings.Default.CheckFrequencySeconds + @"000);
 					}; 
 					tick();"); // We fire off one tick immediately
 		}

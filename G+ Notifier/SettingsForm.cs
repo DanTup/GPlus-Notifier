@@ -27,6 +27,12 @@ namespace DanTup.GPlusNotifier
 			lblIconBehaviour.Text = Translations.IconBehaviourText;
 			chkIconNotifications.Text = Translations.IconBehaviourNotifications;
 			chkIconBrowser.Text = Translations.IconBehaviourBrowser;
+			gbCheckFrequency.Text = Translations.CheckFrequencyGroupText;
+			lblCheckFrequency.Text = Translations.CheckFrequencyText;
+			chk30secs.Text = Translations.CheckFrequency30secs;
+			chk1min.Text = Translations.CheckFrequency1min;
+			chk10mins.Text = Translations.CheckFrequency10mins;
+			chk30mins.Text = Translations.CheckFrequency30mins;
 			btnOk.Text = Translations.OkButtonText;
 			btnCancel.Text = Translations.CancelButtonText;
 		}
@@ -42,12 +48,24 @@ namespace DanTup.GPlusNotifier
 			// Icon action
 			chkIconNotifications.Checked = Settings.Default.UseNotificationWindow;
 			chkIconBrowser.Checked = !chkIconNotifications.Checked;
+
+			// Check frequency
+			chk30secs.Checked = Settings.Default.CheckFrequencySeconds == 30;
+			chk1min.Checked = Settings.Default.CheckFrequencySeconds == 60;
+			chk10mins.Checked = Settings.Default.CheckFrequencySeconds == 60 * 10;
+			chk30mins.Checked = Settings.Default.CheckFrequencySeconds == 60 * 30;
 		}
 
 		private void btnOk_Click(object sender, EventArgs e)
 		{
 			Settings.Default.AutomaticallyInstallUpdates = chkUpdatesAutomatic.Checked;
 			Settings.Default.UseNotificationWindow = chkIconNotifications.Checked;
+			Settings.Default.CheckFrequencySeconds =
+				(chk30secs.Checked ? 30 :
+				(chk1min.Checked ? 60 :
+				(chk10mins.Checked ? 60 * 10 :
+				(chk30mins.Checked ? 60 * 30 :
+				30)))); // Default
 			Settings.Default.Save();
 
 			this.Close();
