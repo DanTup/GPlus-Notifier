@@ -89,7 +89,9 @@ namespace DanTup.GPlusNotifier
 									} 
 									else { 
 										console.log('response: ' + xhr.responseText);
-										var result = JSON.parse(xhr.responseText.substr(4)); 
+										var json = xhr.responseText.substr(4);
+										while (json != (json = json.replace(/,,/g, ','))); // Recursively remove any ',,' since this breaks JSON.parse
+										var result = JSON.parse(json);
 										console.log('result type: ' + (typeof result));
 										if(typeof result != 'object') 
 											notify(-2); 
