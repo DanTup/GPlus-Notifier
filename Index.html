@@ -38,7 +38,6 @@ window.___gcfg = { lang: 'en-GB' };
 			<li>Fixed parsing of JSON due to a change to the Google+web app by Google</li>
 			</ul>
 
-
 			<h2>Features</h2>
 			<ul>
 			<li>Periodically checks for new notifications in Google+</li>
@@ -48,7 +47,6 @@ window.___gcfg = { lang: 'en-GB' };
 			<li>Easy (or automatic, if enabled) installation of updates</li>
 			</ul>
 
-
 			<h2>Installing</h2>
 			<p>The preferred method for installing is to download <a href="https://github.com/DanTup/GPlus-Notifier/releases">the latest installer</a>. It is recommended to install the app outside of your Program Files folder to allow for easier updating without elevated privileges.</p>
 			<p>Note: Currently the installer is not for the latest version; however once installed you will be able to easily update. This is because Microsoft have removed their Installer projects from Visual Studio 2012, and I haven't yet had time to build a replacement.</p>
@@ -56,7 +54,6 @@ window.___gcfg = { lang: 'en-GB' };
 
 			<h2>Portable (Zip) Install</h2> 
 			<p><a href="https://github.com/DanTup/GPlus-Notifier/releases">Download the latest zip file</a> and extract it to a folder (eg. &quot;My Documents\G+ Notifier&quot;). Run the file DanTup.GPlusNotifier.exe to start the application. If you would like G+ Notifier to run at system startup, you must (for now) manually create a shortcut to it in your Startup folder.</p>
-
 
 			<h2>Screenshots</h2>
 			<p>
@@ -71,10 +68,8 @@ window.___gcfg = { lang: 'en-GB' };
 			<li>Translate into other languages</li>
 			</ul>
 
-
 			<h2>How It Works</h2>
 			<p>As there is currently no API for Google+, this application uses the <a href="http://awesomium.com">Awesomium Web-Browser Framework</a>. You will be prompted to login to Google+ at startup. The browser window will be hidden but kept alive. G+ Notifier sends Ajax requests to the Plus servers to fetch the number of unread notifications.</p>
-
 
 			<h2>Security</h2>
 			<p>This project is open source so that you may check the source and build it yourself. The application does not attempt to capture your details or post anything to your account without your knowledge. Building from source is the safest way, however I will include binary copies for convenience. All binary copies will be built from the source code that is available and any external contributions will be thoroughly checked.</p>
@@ -120,16 +115,15 @@ window.___gcfg = { lang: 'en-GB' };
 		</div>		
 	</div>
 
-	<script type="text/javascript">
-	var _gaq = _gaq || [];
-	_gaq.push(['_setAccount', 'UA-2201586-13']);
-	_gaq.push(['_trackPageview']);
+	<script>
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
-	(function () {
-		var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-		ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-		var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-	})();
+	ga('create', 'UA-2201586-13', 'auto');
+	ga('send', 'pageview');
+
 	</script>
 </body>
 </html>
