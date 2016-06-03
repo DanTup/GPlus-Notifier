@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head><title>G+ Notifier - An open source Google+ notifier app for the Windows notification area (system tray / systray)</title>
+<link href="/CSS/Site.css" rel="stylesheet" type="text/css" />
+<link href="http://fonts.googleapis.com/css?family=Special+Elite" rel="stylesheet" type="text/css" />
+<meta name="msvalidate.01" content="8A423A5B48D349DE8B89ECBB37E1D93A" />
+		<link rel="alternate" hreflang="en-US" href="/en-US/" />
+		<link rel="alternate" hreflang="de-DE" href="/de-DE/" />
+<link href="https://plus.google.com/106822090578853158685" rel="publisher" />
+<script type="text/javascript">
+window.___gcfg = { lang: 'en-GB' };
+(function () {
+	var po = document.createElement("script");
+	po.type = "text/javascript"; po.async = true; po.src = "https://apis.google.com/js/plusone.js";
+	var s = document.getElementsByTagName("script")[0];
+	s.parentNode.insertBefore(po, s);
+})();
+</script>
+<script type="text/javascript">
+	function setLang(name) {
+		document.getElementById('langName').innerText = name;
+	}
+	function resetLang() {
+		document.getElementById('langName').innerText = 'English (United Kingdom)';
+	}
+</script></head>
+<body>
+
+	<div id="wrapper">
+
+		<div id="header">
+			<img id="logo" src="/Images/Logo.png" alt="G+ Notifier icon">
+			<h1><a href=".">G+ Notifier - Open source Windows notifier for Google+</a></h1>
+			<div>Get Google+ notifications even when you don&#39;t have your web browser open!</div>
+			<div id="langs">
+<a href="/en-GB/" title="English (United Kingdom)" onmouseover="setLang('English (United Kingdom)')" onmouseout="resetLang();"><img src="/Images/Flags/GB.png" width="48" height="48" alt="English (United Kingdom)" /></a><a href="/en-US/" title="English (United States)" onmouseover="setLang('English (United States)')" onmouseout="resetLang();"><img src="/Images/Flags/US.png" width="48" height="48" alt="English (United States)" /></a><a href="/de-DE/" title="Deutsch (Deutschland)" onmouseover="setLang('Deutsch (Deutschland)')" onmouseout="resetLang();"><img src="/Images/Flags/DE.png" width="48" height="48" alt="Deutsch (Deutschland)" /></a>				<span id="langName">English (United Kingdom)</span>
+			</div>
+		</div>
+		
+		<div id="content">
+			<div id="gplus">
+	<g:plus href="https://plus.google.com/106822090578853158685" size="badge"></g:plus>
+</div>
+
+<h1>G+ Notifier</h1>
+
+<p>G+ Notifier is a Windows utility that sits in the notification area and alerts you to notifications in the Google+ social network.</p>
+
+<h2>Latest Changes (1.11) <small>14/09/2012</small></h2>
+<ul>
+<li>Fixed parsing of JSON due to a change to the Google+web app by Google</li>
+</ul>
+
+
+<h2>Features</h2>
+<ul>
+<li>Periodically checks for new notifications in Google+</li>
+<li>Shows number of unread messages in the notification icon</li>
+<li>Shows Windows balloon notifications or Snarl popups when new notifications are detected</li>
+<li>Popup notifications window for quick access to notifications without launching browser</li>
+<li>Easy (or automatic, if enabled) installation of updates</li>
+</ul>
+
+
+<h2>Installing</h2>
+<p>The preferred method for installing is to download and run <a href="/DownloadLatest">the latest installer</a>. It is recommended to install the app outside of your Program Files folder to allow for easier updating without elevated privileges.</p>
+<p>Note: Currently the installer is not for the latest version; however once installed you will be able to easily update. This is because Microsoft have removed their Installer projects from Visual Studio 2012, and I haven't yet had time to build a replacement.</p>
+
+
+<h2>Portable (Zip) Install</h2> 
+<p><a href="/DownloadLatestZip">Download the latest zip file</a> and extract it to a folder (eg. &quot;My Documents\G+ Notifier&quot;). Run the file DanTup.GPlusNotifier.exe to start the application. If you would like G+ Notifier to run at system startup, you must (for now) manually create a shortcut to it in your Startup folder.</p>
+
+
+<h2>Screenshots</h2>
+<p>
+	<img alt="The balloon notification" src="/Images/Balloon.png" /><br />
+	<img alt="Snarl notification support (requires Snarl to be installed)" src="/Images/Snarl.png" /><br />
+	<img alt="The notifications window" src="/Images/Notifications.png" />
+</p>
+
+<h2>// TODO</h2>
+<ul>
+<li>Change to official Google+ API (when available)</li>
+<li>Translate into other languages</li>
+</ul>
+
+
+<h2>How It Works</h2>
+<p>As there is currently no API for Google+, this application uses the <a href="http://awesomium.com">Awesomium Web-Browser Framework</a>. You will be prompted to login to Google+ at startup. The browser window will be hidden but kept alive. G+ Notifier sends Ajax requests to the Plus servers to fetch the number of unread notifications.</p>
+
+
+<h2>Security</h2>
+<p>This project is open source so that you may check the source and build it yourself. The application does not attempt to capture your details or post anything to your account without your knowledge. Building from source is the safest way, however I will include binary copies for convenience. All binary copies will be built from the source code that is available and any external contributions will be thoroughly checked.</p>
+
+		</div>
+			
+		<div id="sidebar">
+			<h4>Downloads</h4>
+<a class="subscribe" href="/DownloadLatestZip" title="Download latest version (.zip)">
+	<img src="/Images/PortableZip.png" width="32" height="32" alt="Download icon" style="margin-right: 9px;">Portable zip file
+</a>
+<a class="subscribe" href="/DownloadLatest" title="Install latest version">
+	<img src="/Images/Install.png" width="32" height="32" alt="Install icon" style="margin-right: 9px;">Install now
+</a>
+<a class="subscribe" href="https://bitbucket.org/DanTup/g-notifier" title="Download source code">
+	<img src="/Images/SourceCode.png" width="32" height="32" alt="Source code icon" style="margin-right: 9px;">Source code
+</a>
+
+<h4>Follow us</h4>
+<a class="subscribe" href="https://plus.google.com/106822090578853158685" title="Follow G+ Notifier on Google+">
+	<img src="https://lh6.googleusercontent.com/-8dr-FZx0j6s/AAAAAAAAAAI/AAAAAAAAAAw/2uxYfSiwT9s/photo.jpg?sz=36" width="36" height="36" alt="G+ Notifier" style="margin-right: 5px;">G+ Notifier
+</a>
+<a class="subscribe" href="https://plus.google.com/113181962167438638669" title="Follow Danny Tuppeny on Google+">
+	<img src="https://lh6.googleusercontent.com/-CkqxgxZvMWU/AAAAAAAAAAI/AAAAAAAAVQM/ltXn6GXOB2Y/photo.jpg?sz=36" width="36" height="36" alt="Danny Tuppeny" style="margin-right: 5px;">Danny Tuppeny
+</a>
+<a class="subscribe" href="https://plus.google.com/109531055133116706775" title="Follow Adam Simmons on Google+">
+	<img src="https://lh5.googleusercontent.com/-qIakkAp17Pk/AAAAAAAAAAI/AAAAAAAAAAA/5c_04iAJnSE/photo.jpg?sz=36" width="36" height="36" alt="Adam Simmons" style="margin-right: 5px;">Adam Simmons
+</a>
+<a class="subscribe" href="https://plus.google.com/112139137835193833820" title="Follow The Configurator on Google+">
+	<img src="https://lh5.googleusercontent.com/-VC6_aQWog_Y/AAAAAAAAAAI/AAAAAAAAAAA/DRwHEwBT45s/photo.jpg?sz=36" width="36" height="36" alt="The Configurator" style="margin-right: 5px;">The Configurator
+</a>
+
+<h4>Support</h4>
+<a class="subscribe" href="http://twitter.com/GPlusNotifier" title="Follow us on Twitter">
+	<img src="/Images/Twitter.png" width="36" height="36" alt="Twitter icon" style="margin-right: 5px;">Twitter
+</a>
+<a class="subscribe" href="https://gplusnotifier.uservoice.com/forums/125837-general" title="Suggest a feature">
+	<img src="/Images/Feature.png" width="32" height="32" alt="Feature suggestion icon" style="margin-right: 9px;">Suggest a feature
+</a>
+<a class="subscribe" href="https://gplusnotifier.uservoice.com/" title="Open a support ticket">
+	<img src="/Images/Help.png" width="32" height="32" alt="Support ticket icon" style="margin-right: 9px;">Get support
+</a>
+<a class="subscribe" href="Changelog" title="Changelog">
+	<img src="/Images/Changelog.png" width="32" height="32" alt="Changelog icon" style="margin-right: 9px;">Changelog
+</a>
+<a class="subscribe" href="Donate" title="Donate">
+	<img src="/Images/Donate.png" width="32" height="32" alt="Donate icon" style="margin-right: 9px;">Donate
+</a>
+
+<h4>Hosted by</h4>
+<a class="subscribe" href="http://appharbor.com" title="AppHarbor">
+	<img src="/Images/AppHarbor.png" width="32" height="32" alt="AppHarbor" style="margin-right: 9px;">AppHarbor
+</a>
+<a class="subscribe" href="https://bitbucket.org" title="BitBucket">
+	<img src="/Images/BitBucket.png" width="32" height="32" alt="BitBucket" style="margin-right: 9px;">BitBucket
+</a>
+		</div>
+			
+		<div id="footer"><p>Project created by <a href="http://blog.dantup.com">Danny Tuppeny</a>.</p>
+</div>
+		
+	</div>
+
+	<script type="text/javascript">
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-2201586-13']);
+_gaq.push(['_trackPageview']);
+
+(function () {
+	var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+	ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+	var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+})();
+</script>
+
+	<script type="text/javascript">
+		var uvOptions = {};
+		(function () {
+			var uv = document.createElement('script'); uv.type = 'text/javascript'; uv.async = true;
+			uv.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'widget.uservoice.com/PJ2XGkEkPnL6qfywQgypw.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(uv, s);
+		})();
+	</script>
+</body>
+</html>
