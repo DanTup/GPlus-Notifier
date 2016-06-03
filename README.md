@@ -1,3 +1,5 @@
+> **NOTE:** This software is not being actively developed or maintained.
+
 # G+ Notifier
 
 [G+ Notifier](http://gplusnotifier.dantup.com) is a Windows utility that sits in the notification area and alerts you to notifications in the Google+ social network.
